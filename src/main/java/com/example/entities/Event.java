@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -94,7 +95,7 @@ public class Event implements Serializable {
        joinColumns = { @JoinColumn(name = "id_event") },
        inverseJoinColumns = { @JoinColumn(name = "id_attendee") })
 
-       private List<Attendee> attendees;
+       private Set<Attendee> attendees;
   
    
 
