@@ -6,6 +6,7 @@ import com.example.entities.Event;
 
 public interface EventsService {
 
-    public List<Event> eventsSaved();
+    public List<Event> findAllEvents();
+    public Event eventSaved(Event event);
 
 }

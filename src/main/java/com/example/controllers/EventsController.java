@@ -1,14 +1,19 @@
 package com.example.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.dao.EventsDao;
 import com.example.entities.Event;
+import com.example.services.EventsService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,13 +21,35 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class EventsController {
-    private final EventsDao eventsDao;
+
+    private final EventsService eventsService;
+
+    // @GetMapping("/events")
+    // public ResponseEntity<List<Event> findAll(@RequestParam(required = false) String title){
+
+    //     List<Event> events = new ArrayList<>();
+     
+
+    //         eventsService.findAllEvents().forEach(events::add);
+
+
+            
+   
+
+        
+
+        
+        
+    //     return new ResponseEntity<>(events, HttpStatus.OK);
+    // }
+
+    
 
 
     // Create a new internal event
     @PostMapping("/events")
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        Event eventCreated = eventsDao.save(event);
+        Event eventCreated = eventsService.eventSaved(event);
         return new ResponseEntity<>(eventCreated, HttpStatus.CREATED);
     }
 
