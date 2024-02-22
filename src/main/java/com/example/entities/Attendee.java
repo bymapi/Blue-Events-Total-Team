@@ -2,6 +2,7 @@ package com.example.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -63,6 +64,6 @@ public class Attendee implements Serializable {
           CascadeType.MERGE
       },
       mappedBy = "attendees")
-    private List<Event> usuarios;
+    private Set<Event> usuarios;
 
 }

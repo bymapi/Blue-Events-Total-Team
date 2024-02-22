@@ -3,7 +3,7 @@ package com.example.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
+import java.util.Set;
 
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,7 +24,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -91,10 +90,10 @@ public class Event implements Serializable {
         CascadeType.MERGE})
   
    @JoinTable(name = "events_attendees",
-       joinColumns = { @JoinColumn(name = "id_event", referencedColumnName = "id_event") },
-       inverseJoinColumns = { @JoinColumn(name = "id_attendee", referencedColumnName = "id_attendee") })
+       joinColumns = { @JoinColumn(name = "id_event") },
+       inverseJoinColumns = { @JoinColumn(name = "id_attendee") })
 
-       private List<Attendee> attendees;
+       private Set<Attendee> attendees;
   
    
 
