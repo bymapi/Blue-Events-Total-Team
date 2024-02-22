@@ -89,10 +89,10 @@ public class Event implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER,
     cascade = {CascadeType.PERSIST,
         CascadeType.MERGE})
-  
+    
    @JoinTable(name = "events_attendees",
-       joinColumns = { @JoinColumn(name = "id_event", referencedColumnName = "id_event") },
-       inverseJoinColumns = { @JoinColumn(name = "id_attendee", referencedColumnName = "id_attendee") })
+       joinColumns = { @JoinColumn(name = "id_event") },
+       inverseJoinColumns = { @JoinColumn(name = "id_attendee") })
 
        private List<Attendee> attendees;
   
