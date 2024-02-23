@@ -54,19 +54,19 @@ public class Event implements Serializable {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String description;
 
-//     // @NotNull(message = "Must not be empty")
-//     @DateTimeFormat(pattern = "dd-MM-YY")
-//     private LocalDate startDate;
+    // // @NotNull(message = "Must not be empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
 
-//    // @NotNull(message = "Must not be empty")
-//     @DateTimeFormat(pattern = "dd-MM-YY")
-//     private LocalDate endDate;
+    // // @NotNull(message = "Must not be empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
 
-   // @NotNull(message = "Must not be empty")
+    // @NotNull(message = "Must not be empty")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
-   // @NotNull(message = "Must not be empty")
+    // @NotNull(message = "Must not be empty")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
@@ -74,7 +74,7 @@ public class Event implements Serializable {
     private Mode mode;
 
     // A preguntar pero de momento lo pongo como String
-  //  @NotNull(message = "Must not be empty")
+    // @NotNull(message = "Must not be empty")
     private String place;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
@@ -88,27 +88,23 @@ public class Event implements Serializable {
     public List<Event> events;
 
     public Event(String title, Target target, String description,
-    LocalDate startDate, LocalTime startTime,
-    LocalDate endDate, LocalTime endTime,
-    Mode mode, String place) {
+            LocalDate startDate, LocalTime startTime,
+            LocalDate endDate, LocalTime endTime,
+            Mode mode, String place) {
 
         this.title = title;
         this.target = target;
         this.description = description;
-        // this.startDate = startDate;
+        this.startDate = startDate;
         this.startTime = startTime;
-        // this.endDate = endDate;
+        this.endDate = endDate;
         this.endTime = endTime;
         this.mode = mode;
         this.place = place;
     };
 
-    public List<Event> getEvents(){
+    public List<Event> getEvents() {
         return events;
     }
-
-    
-
-
 
 }
