@@ -27,6 +27,12 @@ public class EventsServiceImpl implements EventsService{
         return eventsDao.findAll();
     }
 
+    @Override
+    public List<Event> findEventsByTitleContaining(String title) {
+        
+        return eventsDao.findByTitleContaining(title);
+    }
+
 
 
 }

@@ -64,6 +64,20 @@ public class Attendee implements Serializable {
           CascadeType.MERGE
       },
       mappedBy = "attendees")
-    private Set<Event> usuarios;
+    private List<Event> events;
+
+    // public void addAttendees(Attendee attendee){
+    //     this.attendees.add(attendee);
+    //     attendee.getEvents().add(this);
+    //     }
+    
+    //     public void removeAttendee(int attendeeId){
+    //         Attendee attendee = this.attendees.stream().filter(e -> e.getId() == attendeeId).findFirst().findFirst().orElse(null);
+    //         if (attendee != null) {
+    //             this.attendees.remove(attendee);
+    //             attendee.getEvents().remove(this);
+                
+    //         }
+    //     }
 
 }

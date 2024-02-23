@@ -24,32 +24,32 @@ public class EventsController {
 
     private final EventsService eventsService;
 
-    // @GetMapping("/events")
-    // public ResponseEntity<List<Event> findAll(@RequestParam(required = false) String title){
+    @GetMapping("/events")
+    public ResponseEntity<List<Event>> findAll(@RequestParam(required = false) String title) {
 
-    //     List<Event> events = new ArrayList<>();
-     
+        List<Event> events = new ArrayList<>();
 
-    //         eventsService.findAllEvents().forEach(events::add);
+        if (title == null) {
 
+            eventsService.findAllEvents().forEach(events::add);
 
-            
-   
+        } else
+            eventsService.findEventsByTitleContaining(title).forEach(events::add);
 
-        
+        if (events.isEmpty()) {
 
-        
-        
-    //     return new ResponseEntity<>(events, HttpStatus.OK);
-    // }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
 
-    
-
+        return new ResponseEntity<>(events, HttpStatus.OK);
+    }
 
     // Create a new internal event
     @PostMapping("/events")
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+
         Event eventCreated = eventsService.eventSaved(event);
+        
         return new ResponseEntity<>(eventCreated, HttpStatus.CREATED);
     }
 

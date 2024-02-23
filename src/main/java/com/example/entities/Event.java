@@ -6,10 +6,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
-
-
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -25,11 +22,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Entity
 @Getter
@@ -44,60 +39,75 @@ public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @UniqueElements
-    private int idGlobal;
-
-    @NotNull(message = "Must not be empty")
+    // @NotNull(message = "Must not be empty")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String title;
 
-    @NotNull
+    // @NotNull
     private Target target;
 
-    @NotNull(message = "Must not be empty")
+    // @NotNull(message = "Must not be empty")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String description;
 
-    @NotNull(message = "Must not be empty")
-    @DateTimeFormat(pattern = "dd-MM-YY")
-    private LocalDate startDate;
+//     // @NotNull(message = "Must not be empty")
+//     @DateTimeFormat(pattern = "dd-MM-YY")
+//     private LocalDate startDate;
 
-    @NotNull(message = "Must not be empty")
-    @DateTimeFormat(pattern = "dd-MM-YY")
-    private LocalDate endDate;
+//    // @NotNull(message = "Must not be empty")
+//     @DateTimeFormat(pattern = "dd-MM-YY")
+//     private LocalDate endDate;
 
-    @NotNull(message = "Must not be empty")
+   // @NotNull(message = "Must not be empty")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
-    @NotNull(message = "Must not be empty")
+   // @NotNull(message = "Must not be empty")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
-    
 
-    @NotNull(message = "Must not be empty")
+    // @NotNull(message = "Must not be empty")
     private Mode mode;
 
     // A preguntar pero de momento lo pongo como String
-    @NotNull(message = "Must not be empty")
+  //  @NotNull(message = "Must not be empty")
     private String place;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-    cascade = {CascadeType.PERSIST,
-        CascadeType.MERGE})
-    
-   @JoinTable(name = "events_attendees",
-       joinColumns = { @JoinColumn(name = "id_event") },
-       inverseJoinColumns = { @JoinColumn(name = "id_attendee") })
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE })
 
-       private Set<Attendee> attendees;
-  
-   
+    @JoinTable(name = "events_attendees", joinColumns = { @JoinColumn(name = "id_event") }, inverseJoinColumns = {
+            @JoinColumn(name = "id_attendee") })
+
+    private Set<Attendee> attendees;
+
+    public List<Event> events;
+
+    public Event(String title, Target target, String description,
+    LocalDate startDate, LocalTime startTime,
+    LocalDate endDate, LocalTime endTime,
+    Mode mode, String place) {
+
+        this.title = title;
+        this.target = target;
+        this.description = description;
+        // this.startDate = startDate;
+        this.startTime = startTime;
+        // this.endDate = endDate;
+        this.endTime = endTime;
+        this.mode = mode;
+        this.place = place;
+    };
+
+    public List<Event> getEvents(){
+        return events;
+    }
+
+    
 
 
 
