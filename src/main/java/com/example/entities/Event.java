@@ -103,8 +103,8 @@ public class Event implements Serializable {
         this.place = place;
     };
 
-    public List<Event> getEvents() {
-        return events;
-    }
+    // public List<Event> getEvents() {
+    //     return events;
+    // }
 
 }
