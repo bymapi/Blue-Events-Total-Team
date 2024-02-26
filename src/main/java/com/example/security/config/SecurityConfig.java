@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/events").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/events").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/events").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/events").hasAuthority("ADMIN")//<----Revisar
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
