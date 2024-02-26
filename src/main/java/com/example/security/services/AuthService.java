@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.security.dtos.ReqResp;
 import com.example.security.entities.OurUser;
+import com.example.security.entities.Role;
 import com.example.security.helpers.JWTUtils;
 import com.example.security.repository.OurUserRepository;
 
