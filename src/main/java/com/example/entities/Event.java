@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -48,6 +49,7 @@ public class Event implements Serializable {
     private String title;
 
     // @NotNull
+    @Column(name = "campo_no_modificable", updatable = false)
     private Target target;
 
     // @NotNull(message = "Must not be empty")
@@ -87,24 +89,39 @@ public class Event implements Serializable {
 
 //     public List<Event> events;
 
-    public Event(String title, Target target, String description,
-            LocalDate startDate, LocalTime startTime,
-            LocalDate endDate, LocalTime endTime,
-            Mode mode, String place) {
+    // public Event(String title, Target target, String description,
+    //         LocalDate startDate, LocalTime startTime,
+    //         LocalDate endDate, LocalTime endTime,
+    //         Mode mode, String place) {
 
-        this.title = title;
-        this.target = target;
-        this.description = description;
-        this.startDate = startDate;
-        this.startTime = startTime;
-        this.endDate = endDate;
-        this.endTime = endTime;
-        this.mode = mode;
-        this.place = place;
-    };
+    //     this.title = title;
+    //     this.target = target;
+    //     this.description = description;
+    //     this.startDate = startDate;
+    //     this.startTime = startTime;
+    //     this.endDate = endDate;
+    //     this.endTime = endTime;
+    //     this.mode = mode;
+    //     this.place = place;
+    // };
 
-    // public List<Event> getEvents() {
+    // public List<Event> getEvents() { <-----Redundante ignorar
     //     return events;
     // }
+
+    public void addAttendees(Attendee attendee){
+        this.attendees.add(attendee);
+        attendee.getEvents().add(this);
+        }
+    
+        public void removeAttendee(int attendeeId){
+            Attendee attendee = this.attendees.stream()
+            .filter(e -> e.getId() == attendeeId).findFirst().orElse(null);
+            if (attendee != null) {
+                this.attendees.remove(attendee);
+                attendee.getEvents().remove(this);
+                
+            }
+        }
 
 }

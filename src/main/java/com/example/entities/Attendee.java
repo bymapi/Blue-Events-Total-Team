@@ -64,6 +64,7 @@ public class Attendee implements Serializable {
           CascadeType.MERGE
       },
       mappedBy = "attendees")
+      
     private List<Event> events;
 
     // public void addAttendees(Attendee attendee){
