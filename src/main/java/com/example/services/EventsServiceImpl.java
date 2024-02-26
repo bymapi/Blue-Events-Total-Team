@@ -2,6 +2,7 @@ package com.example.services;
 
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
 
 import com.example.dao.EventsDao;
@@ -32,6 +33,30 @@ public class EventsServiceImpl implements EventsService{
         
         return eventsDao.findByTitleContaining(title);
     }
+
+    @Override
+    public List<Event> findEventsByAttendeeGlobalId(int idGlobal) {
+        return eventsDao.findEventsByAttendeeGlobalId(idGlobal);
+    }
+
+   
+    
+
+    
+
+    
+
+
+
+    
+
+   
+
+    
+
+   
+
+   
 
 
 

@@ -18,7 +18,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -77,34 +76,40 @@ public class Event implements Serializable {
     // @NotNull(message = "Must not be empty")
     private String place;
 
+    
+
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
             CascadeType.MERGE })
 
-    @JoinTable(name = "events_attendees", joinColumns = { @JoinColumn(name = "id_event") }, inverseJoinColumns = {
+    @JoinTable(name = "events_attendees", joinColumns = { 
+        @JoinColumn(name = "id_event") }, inverseJoinColumns = {
             @JoinColumn(name = "id_attendee") })
 
     private Set<Attendee> attendees;
 
+// Porque se pone esta lista aqui?
     public List<Event> events;
 
-    public Event(String title, Target target, String description,
-            LocalDate startDate, LocalTime startTime,
-            LocalDate endDate, LocalTime endTime,
-            Mode mode, String place) {
+    public void addAttendees(Attendee attendee){
+        this.attendees.add(attendee);
+        attendee.getEvents().add(this);
+        }
 
-        this.title = title;
-        this.target = target;
-        this.description = description;
-        this.startDate = startDate;
-        this.startTime = startTime;
-        this.endDate = endDate;
-        this.endTime = endTime;
-        this.mode = mode;
-        this.place = place;
-    };
+        public void removeAttendee(int attendeeId){
+            Attendee attendee = this.attendees.stream().filter(e -> e.getId() == attendeeId).findFirst().orElse(null);
+           if (attendee != null) {
+               this.attendees.remove(attendee);
+               attendee.getEvents().remove(this);
+               
+           }
+       }
+   
 
-    // public List<Event> getEvents() {
-    //     return events;
-    // }
+
+
+
+   
+
 
 }
