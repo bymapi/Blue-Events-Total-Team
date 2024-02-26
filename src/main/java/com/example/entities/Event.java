@@ -85,7 +85,7 @@ public class Event implements Serializable {
 
     private Set<Attendee> attendees;
 
-    public List<Event> events;
+//     public List<Event> events;
 
     public Event(String title, Target target, String description,
             LocalDate startDate, LocalTime startTime,

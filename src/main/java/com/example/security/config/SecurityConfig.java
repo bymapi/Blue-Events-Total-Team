@@ -35,10 +35,11 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/events").hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/events").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/events").hasAuthority("ADMIN")
+                       
+                        .requestMatchers(HttpMethod.POST, "/events").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/events").hasAnyAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/events").hasAuthority("ADMIN")//<----Revisar
+                        .requestMatchers(HttpMethod.GET,"/events").hasAnyAuthority("USER", "ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
@@ -46,6 +47,7 @@ public class SecurityConfig {
                 );
         return httpSecurity.build();
     }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
