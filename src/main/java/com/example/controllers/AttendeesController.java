@@ -179,7 +179,7 @@ public class AttendeesController {
     return new ResponseEntity<>(attendees,HttpStatus.OK);
 }
 
-//  Retrieve all events of a attendee:
+//  2-3Retrieve all events of a attendee:
 @GetMapping("/attendee/{globalId}/events")
 
 public ResponseEntity<Map<String,Object>> getAllEventsByAttendeeglobalId(@PathVariable(name = "globalId",
