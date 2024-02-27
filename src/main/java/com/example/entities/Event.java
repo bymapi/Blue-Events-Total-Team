@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
-import java.util.List;
-import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,7 +18,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -90,16 +87,6 @@ public class Event implements Serializable {
 
        private Set<Attendee> attendees;
   
-   
-
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
-            CascadeType.MERGE })
-
-    @JoinTable(name = "events_attendees", joinColumns = { @JoinColumn(name = "id_event") }, inverseJoinColumns = {
-            @JoinColumn(name = "id_attendee") })
-
-    private Set<Attendee> attendees;
 
 //     public List<Event> events;
 
