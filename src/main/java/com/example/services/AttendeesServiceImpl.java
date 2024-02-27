@@ -40,7 +40,7 @@ public class AttendeesServiceImpl implements AttendeesService {
     @Override
     public void delete(Attendee attendee) {
         
-        attendeesDao.delete(attendee);;
+        attendeesDao.delete(attendee);
     }
 
 

@@ -36,14 +36,14 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**").permitAll()
                        
-                        .requestMatchers(HttpMethod.POST, "/events**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/attendees**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/events**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/events**").hasAuthority("ADMIN")//<----Revisar
-                        .requestMatchers(HttpMethod.GET,"/events**").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/events**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/attendees**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/events**").hasAuthority("ADMIN")//<----Revisar
+                        .requestMatchers(HttpMethod.DELETE, "/api/attendees**").hasAuthority("ADMIN")//<----Revisar
+                        .requestMatchers(HttpMethod.PUT, "/api/events**").hasAuthority("ADMIN")
                         
-                        .requestMatchers(HttpMethod.PUT, "/attendees**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/attendees**").hasAuthority("ADMIN")//<----Revisar
+                        .requestMatchers(HttpMethod.PUT, "/api/attendees**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/events**").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET,"/attendees**").hasAnyAuthority("USER", "ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

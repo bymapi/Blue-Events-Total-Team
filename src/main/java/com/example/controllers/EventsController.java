@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -106,6 +107,8 @@ public class EventsController {
         return responseEntity;
     }
 
+
+
     @PutMapping("/events/{id}")
         public ResponseEntity<Map<String,Object>> updateEvent(@Valid @RequestBody Event event,
                                     BindingResult validationResults,
@@ -134,7 +137,7 @@ public class EventsController {
 
             try {
                 
-                //Attendee attendeeUpdated = attendeesService.updateAttendeeByGlobalId(idGlobal);
+                
                 event.setId(id);
                 String successMessage = "The event has been well modified";
                 responseAsMap.put("successMessage", successMessage);
@@ -154,6 +157,31 @@ public class EventsController {
             return responseEntity;                             
                                     
         }
+//To delete an Event
+@DeleteMapping("/events/{id}")
+    public ResponseEntity<Map<String, Object>> deleteAnEvent(@PathVariable(name = "id",
+    required = true) Integer idEvent){
+
+      Map<String,Object> responseAsMap = new HashMap<>();
+      ResponseEntity<Map<String,Object>> responseEntity = null;
+
+      try {
+        eventsService.deleteEvent(eventsService.findById(idEvent));
+        String successMessage = "event with id: " + idEvent +", is removed";
+        responseAsMap.put("successMessage", successMessage);
+        responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.OK);
+
+      } catch (DataAccessException e) {
+        String error = "Error when trying to delete the event and the most likely cause" +
+        e.getMostSpecificCause();
+        responseAsMap.put("error", error);
+        responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+
+
+
+      return responseEntity;
+    }
 
 }
 
