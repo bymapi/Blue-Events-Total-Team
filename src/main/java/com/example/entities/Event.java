@@ -3,6 +3,7 @@ package com.example.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -73,7 +74,7 @@ public class Event implements Serializable {
     // @NotNull(message = "Must not be empty")
     private Mode mode;
 
-    // A preguntar pero de momento lo pongo como String
+    // Es String
     // @NotNull(message = "Must not be empty")
     private String place;
 
@@ -87,10 +88,11 @@ public class Event implements Serializable {
         @JoinColumn(name = "id_event") }, inverseJoinColumns = {
             @JoinColumn(name = "id_attendee") })
 
-    private Set<Attendee> attendees;
+    
+            private Set<Attendee> attendees;
 
 // Porque se pone esta lista aqui?
-    public List<Event> events;
+    // public List<Event> events;
 
     public void addAttendees(Attendee attendee){
         this.attendees.add(attendee);
@@ -98,34 +100,12 @@ public class Event implements Serializable {
         }
 
         public void removeAttendee(int attendeeId){
-            Attendee attendee = this.attendees.stream().filter(e -> e.getId() == attendeeId).findFirst().orElse(null);
+            Attendee attendee = this.attendees.stream()
+            .filter(e -> e.getId() == attendeeId).findFirst().orElse(null);
            if (attendee != null) {
                this.attendees.remove(attendee);
                attendee.getEvents().remove(this);
                
            }
        }
-   
-
-
-
-
-   
-
-
-    public void addAttendees(Attendee attendee){
-        this.attendees.add(attendee);
-        attendee.getEvents().add(this);
-        }
-    
-        public void removeAttendee(int attendeeId){
-            Attendee attendee = this.attendees.stream()
-            .filter(e -> e.getId() == attendeeId).findFirst().orElse(null);
-            if (attendee != null) {
-                this.attendees.remove(attendee);
-                attendee.getEvents().remove(this);
-                
-            }
-        }
-
 }

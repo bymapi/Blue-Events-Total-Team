@@ -36,8 +36,8 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**").permitAll()
                        
-                        .requestMatchers(HttpMethod.POST, "/events").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/events").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/events**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/events**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/events").hasAuthority("ADMIN")//<----Revisar
                         .requestMatchers(HttpMethod.GET,"/events").hasAnyAuthority("USER", "ADMIN")
                         .anyRequest().authenticated())
