@@ -3,6 +3,7 @@ package com.example.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -44,7 +45,7 @@ public class Event implements Serializable {
     private int id;
 
     // @NotNull(message = "Must not be empty")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
+    //@Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String title;
 
     // @NotNull
@@ -52,7 +53,7 @@ public class Event implements Serializable {
     private Target target;
 
     // @NotNull(message = "Must not be empty")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
+    //@Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String description;
 
     // // @NotNull(message = "Must not be empty")
@@ -89,7 +90,7 @@ public class Event implements Serializable {
             @JoinColumn(name = "id_attendee") })
 
     
-            private Set<Attendee> attendees;
+            private Set<Attendee> attendees = new HashSet<>();
 
 // Porque se pone esta lista aqui?
     // public List<Event> events;
