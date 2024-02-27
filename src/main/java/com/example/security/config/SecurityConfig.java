@@ -37,9 +37,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**").permitAll()
                        
                         .requestMatchers(HttpMethod.POST, "/events**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/attendees**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/events**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/events").hasAuthority("ADMIN")//<----Revisar
-                        .requestMatchers(HttpMethod.GET,"/events").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/events**").hasAuthority("ADMIN")//<----Revisar
+                        .requestMatchers(HttpMethod.GET,"/events**").hasAnyAuthority("USER", "ADMIN")
+                        
+                        .requestMatchers(HttpMethod.PUT, "/attendees**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/attendees**").hasAuthority("ADMIN")//<----Revisar
+                        .requestMatchers(HttpMethod.GET,"/attendees**").hasAnyAuthority("USER", "ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
