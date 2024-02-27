@@ -3,6 +3,7 @@ package com.example.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 import java.util.List;
 import java.util.Set;
 
@@ -78,6 +79,19 @@ public class Event implements Serializable {
     // A preguntar pero de momento lo pongo como String
     // @NotNull(message = "Must not be empty")
     private String place;
+
+    @ManyToMany(fetch = FetchType.EAGER,
+    cascade = {CascadeType.PERSIST,
+        CascadeType.MERGE})
+  
+   @JoinTable(name = "events_attendees",
+       joinColumns = { @JoinColumn(name = "id_event") },
+       inverseJoinColumns = { @JoinColumn(name = "id_attendee") })
+
+       private Set<Attendee> attendees;
+  
+   
+
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
             CascadeType.MERGE })
