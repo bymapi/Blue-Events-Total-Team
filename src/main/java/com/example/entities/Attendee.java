@@ -15,7 +15,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,15 +50,17 @@ public class Attendee implements Serializable {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String surname;
 
-    // @Size(min = 5, max = 9, message = "the number of characters of this id cannot
-    // be less than 5 or more than 9")
+
+    @Min(value = 10000, message = "The globalId must be greater than or equal to 10000")
+    @Max(value = 999999999, message = " The globalId must be less than or equal to 999999999")
     private int globalId;
 
     @NotEmpty(message = "The field mail cannot be empty")
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "The mail should have the address @blue.com")
     private String mail;
 
-    @NotEmpty(message = "The profile cannot be empty")
+
+    @NotNull(message = "The profile cannot be empty")
     private Options options;
 
     @JsonIgnore
@@ -66,20 +71,9 @@ public class Attendee implements Serializable {
       },
       mappedBy = "attendees")
       
-    private List<Event> events;
+    private Set<Event> events;
 
-    // public void addAttendees(Attendee attendee){
-    //     this.attendees.add(attendee);
-    //     attendee.getEvents().add(this);
-    //     }
-    
-    //     public void removeAttendee(int attendeeId){
-    //         Attendee attendee = this.attendees.stream().filter(e -> e.getId() == attendeeId).findFirst().findFirst().orElse(null);
-    //         if (attendee != null) {
-    //             this.attendees.remove(attendee);
-    //             attendee.getEvents().remove(this);
-                
-    //         }
-    //     }
+   
+        
 
 }

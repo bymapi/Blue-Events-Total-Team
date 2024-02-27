@@ -77,38 +77,41 @@ public class Event implements Serializable {
     // @NotNull(message = "Must not be empty")
     private String place;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-    cascade = {CascadeType.PERSIST,
-        CascadeType.MERGE})
-  
-   @JoinTable(name = "events_attendees",
-       joinColumns = { @JoinColumn(name = "id_event") },
-       inverseJoinColumns = { @JoinColumn(name = "id_attendee") })
+    
 
-       private Set<Attendee> attendees;
-  
 
-//     public List<Event> events;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE })
 
-    // public Event(String title, Target target, String description,
-    //         LocalDate startDate, LocalTime startTime,
-    //         LocalDate endDate, LocalTime endTime,
-    //         Mode mode, String place) {
+    @JoinTable(name = "events_attendees", joinColumns = { 
+        @JoinColumn(name = "id_event") }, inverseJoinColumns = {
+            @JoinColumn(name = "id_attendee") })
 
-    //     this.title = title;
-    //     this.target = target;
-    //     this.description = description;
-    //     this.startDate = startDate;
-    //     this.startTime = startTime;
-    //     this.endDate = endDate;
-    //     this.endTime = endTime;
-    //     this.mode = mode;
-    //     this.place = place;
-    // };
+    private Set<Attendee> attendees;
 
-    // public List<Event> getEvents() { <-----Redundante ignorar
-    //     return events;
-    // }
+// Porque se pone esta lista aqui?
+    public List<Event> events;
+
+    public void addAttendees(Attendee attendee){
+        this.attendees.add(attendee);
+        attendee.getEvents().add(this);
+        }
+
+        public void removeAttendee(int attendeeId){
+            Attendee attendee = this.attendees.stream().filter(e -> e.getId() == attendeeId).findFirst().orElse(null);
+           if (attendee != null) {
+               this.attendees.remove(attendee);
+               attendee.getEvents().remove(this);
+               
+           }
+       }
+   
+
+
+
+
+   
+
 
     public void addAttendees(Attendee attendee){
         this.attendees.add(attendee);
