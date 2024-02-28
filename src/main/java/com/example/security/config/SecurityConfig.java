@@ -37,14 +37,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**").permitAll()
                        
                         .requestMatchers(HttpMethod.POST, "/api/events**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/attendees**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/attendee**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/events**").hasAuthority("ADMIN")//<----Revisar
-                        .requestMatchers(HttpMethod.DELETE, "/api/attendees**").hasAuthority("ADMIN")//<----Revisar
+                        .requestMatchers(HttpMethod.DELETE, "/api/attendee/{globalId}**").hasAuthority("ADMIN")//<----Revisar
                         .requestMatchers(HttpMethod.PUT, "/api/events**").hasAuthority("ADMIN")
                         
-                        .requestMatchers(HttpMethod.PUT, "/api/attendees**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/attendee/{globalId}**").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.GET,"/events**").hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/attendees**").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/attendees**").hasAuthority( "ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
