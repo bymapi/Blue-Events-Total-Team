@@ -78,7 +78,6 @@ public class Event implements Serializable {
     @NotNull(message = "Must not be empty")
     private String place;
 
-    @NotNull
     private final int maximumNumberOfAttendees = 8;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
