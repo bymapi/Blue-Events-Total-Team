@@ -2,6 +2,7 @@ package com.example.security.services;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,8 +19,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OurUserDetailsService implements UserDetailsService {
 
-    private final OurUserRepository ourUserRepository;
-private final PasswordEncoder passwordEncoder; 
+    @Autowired
+    private OurUserRepository ourUserRepository;
+    @Autowired
+    private  PasswordEncoder passwordEncoder; 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
