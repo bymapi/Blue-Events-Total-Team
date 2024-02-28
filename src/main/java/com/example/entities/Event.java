@@ -50,7 +50,7 @@ public class Event implements Serializable {
     private Target target;
 
     // @NotNull(message = "Must not be empty")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
+    //@Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String description;
 
     // // @NotNull(message = "Must not be empty")
@@ -76,6 +76,8 @@ public class Event implements Serializable {
     // @NotNull(message = "Must not be empty")
     private String place;
 
+    private final int maximumNumberOfAttendees = 8;
+
     
 
 
@@ -88,8 +90,7 @@ public class Event implements Serializable {
 
     private Set<Attendee> attendees;
 
-// Porque se pone esta lista aqui?
-    public List<Event> events;
+
 
     public void addAttendees(Attendee attendee){
         this.attendees.add(attendee);

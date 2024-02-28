@@ -18,6 +18,10 @@ public interface AttendeesService {
 
     public boolean existsByGlobalId(int globalId);
 
+    Attendee findByGlobalId(int globalId);
+
+    
+
     
 
 }

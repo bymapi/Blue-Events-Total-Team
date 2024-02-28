@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.example.entities.Attendee;
 import com.example.entities.Event;
+import com.example.exception.ResourceNotFoundException;
 import com.example.services.AttendeesService;
 import com.example.services.EventsService;
 
@@ -225,6 +227,103 @@ public ResponseEntity<Map<String,Object>> getAllEventsByAttendeeglobalId(@PathVa
    return responseEntity;
         
  }
+
+ // 2.2
+
+ /* @PostMapping("events/{id}/attendee")
+ public ResponseEntity<Map<String,Object>>  addAttendee(@PathVariable(value = "id") Integer idEvent, 
+                                    @RequestBody Attendee attendeeRequest) {
+
+Map<String, Object> responseAsMap = new HashMap<>();
+ResponseEntity<Map<String, Object>> responseEntity = null;
+
+  eventsService.findById(idEvent).map(e -> {
+
+    int attendeeId = attendeeRequest.getGlobalId();
+
+   Optional<Event> opcionalEvent= eventsService.findById(idEvent);
+   var event = opcionalEvent.get();
+
+    // Si el idglobal existe
+    if (attendeeId != 0){
+
+        Attendee attendee1 = attendeesService.findByGlobalId(attendeeId);
+        if (eventsService.availableEvents(event)) {
+            event.addAttendees(attendee1);
+            eventsService.eventSaved(event);
+
+            String successMessage = "The attendee has been successfully added to the event";
+
+            responseAsMap.put("Attendee", attendee1);
+            responseAsMap.put("successMessage", successMessage);
+      
+            responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.ACCEPTED);
+            }
+            else{
+
+                responseAsMap.put("Message", "Maximum capacity allowed");
+        
+                responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.NOT_ACCEPTABLE);
+
+            }    
+        }
+    })
+       
+
+
+
+return ResponseEntity;
+ 
+
+ } */
+
+ @PostMapping("events/{id}/attendee")
+ public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
+                                                       @RequestBody Attendee attendeeRequest) {
+
+    Map<String, Object> responseAsMap = new HashMap<>();
+
+    try {
+        Optional<Event> optionalEvent = eventsService.findById(idEvent);
+
+        if (optionalEvent.isPresent()) {
+            Event event = optionalEvent.get();
+            int attendeeId = attendeeRequest.getGlobalId();
+
+            if (attendeeId != 0) {
+                Attendee attendee = attendeesService.findByGlobalId(attendeeId);
+
+                if (attendee != null && eventsService.availableEvents(event)) {
+                    event.addAttendees(attendee);
+                    eventsService.eventSaved(event);
+
+                    String successMessage = "The attendee has been successfully added to the event";
+
+                    responseAsMap.put("Attendee", attendee);
+                    responseAsMap.put("successMessage", successMessage);
+
+                    return new ResponseEntity<>(responseAsMap, HttpStatus.ACCEPTED);
+                } else {
+                    responseAsMap.put("Message", "Invalid Attendee ID or maximum capacity reached");
+                    return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
+                }
+            } else {
+                responseAsMap.put("Message", "Invalid Attendee ID");
+                return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            responseAsMap.put("Message", "Event not found");
+            return new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
+        }
+    } catch (Exception e) {
+        responseAsMap.put("Message", "An error occurred while processing the request");
+        return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+
+ 
+
+
 
 
 
