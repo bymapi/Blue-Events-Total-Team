@@ -69,7 +69,7 @@ public class AttendeeServiceTest {
 
     @Test
     @DisplayName("Test from repository to save an attendee")
-    public void testGuardarProducto() {
+    public void testSaveAttendee() {
 
         // given
         given(attendeesDao.save(attendee)).willReturn(attendee);
@@ -80,6 +80,7 @@ public class AttendeeServiceTest {
         // then
         assertThat(attendeeSaved).isNotNull();
     }
+
 
     @DisplayName("Recover an empty list")
     @Test
