@@ -41,25 +41,26 @@ public class Attendee implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "The name cannot be empty")
+    // @NotEmpty(message = "The name cannot be empty")
+    // PATTERN PARA ADMITIR ESPACIOS EN BLANCO Y COMILLAS 
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String name;
 
-    @NotEmpty(message = "The surname cannot be empty")
+    // @NotEmpty(message = "The surname cannot be empty")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String surname;
 
 
-    @Min(value = 10000, message = "The globalId must be greater than or equal to 10000")
-    @Max(value = 999999999, message = " The globalId must be less than or equal to 999999999")
+    // @Min(value = 10000, message = "The globalId must be greater than or equal to 10000")
+    // @Max(value = 999999999, message = " The globalId must be less than or equal to 999999999")
     private int globalId;
 
-    @NotEmpty(message = "The field mail cannot be empty")
+    // @NotEmpty(message = "The field mail cannot be empty")
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "The mail should have the address @blue.com")
     private String mail;
 
 
-    @NotNull(message = "The profile cannot be empty")
+    // @NotNull(message = "The profile cannot be empty")
     private Options options;
 
     @JsonIgnore
