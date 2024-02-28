@@ -56,7 +56,7 @@ public class Attendee implements Serializable {
     private int globalId;
 
     @NotEmpty(message = "The field mail cannot be empty")
-    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@capgemini\\.com$", message = "The mail should have the address @blue.com")
+    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "The mail should have the address @blue.com")
     private String mail;
 
 
