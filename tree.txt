@@ -20,7 +20,7 @@
 │   │   │           │   ├── Attendee.java
 │   │   │           │   ├── Event.java
 │   │   │           │   ├── Mode.java
-│   │   │           │   ├── Options.java
+│   │   │           │   ├── Profile.java
 │   │   │           │   └── Target.java
 │   │   │           ├── exception
 │   │   │           │   ├── ControllerExceptionHandler.java
@@ -65,7 +65,7 @@
 │   │           │   ├── Event.class
 │   │           │   ├── Event$EventBuilder.class
 │   │           │   ├── Mode.class
-│   │           │   ├── Options.class
+│   │           │   ├── Profile.class
 │   │           │   └── Target.class
 │   │           ├── exception
 │   │           │   ├── ControllerExceptionHandler.class

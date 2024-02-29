@@ -63,7 +63,7 @@ public class Attendee implements Serializable {
 
 
     @NotNull(message = "The profile cannot be empty")
-    private Options options;
+    private Profile profile;
 
     @JsonIgnore
      @ManyToMany(fetch = FetchType.EAGER,
