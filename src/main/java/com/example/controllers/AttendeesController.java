@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.example.entities.Attendee;
 import com.example.entities.AttendeeDTO;
 import com.example.entities.Event;
@@ -40,8 +39,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 
-
-
 public class AttendeesController {
 
     private final AttendeesService attendeesService;
@@ -50,285 +47,250 @@ public class AttendeesController {
     // create the attendee's profile(persistir)
     @PostMapping("/attendee")
     @Transactional
-        public ResponseEntity<Map<String,Object>> saveAttendees(@Valid @RequestBody Attendee attendee,
-                                    BindingResult validationResults){
+    public ResponseEntity<Map<String, Object>> saveAttendees(@Valid @RequestBody Attendee attendee,
+            BindingResult validationResults) {
 
-            Map<String, Object> responseAsMap = new HashMap<>();
-            ResponseEntity<Map<String, Object>> responseEntity = null;
+        Map<String, Object> responseAsMap = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = null;
 
-            if (validationResults.hasErrors()) {
+        if (validationResults.hasErrors()) {
 
-                List<String> errores = new ArrayList<>();
+            List<String> errores = new ArrayList<>();
 
-                List<ObjectError> objectErrors = validationResults.getAllErrors(); 
-                objectErrors.forEach(objectError -> 
-                    errores.add(objectError.getDefaultMessage()));
+            List<ObjectError> objectErrors = validationResults.getAllErrors();
+            objectErrors.forEach(objectError -> errores.add(objectError.getDefaultMessage()));
 
-                responseAsMap.put("errores", errores); 
-                responseAsMap.put("attendee", attendee);
+            responseAsMap.put("errores", errores);
+            responseAsMap.put("attendee", attendee);
 
-                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
 
-                return responseEntity;
-            }
-
-            try {
-
-                Attendee attendeeSaved = attendeesService.save(attendee);
-                String successMessage = "The attendee has persisted well";
-                responseAsMap.put("successMessage", successMessage);
-                responseAsMap.put("attendee Saved", attendeeSaved);
-                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.CREATED);
-                
-            } catch (DataAccessException e) {
-                String error = "Error when trying to save the event attendee and the most likely cause " 
-                                + e.getMostSpecificCause();
-
-                responseAsMap.put("error", error);
-                responseAsMap.put("Attendee", attendee);
-
-                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-            return responseEntity;                             
-                                    
- }
-
-
-        //Administrator can modify an attendee profile using Global ID.
-
-        @PutMapping("/attendee/{globalId}")
-        public ResponseEntity<Map<String,Object>> updateAttendee(@Valid @RequestBody Attendee attendee,
-                                    BindingResult validationResults,
-                                    @PathVariable(name = "globalId",required = true) Integer idGlobal){
-
-            Map<String, Object> responseAsMap = new HashMap<>();
-            ResponseEntity<Map<String, Object>> responseEntity = null;
-
-            if (validationResults.hasErrors()) {
-
-                List<String> errores = new ArrayList<>();
-
-                List<ObjectError> objectErrors = validationResults.getAllErrors(); 
-
-                objectErrors.forEach(objectError -> 
-                    errores.add(objectError.getDefaultMessage()));
-
-                responseAsMap.put("errores", errores); 
-                responseAsMap.put("attendee", attendee);
-
-                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
-
-                return responseEntity;
-            }
-            
-
-            try {
-                
-                //Attendee attendeeUpdated = attendeesService.updateAttendeeByGlobalId(idGlobal);
-                attendee.setGlobalId(idGlobal);
-                String successMessage = "The attendee has been well modified";
-                responseAsMap.put("successMessage", successMessage);
-                responseAsMap.put("attendee modified", attendee);
-                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.CREATED);
-                
-            } catch (DataAccessException e) {
-                String error = "Error when modifying the attendee's data and the most probable cause" 
-                                + e.getMostSpecificCause();
-
-                responseAsMap.put("error", error);
-                responseAsMap.put("Attendee", attendee);
-
-                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-            return responseEntity;                             
-                                    
+            return responseEntity;
         }
 
+        try {
 
-        @DeleteMapping("/attendee/{globalId}")
-    public ResponseEntity<Map<String, Object>> deleteAttendeeByIdGlobal(@PathVariable(name = "globalId",
-    required = true) Integer idGlobal){
+            Attendee attendeeSaved = attendeesService.save(attendee);
+            String successMessage = "The attendee has persisted well";
+            responseAsMap.put("successMessage", successMessage);
+            responseAsMap.put("attendee Saved", attendeeSaved);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.CREATED);
 
-      Map<String,Object> responseAsMap = new HashMap<>();
-      ResponseEntity<Map<String,Object>> responseEntity = null;
+        } catch (DataAccessException e) {
+            String error = "Error when trying to save the event attendee and the most likely cause "
+                    + e.getMostSpecificCause();
 
-      try {
-        attendeesService.deleteAttendeeByIdGlobal(idGlobal);
-        String successMessage = "attendee with id: " +idGlobal +", is removed";
-        responseAsMap.put("successMessage", successMessage);
-        responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.OK);
+            responseAsMap.put("error", error);
+            responseAsMap.put("Attendee", attendee);
 
-      } catch (DataAccessException e) {
-        String error = "Error when trying to delete the attendee and the most likely cause" +
-        e.getMostSpecificCause();
-        responseAsMap.put("error", error);
-        responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.INTERNAL_SERVER_ERROR);
-      }
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
+        return responseEntity;
 
-
-      return responseEntity;
     }
 
+    // Administrator can modify an attendee profile using Global ID.
+
+    @PutMapping("/attendee/{globalId}")
+    public ResponseEntity<Map<String, Object>> updateAttendee(@Valid @RequestBody Attendee attendee,
+            BindingResult validationResults,
+            @PathVariable(name = "globalId", required = true) Integer idGlobal) {
+
+        Map<String, Object> responseAsMap = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = null;
+
+        if (validationResults.hasErrors()) {
+
+            List<String> errores = new ArrayList<>();
+
+            List<ObjectError> objectErrors = validationResults.getAllErrors();
+
+            objectErrors.forEach(objectError -> errores.add(objectError.getDefaultMessage()));
+
+            responseAsMap.put("errores", errores);
+            responseAsMap.put("attendee", attendee);
+
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
+
+            return responseEntity;
+        }
+
+        try {
+
+            // Attendee attendeeUpdated =
+            // attendeesService.updateAttendeeByGlobalId(idGlobal);
+            attendee.setGlobalId(idGlobal);
+            String successMessage = "The attendee has been well modified";
+            responseAsMap.put("successMessage", successMessage);
+            responseAsMap.put("attendee modified", attendee);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.CREATED);
+
+        } catch (DataAccessException e) {
+            String error = "Error when modifying the attendee's data and the most probable cause"
+                    + e.getMostSpecificCause();
+
+            responseAsMap.put("error", error);
+            responseAsMap.put("Attendee", attendee);
+
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return responseEntity;
+
+    }
+
+    @DeleteMapping("/attendee/{globalId}")
+    public ResponseEntity<Map<String, Object>> deleteAttendeeByIdGlobal(
+            @PathVariable(name = "globalId", required = true) Integer idGlobal) {
+
+        Map<String, Object> responseAsMap = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = null;
+
+        try {
+            attendeesService.deleteAttendeeByIdGlobal(idGlobal);
+            String successMessage = "attendee with id: " + idGlobal + ", is removed";
+            responseAsMap.put("successMessage", successMessage);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
+
+        } catch (DataAccessException e) {
+            String error = "Error when trying to delete the attendee and the most likely cause" +
+                    e.getMostSpecificCause();
+            responseAsMap.put("error", error);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return responseEntity;
+    }
 
     // No se pide hay que borrarlo luego
     @GetMapping("/attendees")
 
-    public ResponseEntity<List<Attendee>> findAllStudents(){
+    public ResponseEntity<List<Attendee>> findAllStudents() {
 
-    List<Attendee> attendees = attendeesService.findAllAttendees();
-    return new ResponseEntity<>(attendees,HttpStatus.OK);
-}
+        List<Attendee> attendees = attendeesService.findAllAttendees();
+        return new ResponseEntity<>(attendees, HttpStatus.OK);
+    }
 
-//  2-3Retrieve all events of a attendee:
-@GetMapping("/attendee/{globalId}/events")
+    // 2-3Retrieve all events of a attendee:
+    @GetMapping("/attendee/{globalId}/events")
 
-public ResponseEntity<Map<String,Object>> getAllEventsByAttendeeglobalId(@PathVariable(name = "globalId",
-                                                   required = true) Integer idGlobal){
+    public ResponseEntity<Map<String, Object>> getAllEventsByAttendeeglobalId(
+            @PathVariable(name = "globalId", required = true) Integer idGlobal) {
 
-    Map<String, Object> responseAsMap = new HashMap<>();
-    ResponseEntity<Map<String, Object>> responseEntity = null;
+        Map<String, Object> responseAsMap = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = null;
 
-   try {
+        try {
 
-     List<Event> allAttendeeEvents = eventsService.findEventsByAttendeeGlobalId(idGlobal);
-    
-     if (!allAttendeeEvents.isEmpty()) {
-        for (var attendeeEvent :allAttendeeEvents){
-            if(attendeeEvent.getStartDate().isAfter(LocalDate.now()) ||
-            (attendeeEvent.getStartDate().isEqual(LocalDate.now()) && attendeeEvent.getStartTime().isBefore(LocalTime.now()))){
-                EventDTO eventDTO = new EventDTO();
-                eventDTO.setTitle(attendeeEvent.getTitle());
-                eventDTO.setDescription(attendeeEvent.getDescription());
-                eventDTO.setStartDate(attendeeEvent.getStartDate());
-                eventDTO.setEndDate(attendeeEvent.getEndDate());
-                eventDTO.setStartTime(attendeeEvent.getStartTime());
-                eventDTO.setEndTime(attendeeEvent.getEndTime());
-                eventDTO.setMode(attendeeEvent.getMode());
-                eventDTO.setPlace(attendeeEvent.getPlace());
+            List<Event> allAttendeeEvents = eventsService.findEventsByAttendeeGlobalId(idGlobal);
 
-                String successMessage = "the list of available events well created";
+            if (!allAttendeeEvents.isEmpty()) {
+                for (var attendeeEvent : allAttendeeEvents) {
+                    if (attendeeEvent.getStartDate().isAfter(LocalDate.now()) ||
+                            (attendeeEvent.getStartDate().isEqual(LocalDate.now())
+                                    && attendeeEvent.getStartTime().isBefore(LocalTime.now()))) {
+                        EventDTO eventDTO = new EventDTO();
+                        eventDTO.setTitle(attendeeEvent.getTitle());
+                        eventDTO.setDescription(attendeeEvent.getDescription());
+                        eventDTO.setStartDate(attendeeEvent.getStartDate());
+                        eventDTO.setEndDate(attendeeEvent.getEndDate());
+                        eventDTO.setStartTime(attendeeEvent.getStartTime());
+                        eventDTO.setEndTime(attendeeEvent.getEndTime());
+                        eventDTO.setMode(attendeeEvent.getMode());
+                        eventDTO.setPlace(attendeeEvent.getPlace());
 
-                responseAsMap.put("available Events", eventDTO);
-                responseAsMap.put("successMessage", successMessage);
-          
-                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.OK);
+                        String successMessage = "the list of available events well created";
 
+                        responseAsMap.put("available Events", eventDTO);
+                        responseAsMap.put("successMessage", successMessage);
+
+                        responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
+
+                    }
+
+                }
+
+            } else {
+
+                responseAsMap.put("availableEvents", Collections.emptyMap());
+                responseAsMap.put("successMessage", "No events available for the specified attendee");
+
+                responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
             }
 
+        } catch (DataAccessException e) {
+            String error = "Error when trying to display your event list and the most likely cause" +
+                    e.getMostSpecificCause();
+            responseAsMap.put("Error", error);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
-     } else {
 
-        responseAsMap.put("availableEvents", Collections.emptyMap());
-        responseAsMap.put("successMessage", "No events available for the specified attendee");
+        return responseEntity;
 
-        responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
-     }
-    
-  
-   } catch (DataAccessException e) {
-    String error = "Error when trying to display your event list and the most likely cause" +
-    e.getMostSpecificCause();
-    responseAsMap.put("Error", error);
-    responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.INTERNAL_SERVER_ERROR);
-   } 
-    
+    }
 
-   return responseEntity;
-        
- }
+    // añadir un attendee a un Evento
+    @PostMapping("events/{id}/attendee")
+    public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
+            @RequestBody Attendee attendeeRequest) {
 
+        Map<String, Object> responseAsMap = new HashMap<>();
 
-// añadir un attendee a un Evento
- @PostMapping("events/{id}/attendee")
-public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
-                                                       @RequestBody Attendee attendeeRequest) {
+        try {
+            Optional<Event> optionalEvent = eventsService.findById(idEvent);
 
-    Map<String, Object> responseAsMap = new HashMap<>();
+            if (optionalEvent.isPresent()) {
+                Event event = optionalEvent.get();
+                int attendeeId = attendeeRequest.getGlobalId();
 
-    try {
-        Optional<Event> optionalEvent = eventsService.findById(idEvent);
+                if (attendeeId != 0) {
+                    Attendee attendee = attendeesService.findByGlobalId(attendeeId);
 
-        if (optionalEvent.isPresent()) {
-            Event event = optionalEvent.get();
-            int attendeeId = attendeeRequest.getGlobalId();
+                    if (attendee != null && eventsService.availableEvents(event)) {
+                        event.addAttendees(attendee);
+                        eventsService.eventSaved(event);
 
-            if (attendeeId != 0) {
-                Attendee attendee = attendeesService.findByGlobalId(attendeeId);
+                        EventDTO eventDTO = new EventDTO();
+                        eventDTO.setTitle(event.getTitle());
+                        eventDTO.setDescription(event.getDescription());
+                        eventDTO.setStartDate(event.getStartDate());
+                        eventDTO.setEndDate(event.getEndDate());
+                        eventDTO.setStartTime(event.getStartTime());
+                        eventDTO.setEndTime(event.getEndTime());
+                        eventDTO.setMode(event.getMode());
+                        eventDTO.setPlace(event.getPlace());
 
-                if (attendee != null && eventsService.availableEvents(event)) {
-                    event.addAttendees(attendee);
-                    eventsService.eventSaved(event);
+                        AttendeeDTO attendeeDto = new AttendeeDTO();
+                        attendeeDto.setId(attendee.getId());
+                        attendeeDto.setName(attendee.getName());
+                        attendeeDto.setSurname(attendee.getSurname());
+                        attendeeDto.setGlobalId(attendee.getGlobalId());
+                        attendeeDto.setMail(attendee.getMail());
 
-                    
-                    EventDTO eventDTO = new EventDTO();
-                    eventDTO.setTitle(event.getTitle());
-                    eventDTO.setDescription(event.getDescription());
-                    eventDTO.setStartDate(event.getStartDate());
-                    eventDTO.setEndDate(event.getEndDate());
-                    eventDTO.setStartTime(event.getStartTime());
-                    eventDTO.setEndTime(event.getEndTime());
-                    eventDTO.setMode(event.getMode());
-                    eventDTO.setPlace(event.getPlace());
+                        String successMessage = "The attendee has been successfully added to the event";
 
-                    AttendeeDTO attendeeDto = new AttendeeDTO();
-                    attendeeDto.setId(attendee.getId());
-                    attendeeDto.setName(attendee.getName());
-                    attendeeDto.setSurname(attendee.getSurname());
-                    attendeeDto.setGlobalId(attendee.getGlobalId());
-                    attendeeDto.setMail(attendee.getMail());
-                    
+                        responseAsMap.put("EventResponse", eventDTO);
+                        responseAsMap.put("AttendeeResponse", attendeeDto);
+                        responseAsMap.put("successMessage", successMessage);
 
-                    String successMessage = "The attendee has been successfully added to the event";
-
-                    responseAsMap.put("EventResponse", eventDTO);
-                    responseAsMap.put("AttendeeResponse", attendeeDto);
-                    responseAsMap.put("successMessage", successMessage);
-
-                    return new ResponseEntity<>(responseAsMap, HttpStatus.ACCEPTED);
+                        return new ResponseEntity<>(responseAsMap, HttpStatus.ACCEPTED);
+                    } else {
+                        responseAsMap.put("Message", "Invalid Attendee ID or maximum capacity reached");
+                        return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
+                    }
                 } else {
-                    responseAsMap.put("Message", "Invalid Attendee ID or maximum capacity reached");
+                    responseAsMap.put("Message", "Invalid Attendee ID");
                     return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
                 }
             } else {
-                responseAsMap.put("Message", "Invalid Attendee ID");
-                return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
+                responseAsMap.put("Message", "Event not found");
+                return new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
             }
-        } else {
-            responseAsMap.put("Message", "Event not found");
-            return new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            responseAsMap.put("Message", "An error occurred while processing the request");
+            return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    } catch (Exception e) {
-        responseAsMap.put("Message", "An error occurred while processing the request");
-        return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-}
- 
-
-
-
-
-
-
-                                  
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
 
 }
