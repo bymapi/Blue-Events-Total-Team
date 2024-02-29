@@ -222,7 +222,32 @@ public ResponseEntity<Map<String,Object>> getAllEventsByAttendeeglobalId(@PathVa
    } 
     
 
+//    @PostMapping("/Attendee/{tutorialId}/tags")
+//    public ResponseEntity<Tag> addTag(@PathVariable(value = "tutorialId") Long tutorialId, @RequestBody Tag tagRequest) {
+//      Tag tag = tutorialRepository.findById(tutorialId).map(tutorial -> {
+//        long tagId = tagRequest.getId();
+       
+//        // tag is existed
+//        if (tagId != 0L) {
+//          Tag _tag = tagRepository.findById(tagId)
+//              .orElseThrow(() -> new ResourceNotFoundException("Not found Tag with id = " + tagId));
+//          tutorial.addTag(_tag);
+//          tutorialRepository.save(tutorial);
+//          return _tag;
+//        }
+       
+//        // add and create new Tag
+//        tutorial.addTag(tagRequest);
+//        return tagRepository.save(tagRequest);
+//      }).orElseThrow(() -> new ResourceNotFoundException("Not found Tutorial with id = " + tutorialId));
+ 
+//      return new ResponseEntity<>(tag, HttpStatus.CREATED);
+//    }
+
+
+
    return responseEntity;
+   
         
  }
 

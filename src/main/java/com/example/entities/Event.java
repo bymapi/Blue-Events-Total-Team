@@ -46,8 +46,6 @@ public class Event implements Serializable {
     private int id;
 
     @NotNull(message = "Must not be empty")
-    // @NotNull(message = "Must not be empty")
-    //@Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String title;
 
     @NotNull
@@ -55,8 +53,6 @@ public class Event implements Serializable {
     private Target target;
 
     @NotNull(message = "Must not be empty")
-    // @NotNull(message = "Must not be empty")
-    //@Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String description;
 
     @NotNull(message = "Must not be empty")
@@ -75,12 +71,13 @@ public class Event implements Serializable {
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
-    // @NotNull(message = "Must not be empty")
+    @NotNull(message = "Must not be empty")
+    private EventStatus eventStatus;
+
+    @NotNull(message = "Must not be empty")
     private Mode mode;
 
     @NotNull(message = "Must not be empty")
-    // Es String
-    // @NotNull(message = "Must not be empty")
     private String place;
 
     private final int maximumNumberOfAttendees = 8;
@@ -93,24 +90,19 @@ public class Event implements Serializable {
                     @JoinColumn(name = "id_attendee") })
 
     private Set<Attendee> attendees = new HashSet<>();
-    
-            private Set<Attendee> attendees = new HashSet<>();
 
-// Porque se pone esta lista aqui?
-    // public List<Event> events;
-
-    public void addAttendees(Attendee attendee){
+    public void addAttendees(Attendee attendee) {
         this.attendees.add(attendee);
         attendee.getEvents().add(this);
     }
 
-        public void removeAttendee(int attendeeId){
-            Attendee attendee = this.attendees.stream()
-            .filter(e -> e.getId() == attendeeId).findFirst().orElse(null);
-           if (attendee != null) {
-               this.attendees.remove(attendee);
-               attendee.getEvents().remove(this);
-               
-           }
-       }
+    public void removeAttendee(int attendeeId) {
+        Attendee attendee = this.attendees.stream()
+                .filter(e -> e.getId() == attendeeId).findFirst().orElse(null);
+        if (attendee != null) {
+            this.attendees.remove(attendee);
+            attendee.getEvents().remove(this);
+
+        }
+    }
 }
