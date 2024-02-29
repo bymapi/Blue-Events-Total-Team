@@ -68,7 +68,7 @@ import lombok.RequiredArgsConstructor;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @RequiredArgsConstructor
-public class UserRepositoryTests {
+public class OurUserRepositoryTests {
    
     @Autowired
     private OurUserRepository ourUserRepository;
@@ -84,14 +84,14 @@ public class UserRepositoryTests {
     }
 
 
-    // Test para agregar un USER (from security)
+    // Test to add an USER (from security)
     @DisplayName("TEST TO ADD AN USER")
     @SuppressWarnings("null")
     @Test
     
     public void testAddOurUser() {
 
-        //Given: Dado que tenemos un ususario, inyectaremos en este momento, 
+        //Given: we have an user, we proceed to shoot it 
 
         OurUser ourUser = OurUser.builder()
         .email("Francesco@gmail.com")
@@ -110,12 +110,12 @@ public class UserRepositoryTests {
         assertThat(ourUserSaved.getId()).isGreaterThan(0);
     }
 
-    // Test para obtener una lista de USER (from security)
+    // Test to obtain a USER list (from security)
     @Test
     @DisplayName("TEST TO RECEIVE A LIST OF USERS")
     public void testFindAllUsers(){
 
-        //Given: Dado que tenemos un ususario, inyectaremos en este momento, 
+        //Given: we have an user, we proceed to shoot it, 
 
         OurUser ourUser1 = OurUser.builder()
         .email("Juliana@blue.com")

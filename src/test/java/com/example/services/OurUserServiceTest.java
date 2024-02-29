@@ -26,13 +26,13 @@ import com.example.security.services.OurUserDetailsService;
 
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-public class UserServiceTest {
+public class OurUserServiceTest {
 
 @Mock
     private OurUserRepository ourUserRepository;
 
-    // @InjectMocks
-    // private OurUserDetailsService ourUserDetailService;
+    @InjectMocks
+    private OurUserDetailsService ourUserDetailsService;
 
     private OurUser ourUser;
 
@@ -45,22 +45,22 @@ public class UserServiceTest {
                 .build();
     }
 
-    // @Test
-    // @DisplayName("Test to save an user and generate an exception")
-    // public void testSaveUserWithThrowException() {
+    @Test
+    @DisplayName("Test to save an user and generate an exception")
+    public void testSaveUserWithThrowException() {
 
-    //     // given
-    //     given(ourUserRepository.findByEmail(ourUser.getEmail()))
-    //             .willReturn(Optional.of(ourUser));
+        // given
+        given(ourUserRepository.findByEmail(ourUser.getEmail()))
+                .willReturn(Optional.of(ourUser));
 
-    //     // // when
-    //     // assertThrows(ResourceNotFoundException.class, () -> {
-    //     //     ourUserDetailService.add(ourUser);
-    //     // });
+        // when
+        assertThrows(ResourceNotFoundException.class, () -> {
+            ourUserDetailsService.add(ourUser);
+        });
 
-    //     // Then
-    //     verify(ourUserRepository, never()).save(any(OurUser.class));
+        // Then
+        verify(ourUserRepository, never()).save(any(OurUser.class));
 
-    // }
+    }
 
 }

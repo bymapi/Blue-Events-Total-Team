@@ -56,6 +56,7 @@ public class AttendeeServiceTest {
             .place("Blue offices, Valence")
             .build();
 
+    
         attendee = Attendee.builder()
                 .id(1)
                 .name("Mariana")
@@ -65,6 +66,8 @@ public class AttendeeServiceTest {
                 .options(Options.BOOTCAMPER)
                 //.events(event1)
                 .build();
+
+                event1.addAttendees(attendee);
     }
 
     @Test
@@ -84,7 +87,7 @@ public class AttendeeServiceTest {
 
     @DisplayName("Recover an empty list")
     @Test
-    public void testEmptyProductList() {
+    public void testEmptyAttendeesList() {
 
         // given
         given(attendeesDao.findAll()).willReturn(Collections.emptyList());
@@ -95,5 +98,21 @@ public class AttendeeServiceTest {
         // then
         assertThat(attendees).isEmpty();
     }
+
+    // @Test
+    // @DisplayName("Test from repository to update an attendee by it's blobal Id")
+    // public void testUpdateAttendee() {
+
+    //     // given
+    //     given(attendeesDao.save(attendeesServiceImpl.findByGlobalId(globalId))).willReturn(attendee);
+
+    //     // when
+    //     Attendee attendeeUpdated = attendeesDao.save(attendee);
+
+    //     // then
+    //     assertThat(attendeeUpdated).isNotNull();
+    // }
+
+
 }
 

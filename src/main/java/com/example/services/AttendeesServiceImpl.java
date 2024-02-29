@@ -56,12 +56,12 @@ public class AttendeesServiceImpl implements AttendeesService {
 
         return attendeesDao.existsByGlobalId(globalId);
 
+            
         
 
     }
 
-   
 
-
+    
 
 }

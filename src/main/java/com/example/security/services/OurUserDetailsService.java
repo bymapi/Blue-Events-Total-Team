@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.exception.ResourceNotFoundException;
@@ -21,9 +21,6 @@ public class OurUserDetailsService implements UserDetailsService {
 
     @Autowired
     private OurUserRepository ourUserRepository;
-    // @Autowired
-    // private  PasswordEncoder passwordEncoder; 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -31,18 +28,21 @@ public class OurUserDetailsService implements UserDetailsService {
     }
 
     
-    // public OurUser add(OurUser ourUser) {
-    //     Optional<OurUser> theUser = ourUserRepository.findByEmail(ourUser.getEmail());
+    public OurUser add(OurUser ourUser) {
+        Optional<OurUser> theUser = ourUserRepository.findByEmail(ourUser.getEmail());
 
-    //     if(theUser.isPresent()) {
-    //         // Deberiamos devolver una exception personalizada
+        if(theUser.isPresent()) {
+            
+            // Deberiamos devolver una exception personalizada
 
-    //         throw new ResourceNotFoundException("An user with this same email address already exists");
-    //     }
+            throw new ResourceNotFoundException("An user with this same email address already exists");
+        }
+        // Para poder usar el metodo passwordEncoder empelamos BcriptPassword encoder, 
+        //creamos el objeto llamandolo y usandolo de inmediato, para poder usar el metodo encode
 
-    //     // // Encriptamos la password
-    //     // ourUser.setPassword(passwordEncoder.encode(ourUser.getPassword()));
-    //     // return ourUserRepository.save(ourUser);
-    // }
+        // // Encriptamos la password
+        ourUser.setPassword(new BCryptPasswordEncoder().encode(ourUser.getPassword()));
+        return ourUserRepository.save(ourUser);
+    }
 
 }
