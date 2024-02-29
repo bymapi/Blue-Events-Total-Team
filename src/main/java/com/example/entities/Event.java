@@ -90,6 +90,7 @@ public class Event implements Serializable {
     private Set<Attendee> attendees = new HashSet<>();
 
 
+
     public void addAttendees(Attendee attendee) {
         this.attendees.add(attendee);
         attendee.getEvents().add(this);

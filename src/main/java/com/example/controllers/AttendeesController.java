@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataAccessException;
@@ -24,8 +24,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.example.entities.Attendee;
+import com.example.entities.AttendeeDTO;
 import com.example.entities.Event;
+import com.example.entities.EventDTO;
 import com.example.services.AttendeesService;
 import com.example.services.EventsService;
 
@@ -183,40 +186,142 @@ public class AttendeesController {
 
         try {
 
-            List<Event> allAttendeeEvents = eventsService.findEventsByAttendeeGlobalId(idGlobal);
-
-            if (!allAttendeeEvents.isEmpty()) {
-
-                Map<LocalDate, List<Event>> eventsSortedByDate = allAttendeeEvents.stream()
-                        .filter(event -> event.getStartDate().isBefore(LocalDate.now()) ||
-                                (event.getStartDate().isEqual(LocalDate.now())
-                                        && event.getStartTime().isBefore(LocalTime.now())))
-                        .collect(Collectors.groupingBy(Event::getStartDate));
+     List<Event> allAttendeeEvents = eventsService.findEventsByAttendeeGlobalId(idGlobal);
+    
+     if (!allAttendeeEvents.isEmpty()) {
+        for (var attendeeEvent :allAttendeeEvents){
+            if(attendeeEvent.getStartDate().isAfter(LocalDate.now()) ||
+            (attendeeEvent.getStartDate().isEqual(LocalDate.now()) && attendeeEvent.getStartTime().isBefore(LocalTime.now()))){
+                EventDTO eventDTO = new EventDTO();
+                eventDTO.setTitle(attendeeEvent.getTitle());
+                eventDTO.setDescription(attendeeEvent.getDescription());
+                eventDTO.setStartDate(attendeeEvent.getStartDate());
+                eventDTO.setEndDate(attendeeEvent.getEndDate());
+                eventDTO.setStartTime(attendeeEvent.getStartTime());
+                eventDTO.setEndTime(attendeeEvent.getEndTime());
+                eventDTO.setMode(attendeeEvent.getMode());
+                eventDTO.setPlace(attendeeEvent.getPlace());
 
                 String successMessage = "the list of available events well created";
 
-                responseAsMap.put("available Events", eventsSortedByDate);
+                responseAsMap.put("available Events", eventDTO);
                 responseAsMap.put("successMessage", successMessage);
+          
+                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.OK);
 
-                responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
+            }
 
-            } else {
+        }
+        
+     } else {
 
                 responseAsMap.put("availableEvents", Collections.emptyMap());
                 responseAsMap.put("successMessage", "No events available for the specified attendee");
 
-                responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
-            }
-
-        } catch (DataAccessException e) {
-            String error = "Error when trying to display your event list and the most likely cause" +
-                    e.getMostSpecificCause();
-            responseAsMap.put("Error", error);
-            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
+     }
+    
+  
+   } catch (DataAccessException e) {
+    String error = "Error when trying to display your event list and the most likely cause" +
+    e.getMostSpecificCause();
+    responseAsMap.put("Error", error);
+    responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.INTERNAL_SERVER_ERROR);
+   } 
+    
 
         return responseEntity;
 
     }
+
+
+// añadir un attendee a un Evento
+ @PostMapping("events/{id}/attendee")
+public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
+                                                       @RequestBody Attendee attendeeRequest) {
+
+    Map<String, Object> responseAsMap = new HashMap<>();
+
+    try {
+        Optional<Event> optionalEvent = eventsService.findById(idEvent);
+
+        if (optionalEvent.isPresent()) {
+            Event event = optionalEvent.get();
+            int attendeeId = attendeeRequest.getGlobalId();
+
+            if (attendeeId != 0) {
+                Attendee attendee = attendeesService.findByGlobalId(attendeeId);
+
+                if (attendee != null && eventsService.availableEvents(event)) {
+                    event.addAttendees(attendee);
+                    eventsService.eventSaved(event);
+
+                    
+                    EventDTO eventDTO = new EventDTO();
+                    eventDTO.setTitle(event.getTitle());
+                    eventDTO.setDescription(event.getDescription());
+                    eventDTO.setStartDate(event.getStartDate());
+                    eventDTO.setEndDate(event.getEndDate());
+                    eventDTO.setStartTime(event.getStartTime());
+                    eventDTO.setEndTime(event.getEndTime());
+                    eventDTO.setMode(event.getMode());
+                    eventDTO.setPlace(event.getPlace());
+
+                    AttendeeDTO attendeeDto = new AttendeeDTO();
+                    attendeeDto.setId(attendee.getId());
+                    attendeeDto.setName(attendee.getName());
+                    attendeeDto.setSurname(attendee.getSurname());
+                    attendeeDto.setGlobalId(attendee.getGlobalId());
+                    attendeeDto.setMail(attendee.getMail());
+                    
+
+                    String successMessage = "The attendee has been successfully added to the event";
+
+                    responseAsMap.put("EventResponse", eventDTO);
+                    responseAsMap.put("AttendeeResponse", attendeeDto);
+                    responseAsMap.put("successMessage", successMessage);
+
+                    return new ResponseEntity<>(responseAsMap, HttpStatus.ACCEPTED);
+                } else {
+                    responseAsMap.put("Message", "Invalid Attendee ID or maximum capacity reached");
+                    return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
+                }
+            } else {
+                responseAsMap.put("Message", "Invalid Attendee ID");
+                return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            responseAsMap.put("Message", "Event not found");
+            return new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
+        }
+    } catch (Exception e) {
+        responseAsMap.put("Message", "An error occurred while processing the request");
+        return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+ 
+
+
+
+
+
+
+                                  
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
 
 }
