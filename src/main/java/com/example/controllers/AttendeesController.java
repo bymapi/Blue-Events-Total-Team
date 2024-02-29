@@ -44,7 +44,7 @@ public class AttendeesController {
     private final AttendeesService attendeesService;
     private final EventsService eventsService;
 
-    // create the attendee's profile(persistir)
+    // US 1.1. create the attendee's profile(persistir)
     @PostMapping("/attendee")
     @Transactional
     public ResponseEntity<Map<String, Object>> saveAttendees(@Valid @RequestBody Attendee attendee,
@@ -90,7 +90,7 @@ public class AttendeesController {
 
     }
 
-    // Administrator can modify an attendee profile using Global ID.
+    // 1.1. - Administrator can modify an attendee profile using Global ID.
 
     @PutMapping("/attendee/{globalId}")
     public ResponseEntity<Map<String, Object>> updateAttendee(@Valid @RequestBody Attendee attendee,
@@ -140,6 +140,8 @@ public class AttendeesController {
 
     }
 
+    // 1.1. - Delete by Global Id
+
     @DeleteMapping("/attendee/{globalId}")
     public ResponseEntity<Map<String, Object>> deleteAttendeeByIdGlobal(
             @PathVariable(name = "globalId", required = true) Integer idGlobal) {
@@ -163,16 +165,16 @@ public class AttendeesController {
         return responseEntity;
     }
 
-    // No se pide hay que borrarlo luego
+    // Enabler: Get List of all Attendees
     @GetMapping("/attendees")
 
-    public ResponseEntity<List<Attendee>> findAllStudents() {
+    public ResponseEntity<List<Attendee>> findAllStudentsList() {
 
         List<Attendee> attendees = attendeesService.findAllAttendees();
         return new ResponseEntity<>(attendees, HttpStatus.OK);
     }
 
-    // 2-3Retrieve all events of a attendee:
+    // 2.3. - Retrieve all events from a attendee:
     @GetMapping("/attendee/{globalId}/events")
 
     public ResponseEntity<Map<String, Object>> getAllEventsByAttendeeglobalId(
@@ -230,9 +232,9 @@ public class AttendeesController {
 
     }
 
-    // añadir un attendee a un Evento
+    // 2.2. Attendee registers in an event
     @PostMapping("events/{id}/attendee")
-    public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
+    public ResponseEntity<Map<String, Object>> addAttendeeToEvent(@PathVariable(value = "id") Integer idEvent,
             @RequestBody Attendee attendeeRequest) {
 
         Map<String, Object> responseAsMap = new HashMap<>();
