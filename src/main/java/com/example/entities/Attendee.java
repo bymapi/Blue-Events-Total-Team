@@ -45,11 +45,9 @@ public class Attendee implements Serializable {
     private int id;
 
     @NotEmpty(message = "The name cannot be empty")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String name;
 
     @NotEmpty(message = "The surname cannot be empty")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String surname;
 
     @Column(unique = true)
@@ -63,7 +61,7 @@ public class Attendee implements Serializable {
 
 
     @NotNull(message = "The profile cannot be empty")
-    private Options options;
+    private Profile profile;
 
     @JsonIgnore
      @ManyToMany(fetch = FetchType.EAGER,
