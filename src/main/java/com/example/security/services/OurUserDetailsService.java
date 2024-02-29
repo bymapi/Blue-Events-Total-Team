@@ -21,8 +21,8 @@ public class OurUserDetailsService implements UserDetailsService {
 
     @Autowired
     private OurUserRepository ourUserRepository;
-    @Autowired
-    private  PasswordEncoder passwordEncoder; 
+    // @Autowired
+    // private  PasswordEncoder passwordEncoder; 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,18 +31,18 @@ public class OurUserDetailsService implements UserDetailsService {
     }
 
     
-    public OurUser add(OurUser ourUser) {
-        Optional<OurUser> theUser = ourUserRepository.findByEmail(ourUser.getEmail());
+    // public OurUser add(OurUser ourUser) {
+    //     Optional<OurUser> theUser = ourUserRepository.findByEmail(ourUser.getEmail());
 
-        if(theUser.isPresent()) {
-            // Deberiamos devolver una exception personalizada
+    //     if(theUser.isPresent()) {
+    //         // Deberiamos devolver una exception personalizada
 
-            throw new ResourceNotFoundException("An user with this same email address already exists");
-        }
+    //         throw new ResourceNotFoundException("An user with this same email address already exists");
+    //     }
 
-        // Encriptamos la password
-        ourUser.setPassword(passwordEncoder.encode(ourUser.getPassword()));
-        return ourUserRepository.save(ourUser);
-    }
+    //     // // Encriptamos la password
+    //     // ourUser.setPassword(passwordEncoder.encode(ourUser.getPassword()));
+    //     // return ourUserRepository.save(ourUser);
+    // }
 
 }
