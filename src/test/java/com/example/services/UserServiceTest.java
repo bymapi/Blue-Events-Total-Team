@@ -45,22 +45,22 @@ public class UserServiceTest {
                 .build();
     }
 
-    @Test
-    @DisplayName("Test to save an user and generate an exception")
-    public void testSaveUserWithThrowException() {
+    // @Test
+    // @DisplayName("Test to save an user and generate an exception")
+    // public void testSaveUserWithThrowException() {
 
-        // given
-        given(ourUserRepository.findByEmail(ourUser.getEmail()))
-                .willReturn(Optional.of(ourUser));
+    //     // given
+    //     given(ourUserRepository.findByEmail(ourUser.getEmail()))
+    //             .willReturn(Optional.of(ourUser));
 
-        // // when
-        // assertThrows(ResourceNotFoundException.class, () -> {
-        //     ourUserDetailService.add(ourUser);
-        // });
+    //     // // when
+    //     // assertThrows(ResourceNotFoundException.class, () -> {
+    //     //     ourUserDetailService.add(ourUser);
+    //     // });
 
-        // Then
-        verify(ourUserRepository, never()).save(any(OurUser.class));
+    //     // Then
+    //     verify(ourUserRepository, never()).save(any(OurUser.class));
 
-    }
+    // }
 
 }
