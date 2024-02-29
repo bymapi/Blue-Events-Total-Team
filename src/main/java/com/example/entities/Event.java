@@ -78,9 +78,7 @@ public class Event implements Serializable {
     @NotNull(message = "Must not be empty")
     private String place;
 
-    private final int maximumNumberOfAttendees = 8;
 
-    @NotNull
     private final int maximumNumberOfAttendees = 8;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
@@ -92,8 +90,7 @@ public class Event implements Serializable {
 
     private Set<Attendee> attendees = new HashSet<>();
 
-// Porque se pone esta lista aqui?
-    public List<Event> events;
+
 
     public void addAttendees(Attendee attendee) {
         this.attendees.add(attendee);

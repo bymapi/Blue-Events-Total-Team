@@ -26,8 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.example.entities.Attendee;
+import com.example.entities.AttendeeDTO;
 import com.example.entities.Event;
-import com.example.exception.ResourceNotFoundException;
+import com.example.entities.EventDTO;
 import com.example.services.AttendeesService;
 import com.example.services.EventsService;
 
@@ -193,20 +194,31 @@ public ResponseEntity<Map<String,Object>> getAllEventsByAttendeeglobalId(@PathVa
    try {
 
      List<Event> allAttendeeEvents = eventsService.findEventsByAttendeeGlobalId(idGlobal);
-
-     if (!allAttendeeEvents.isEmpty()) {
-
-        Map<LocalDate, List<Event>> eventsSortedByDate = allAttendeeEvents.stream()
-        .filter(event -> event.getStartDate().isBefore(LocalDate.now()) ||
-        (event.getStartDate().isEqual(LocalDate.now()) && event.getStartTime().isBefore(LocalTime.now())))
-        .collect(Collectors.groupingBy(Event::getStartDate));
     
-        String successMessage = "the list of available events well created";
+     if (!allAttendeeEvents.isEmpty()) {
+        for (var attendeeEvent :allAttendeeEvents){
+            if(attendeeEvent.getStartDate().isAfter(LocalDate.now()) ||
+            (attendeeEvent.getStartDate().isEqual(LocalDate.now()) && attendeeEvent.getStartTime().isBefore(LocalTime.now()))){
+                EventDTO eventDTO = new EventDTO();
+                eventDTO.setTitle(attendeeEvent.getTitle());
+                eventDTO.setDescription(attendeeEvent.getDescription());
+                eventDTO.setStartDate(attendeeEvent.getStartDate());
+                eventDTO.setEndDate(attendeeEvent.getEndDate());
+                eventDTO.setStartTime(attendeeEvent.getStartTime());
+                eventDTO.setEndTime(attendeeEvent.getEndTime());
+                eventDTO.setMode(attendeeEvent.getMode());
+                eventDTO.setPlace(attendeeEvent.getPlace());
 
-      responseAsMap.put("available Events", eventsSortedByDate);
-      responseAsMap.put("successMessage", successMessage);
+                String successMessage = "the list of available events well created";
 
-      responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.OK);
+                responseAsMap.put("available Events", eventDTO);
+                responseAsMap.put("successMessage", successMessage);
+          
+                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.OK);
+
+            }
+
+        }
         
      } else {
 
@@ -215,6 +227,7 @@ public ResponseEntity<Map<String,Object>> getAllEventsByAttendeeglobalId(@PathVa
 
         responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
      }
+    
   
    } catch (DataAccessException e) {
     String error = "Error when trying to display your event list and the most likely cause" +
@@ -228,57 +241,10 @@ public ResponseEntity<Map<String,Object>> getAllEventsByAttendeeglobalId(@PathVa
         
  }
 
- // 2.2
 
- /* @PostMapping("events/{id}/attendee")
- public ResponseEntity<Map<String,Object>>  addAttendee(@PathVariable(value = "id") Integer idEvent, 
-                                    @RequestBody Attendee attendeeRequest) {
-
-Map<String, Object> responseAsMap = new HashMap<>();
-ResponseEntity<Map<String, Object>> responseEntity = null;
-
-  eventsService.findById(idEvent).map(e -> {
-
-    int attendeeId = attendeeRequest.getGlobalId();
-
-   Optional<Event> opcionalEvent= eventsService.findById(idEvent);
-   var event = opcionalEvent.get();
-
-    // Si el idglobal existe
-    if (attendeeId != 0){
-
-        Attendee attendee1 = attendeesService.findByGlobalId(attendeeId);
-        if (eventsService.availableEvents(event)) {
-            event.addAttendees(attendee1);
-            eventsService.eventSaved(event);
-
-            String successMessage = "The attendee has been successfully added to the event";
-
-            responseAsMap.put("Attendee", attendee1);
-            responseAsMap.put("successMessage", successMessage);
-      
-            responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.ACCEPTED);
-            }
-            else{
-
-                responseAsMap.put("Message", "Maximum capacity allowed");
-        
-                responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.NOT_ACCEPTABLE);
-
-            }    
-        }
-    })
-       
-
-
-
-return ResponseEntity;
- 
-
- } */
-
+// añadir un attendee a un Evento
  @PostMapping("events/{id}/attendee")
- public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
+public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
                                                        @RequestBody Attendee attendeeRequest) {
 
     Map<String, Object> responseAsMap = new HashMap<>();
@@ -297,9 +263,29 @@ return ResponseEntity;
                     event.addAttendees(attendee);
                     eventsService.eventSaved(event);
 
+                    
+                    EventDTO eventDTO = new EventDTO();
+                    eventDTO.setTitle(event.getTitle());
+                    eventDTO.setDescription(event.getDescription());
+                    eventDTO.setStartDate(event.getStartDate());
+                    eventDTO.setEndDate(event.getEndDate());
+                    eventDTO.setStartTime(event.getStartTime());
+                    eventDTO.setEndTime(event.getEndTime());
+                    eventDTO.setMode(event.getMode());
+                    eventDTO.setPlace(event.getPlace());
+
+                    AttendeeDTO attendeeDto = new AttendeeDTO();
+                    attendeeDto.setId(attendee.getId());
+                    attendeeDto.setName(attendee.getName());
+                    attendeeDto.setSurname(attendee.getSurname());
+                    attendeeDto.setGlobalId(attendee.getGlobalId());
+                    attendeeDto.setMail(attendee.getMail());
+                    
+
                     String successMessage = "The attendee has been successfully added to the event";
 
-                    responseAsMap.put("Attendee", attendee);
+                    responseAsMap.put("EventResponse", eventDTO);
+                    responseAsMap.put("AttendeeResponse", attendeeDto);
                     responseAsMap.put("successMessage", successMessage);
 
                     return new ResponseEntity<>(responseAsMap, HttpStatus.ACCEPTED);
@@ -320,7 +306,6 @@ return ResponseEntity;
         return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
-
  
 
 
