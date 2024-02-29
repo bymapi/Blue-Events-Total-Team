@@ -12,4 +12,6 @@ public interface AttendeesDao extends JpaRepository<Attendee,Integer> {
 
     boolean existsByGlobalId(int globalId);
 
+
+
 }
