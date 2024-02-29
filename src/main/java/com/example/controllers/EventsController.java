@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entities.Attendee;
-import com.example.entities.Attendee;
+
 import com.example.entities.Event;
 import com.example.exception.ResourceNotFoundException;
 import com.example.services.AttendeesService;

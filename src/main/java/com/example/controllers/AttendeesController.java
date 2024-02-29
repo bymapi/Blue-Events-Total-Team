@@ -217,7 +217,8 @@ public class AttendeesController {
                 responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
             }
 
-        } catch (DataAccessException e) {
+        }
+         catch (DataAccessException e) {
             String error = "Error when trying to display your event list and the most likely cause" +
                     e.getMostSpecificCause();
             responseAsMap.put("Error", error);
@@ -227,34 +228,6 @@ public class AttendeesController {
         return responseEntity;
 
     }
-//    @PostMapping("/Attendee/{tutorialId}/tags")
-//    public ResponseEntity<Tag> addTag(@PathVariable(value = "tutorialId") Long tutorialId, @RequestBody Tag tagRequest) {
-//      Tag tag = tutorialRepository.findById(tutorialId).map(tutorial -> {
-//        long tagId = tagRequest.getId();
-       
-//        // tag is existed
-//        if (tagId != 0L) {
-//          Tag _tag = tagRepository.findById(tagId)
-//              .orElseThrow(() -> new ResourceNotFoundException("Not found Tag with id = " + tagId));
-//          tutorial.addTag(_tag);
-//          tutorialRepository.save(tutorial);
-//          return _tag;
-//        }
-       
-//        // add and create new Tag
-//        tutorial.addTag(tagRequest);
-//        return tagRepository.save(tagRequest);
-//      }).orElseThrow(() -> new ResourceNotFoundException("Not found Tutorial with id = " + tutorialId));
- 
-//      return new ResponseEntity<>(tag, HttpStatus.CREATED);
-//    }
-
-
-
-   return responseEntity;
-   
-        
- }
 
     // 2.2. Attendee registers in an event
     @PostMapping("events/{id}/attendee")
@@ -264,7 +237,7 @@ public class AttendeesController {
         Map<String, Object> responseAsMap = new HashMap<>();
 
         try {
-            Optional<Event> optionalEvent = eventsService.findById(idEvent);
+            Optional<Event> optionalEvent = eventsService.findById(idEvent).get();
 
             if (optionalEvent.isPresent()) {
                 Event event = optionalEvent.get();

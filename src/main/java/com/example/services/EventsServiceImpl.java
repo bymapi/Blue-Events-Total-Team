@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class EventsServiceImpl implements EventsService{
 
     private final EventsDao eventsDao;
@@ -44,8 +45,8 @@ public class EventsServiceImpl implements EventsService{
     }
 
     @Override
-    public Optional findById(int id) {
-        return eventsDao.findById(id);
+    public Event findById(int id) {
+        return eventsDao.findById(id).get();
     }
 
     @Override
@@ -58,8 +59,11 @@ public class EventsServiceImpl implements EventsService{
                     return true;
                     
                  } else return false;
-
-        
+  
+    }
+    @Override
+    public void deleteEvent (Event event){
+        eventsDao.delete(event);
     }
 
 

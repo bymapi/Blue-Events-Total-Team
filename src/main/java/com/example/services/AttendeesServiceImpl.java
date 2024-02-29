@@ -64,11 +64,7 @@ public class AttendeesServiceImpl implements AttendeesService {
         return attendeesDao.findByGlobalId(globalId);
     }
 
-    @Override
-    public Attendee findByGlobalId(int globalId) {
-        return attendeesDao.findByGlobalId(globalId);
-    }
-
+   
    
 
     
