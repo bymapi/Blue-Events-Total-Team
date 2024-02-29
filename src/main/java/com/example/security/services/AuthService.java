@@ -2,6 +2,7 @@ package com.example.security.services;
 
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,14 +17,17 @@ import com.example.security.repository.OurUserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
+// @RequiredArgsConstructor
 
 public class AuthService {
-
-    private final OurUserRepository ourUserRepository;
-    private final JWTUtils jwtUtils;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+    @Autowired
+    private OurUserRepository ourUserRepository;
+    @Autowired
+    private JWTUtils jwtUtils;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public ReqResp signUp(ReqResp registrationRequest){
         ReqResp resp = new ReqResp();

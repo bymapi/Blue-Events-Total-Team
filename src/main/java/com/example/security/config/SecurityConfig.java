@@ -1,5 +1,6 @@
 package com.example.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,12 +24,13 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
+// @RequiredArgsConstructor
 public class SecurityConfig {
 
-    
-    private final OurUserDetailsService ourUserDetailsService;
-    private final JWTAuthFilter jwtAuthFIlter;
+    @Autowired
+    private  OurUserDetailsService ourUserDetailsService;
+    @Autowired
+    private  JWTAuthFilter jwtAuthFIlter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

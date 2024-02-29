@@ -1,4 +1,4 @@
-/**
+/* /**
  * Segun el enfoque: Una prueba unitaria se divide en tres partes
  *
  * 1. Arrange: Setting up the data that is required for this test case
@@ -118,7 +118,7 @@ public class UserRepositoryTests {
         //Given: Dado que tenemos un ususario, inyectaremos en este momento, 
 
         OurUser ourUser1 = OurUser.builder()
-        .email("Juliana@gmail.com")
+        .email("Juliana@blue.com")
         .password("6592574")
         .role(Role.ADMIN)
         .build();
@@ -170,7 +170,7 @@ public class UserRepositoryTests {
         //When:
 
         OurUser userUpdated = ourUserRepository.findByEmail(ourUser0.getEmail()).get();
-        userUpdated.setEmail("new@gmail.com");
+        userUpdated.setEmail("new@blue.com");
         userUpdated.setPassword("new76532");
         userUpdated.setRole(Role.USER);
 
@@ -178,7 +178,7 @@ public class UserRepositoryTests {
 
         //Then:
 
-        assertThat(updatedUser.getEmail()).isEqualTo("new@gmail.com");
+        assertThat(updatedUser.getEmail()).isEqualTo("new@blue.com");
     }
 
     @DisplayName("TEST TO DELETE AN USER")
@@ -198,3 +198,4 @@ public class UserRepositoryTests {
         
 
 }
+ 
