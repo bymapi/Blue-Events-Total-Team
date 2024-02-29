@@ -47,7 +47,7 @@ public class AttendeesServiceImpl implements AttendeesService {
     @Override
     public void deleteAttendeeByIdGlobal(int globalId) {
 
-       attendeesDao.delete(attendeesDao.findByGlobalId(globalId));
+       attendeesDao.delete(attendeesDao.findByGlobalId(globalId));;
 
     }
 
@@ -56,11 +56,20 @@ public class AttendeesServiceImpl implements AttendeesService {
 
         return attendeesDao.existsByGlobalId(globalId);
 
-            
         
-
     }
 
+    @Override
+    public Attendee findByGlobalId(int globalId) {
+        return attendeesDao.findByGlobalId(globalId);
+    }
+
+    @Override
+    public Attendee findByGlobalId(int globalId) {
+        return attendeesDao.findByGlobalId(globalId);
+    }
+
+   
 
     
 

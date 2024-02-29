@@ -14,6 +14,12 @@ public interface EventsService {
    
     public List<Event> findEventsByAttendeeGlobalId(int idGlobal);
 
+    public Optional findById(int id);
+
+    public boolean availableEvents (Event event);
+
+ 
+
     
     
 

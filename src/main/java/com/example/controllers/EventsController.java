@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entities.Attendee;
+import com.example.entities.Attendee;
 import com.example.entities.Event;
+import com.example.exception.ResourceNotFoundException;
+import com.example.services.AttendeesService;
 import com.example.services.EventsService;
 
 import jakarta.validation.Valid;
@@ -33,6 +36,8 @@ import lombok.RequiredArgsConstructor;
 public class EventsController {
 
     private final EventsService eventsService;
+  
+    
 
     // Método enabler para comprobar que devuelve todos los eventos existentes:
 
@@ -106,6 +111,11 @@ public class EventsController {
         // Enjoy !
         return responseEntity;
     }
+
+    
+   
+
+   
 
 
 

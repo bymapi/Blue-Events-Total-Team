@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Set;
 
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -51,7 +53,7 @@ public class Attendee implements Serializable {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String surname;
 
-
+    @Column(unique = true)
     @Min(value = 10000, message = "The globalId must be greater than or equal to 10000")
     @Max(value = 999999999, message = " The globalId must be less than or equal to 999999999")
     @Column(name= "GlobalId", unique = true)
