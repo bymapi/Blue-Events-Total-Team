@@ -8,6 +8,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -53,10 +54,12 @@ public class Attendee implements Serializable {
 
     @Min(value = 10000, message = "The globalId must be greater than or equal to 10000")
     @Max(value = 999999999, message = " The globalId must be less than or equal to 999999999")
+    @Column(name= "GlobalId", unique = true)
     private int globalId;
 
     @NotEmpty(message = "The field mail cannot be empty")
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "The mail should have the address @blue.com")
+    @Column(name= "mail", unique = true)
     private String mail;
 
 
