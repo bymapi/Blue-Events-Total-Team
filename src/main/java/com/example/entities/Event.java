@@ -10,6 +10,7 @@ import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -47,6 +48,7 @@ public class Event implements Serializable {
     @NotNull(message = "Must not be empty")
     private String title;
 
+    @Column(updatable = false)
     @NotNull
     private Target target;
 
