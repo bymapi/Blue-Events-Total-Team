@@ -8,25 +8,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Getter
+
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 
-
-
-public class EventDTO {
-
-   
+public class EventDTOAdmin {
 
     private String title;
 
     
     private String description;
 
-    
     
     private LocalDate startDate;
 
@@ -45,9 +40,5 @@ public class EventDTO {
     
     private String place;
 
-   
-   
-
-
-
+    private EventStatus eventStatus;
 }

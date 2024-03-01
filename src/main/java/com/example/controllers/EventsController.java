@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.entities.Attendee;
 import com.example.entities.Event;
 import com.example.entities.EventDTO;
+import com.example.entities.EventDTOAdmin;
+
 import com.example.exception.ResourceNotFoundException;
 import com.example.services.AttendeesService;
 import com.example.services.EventsService;
@@ -47,28 +49,100 @@ public class EventsController {
   
     
 
-   // Método enabler para comprobar que devuelve todos los eventos existentes:
+    // Método enabler para comprobar que devuelve todos los eventos existentes:
 
-    @GetMapping("/events")
-    public ResponseEntity<List<Event>> findAll(@RequestParam(required = false) String title) {
+    // @GetMapping("/events")
+    // public ResponseEntity<List<Event>> findAll(@RequestParam(required = false) String title) {
 
-        List<Event> events = new ArrayList<>();
+    //     List<Event> events = new ArrayList<>();
 
-        if (title == null) {
+    //     if (title == null) {
 
-            eventsService.findAllEvents().forEach(events::add);
+    //         eventsService.findAllEvents().forEach(events::add);
 
-        } else
-            eventsService.findEventsByTitleContaining(title).forEach(events::add);
+    //     } else
+    //         eventsService.findEventsByTitleContaining(title).forEach(events::add);
 
-        if (events.isEmpty()) {
+    //     if (events.isEmpty()) {
 
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    //         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    //     }
+
+    //     return new ResponseEntity<>(events, HttpStatus.OK);
+    // }
+
+
+    //  1-4 Retrieve all events :
+@GetMapping("/events")
+
+public ResponseEntity<Map<String,Object>> findAll(@RequestParam(required = false) String title){
+
+    Map<String, Object> responseAsMap = new HashMap<>();
+    ResponseEntity<Map<String, Object>> responseEntity = null;
+
+   try {
+     
+     List<Event> allEvents = eventsService.findAllEvents();
+     List<EventDTOAdmin> listEventDto = new ArrayList<>();
+    
+      
+        for (var event :allEvents){
+            if (event.getStartDate().isAfter(LocalDate.now()) ||
+            (event.getStartDate().isEqual(LocalDate.now()) && event.getStartTime().isBefore(LocalTime.now()))){
+                EventDTOAdmin eventDTOAdmin = new EventDTOAdmin();
+
+                eventDTOAdmin.setTitle(event.getTitle());
+                eventDTOAdmin.setDescription(event.getDescription());
+                eventDTOAdmin.setStartDate(event.getStartDate());
+                eventDTOAdmin.setEndDate(event.getEndDate());
+                eventDTOAdmin.setStartTime(event.getStartTime());
+                eventDTOAdmin.setEndTime(event.getEndTime());
+                eventDTOAdmin.setMode(event.getMode());
+                eventDTOAdmin.setPlace(event.getPlace());
+                eventDTOAdmin.setEventStatus(event.getEventStatus());
+
+                listEventDto.add(eventDTOAdmin);
+
+                String successMessage = "the list of available events well created";
+
+                responseAsMap.put("available Events", listEventDto);
+                responseAsMap.put("successMessage", successMessage);
+          
+                responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.OK);
+
+            }
+            
+            if (!allEvents.isEmpty()) {
+ 
+                String successMessage = "The list of available events has been successfully created";
+                responseAsMap.put("availableEvents",  listEventDto);
+                responseAsMap.put("successMessage", successMessage);
+                return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
+        
+
+        
+     } else {
+
+        responseAsMap.put("availableEvents", Collections.emptyMap());
+        responseAsMap.put("successMessage", "No events available ");
+
+        responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
+     }
         }
+  
+   } catch (DataAccessException e) {
+    String error = "Error when trying to display your event list and the most likely cause" +
+    e.getMostSpecificCause();
+    responseAsMap.put("Error", error);
+    responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.INTERNAL_SERVER_ERROR);
+   } 
+    
 
-        return new ResponseEntity<>(events, HttpStatus.OK);
-    }
+   return responseEntity;
+        
+ }
 
+    //------------------------------------------------
 
     // US 1.2. Create a new internal event
     // it does also validate if it has been created properly
