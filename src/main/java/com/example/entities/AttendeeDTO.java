@@ -31,6 +31,6 @@ public class AttendeeDTO {
 
     private String mail;
 
-    private Options options;
+    private Profile profile;
 
 }

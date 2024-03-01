@@ -132,7 +132,7 @@ public class AttendeesController {
                 existingAttendee.setName(updatedAttendee.getName());
                 existingAttendee.setMail(updatedAttendee.getMail());
                 existingAttendee.setSurname(updatedAttendee.getSurname());
-                existingAttendee.setOptions(updatedAttendee.getOptions());
+                existingAttendee.setProfile(updatedAttendee.getProfile());
         
                 Attendee attendeeUpdated = attendeesService.save(existingAttendee);
         
