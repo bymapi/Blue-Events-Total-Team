@@ -22,7 +22,6 @@ import lombok.Setter;
 public class AttendeeDTO {
 
   
-    private int id;
 
     private String name;
 
@@ -31,5 +30,7 @@ public class AttendeeDTO {
     private int globalId;
 
     private String mail;
+
+    private Options options;
 
 }

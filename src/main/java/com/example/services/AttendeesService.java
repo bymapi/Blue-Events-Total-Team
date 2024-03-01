@@ -20,6 +20,9 @@ public interface AttendeesService {
 
     Attendee findByGlobalId(int globalId);
 
+    public List<Attendee> findAllEventAttendeesById(int idEvent);
+
+
     
 
     

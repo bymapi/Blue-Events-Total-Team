@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.EventsDao;
+import com.example.entities.Attendee;
 import com.example.entities.Event;
 import com.example.entities.EventStatus;
 
@@ -60,6 +61,7 @@ public class EventsServiceImpl implements EventsService{
 
         
     }
+
 
 
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,7 +20,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -83,11 +83,9 @@ public class Event implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST,
             CascadeType.MERGE })
-
     @JoinTable(name = "events_attendees", joinColumns = {
             @JoinColumn(name = "id_event") }, inverseJoinColumns = {
                     @JoinColumn(name = "id_attendee") })
-
     private Set<Attendee> attendees = new HashSet<>();
 
 
