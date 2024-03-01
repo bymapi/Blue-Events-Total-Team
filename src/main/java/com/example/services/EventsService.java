@@ -3,6 +3,7 @@ package com.example.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.entities.Attendee;
 import com.example.entities.Event;
 
 public interface EventsService {
@@ -17,6 +18,8 @@ public interface EventsService {
     public Optional findById(int id);
 
     public boolean availableEvents (Event event);
+
+    
 
  
 

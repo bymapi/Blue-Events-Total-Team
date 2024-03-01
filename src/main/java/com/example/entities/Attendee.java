@@ -52,7 +52,8 @@ public class Attendee implements Serializable {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String surname;
 
-    @Column(unique = true)
+    
+    @Column(unique = true, updatable = false)
     @Min(value = 10000, message = "The globalId must be greater than or equal to 10000")
     @Max(value = 999999999, message = " The globalId must be less than or equal to 999999999")
     private int globalId;
@@ -67,13 +68,12 @@ public class Attendee implements Serializable {
     private Profile profile;
 
     @JsonIgnore
-     @ManyToMany(fetch = FetchType.EAGER,
+    @ManyToMany(fetch = FetchType.EAGER,
       cascade = {
           CascadeType.REFRESH,
           CascadeType.MERGE
       },
       mappedBy = "attendees")
-      
     private Set<Event> events;
 
    

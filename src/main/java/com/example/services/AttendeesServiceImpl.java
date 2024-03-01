@@ -67,6 +67,13 @@ public class AttendeesServiceImpl implements AttendeesService {
 
    
 
+    @Override
+    public List<Attendee> findAllEventAttendeesById(int idEvent) {
+
+       return attendeesDao.findByEventsId(idEvent);
+    }
+   
+
 
 
 }
