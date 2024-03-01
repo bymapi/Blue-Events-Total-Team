@@ -305,6 +305,11 @@ public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id
         responseAsMap.put("Message", "An error occurred while processing the request");
         return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+
+
+
 }
  
 

@@ -30,7 +30,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+// @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 
@@ -48,7 +48,7 @@ public class Event implements Serializable {
     private String title;
 
     @NotNull
-    private Target target;
+    private final Target target;
 
     @NotNull(message = "Must not be empty")
     private String description;

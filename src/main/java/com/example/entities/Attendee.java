@@ -57,6 +57,7 @@ public class Attendee implements Serializable {
     @Max(value = 999999999, message = " The globalId must be less than or equal to 999999999")
     private int globalId;
 
+    @Column(unique = true)
     @NotEmpty(message = "The field mail cannot be empty")
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "The mail should have the address @blue.com")
     private String mail;
@@ -68,7 +69,7 @@ public class Attendee implements Serializable {
     @JsonIgnore
      @ManyToMany(fetch = FetchType.EAGER,
       cascade = {
-          CascadeType.PERSIST,
+          CascadeType.REFRESH,
           CascadeType.MERGE
       },
       mappedBy = "attendees")

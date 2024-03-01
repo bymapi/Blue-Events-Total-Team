@@ -45,6 +45,8 @@ public class EventDTO {
     
     private String place;
 
+    private EventStatus eventStatus;;
+
 
 
 }

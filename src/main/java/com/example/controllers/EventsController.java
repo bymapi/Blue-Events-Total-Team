@@ -1,7 +1,10 @@
 package com.example.controllers;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entities.Attendee;
 import com.example.entities.Event;
+import com.example.entities.EventDTO;
 import com.example.exception.ResourceNotFoundException;
 import com.example.services.AttendeesService;
 import com.example.services.EventsService;
@@ -43,7 +47,7 @@ public class EventsController {
   
     
 
-    // Método enabler para comprobar que devuelve todos los eventos existentes:
+   // Método enabler para comprobar que devuelve todos los eventos existentes:
 
     @GetMapping("/events")
     public ResponseEntity<List<Event>> findAll(@RequestParam(required = false) String title) {
@@ -64,6 +68,7 @@ public class EventsController {
 
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
+
 
     // US 1.2. Create a new internal event
     // it does also validate if it has been created properly
@@ -117,9 +122,7 @@ public class EventsController {
     }
 
     
-   
-
-   
+      
 }
 
 
