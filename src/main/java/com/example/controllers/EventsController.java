@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entities.Attendee;
 import com.example.entities.Event;
+import com.example.entities.Target;
 import com.example.exception.ResourceNotFoundException;
 import com.example.services.AttendeesService;
 import com.example.services.EventsService;
@@ -40,8 +41,6 @@ import lombok.RequiredArgsConstructor;
 public class EventsController {
 
     private final EventsService eventsService;
-  
-    
 
     // Método enabler para comprobar que devuelve todos los eventos existentes:
 
@@ -69,11 +68,11 @@ public class EventsController {
     // it does also validate if it has been created properly
 
     @PostMapping("/events")
-    public ResponseEntity<Map<String,Object>> createEvent(@Valid @RequestBody Event event,
-    BindingResult validationResults) {
+    public ResponseEntity<Map<String, Object>> createEvent(@Valid @RequestBody Event event,
+            BindingResult validationResults) {
 
-        Map<String,Object> responseAsMap = new HashMap<>();
-        ResponseEntity<Map<String,Object>> responseEntity = null;
+        Map<String, Object> responseAsMap = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = null;
 
         // First, we check if the event itself has errors
 
@@ -83,35 +82,35 @@ public class EventsController {
             List<ObjectError> objectErrors = validationResults.getAllErrors();
 
             objectErrors.forEach(objectError -> errors.add(objectError.getDefaultMessage()));
-            
-            responseAsMap.put("errors",errors);
+
+            responseAsMap.put("errors", errors);
             responseAsMap.put("malformed event", event);
 
-            responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
 
             return responseEntity;
 
         }
 
         // As long as the validation goes fine, we can proceed to create our super event
-        
+
         try {
 
             Event eventCreated = eventsService.eventSaved(event);
             String successMessage = "The event was succesfully created";
             responseAsMap.put("Success Message", successMessage);
             responseAsMap.put("Created event", eventCreated);
-            responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.CREATED);
-            
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.CREATED);
+
         } catch (DataAccessException e) {
             String error = "Something went wrong while creating the event and the most specific cause is: "
-            + e.getMostSpecificCause();
+                    + e.getMostSpecificCause();
 
             responseAsMap.put("error", error);
             responseAsMap.put("event that was intended to be created", event);
-            responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
+
         // Enjoy !
         return responseEntity;
     }
@@ -141,15 +140,53 @@ public class EventsController {
             return responseEntity;
  
         }
- 
- 
+
         try {
             event.setId(idEvent);
+            var targetAnterior=event.getTarget();
             Event eventActualizado = eventsService.eventSaved(event);
+            if(!eventActualizado.getTarget().equals(targetAnterior)){
+ 
+             String error="ERROR";
+ 
+ 
+            responseAsMap.put("errores", error);
+            
+ 
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
+ 
+            return responseEntity;
+ 
+            } else {
+
+                Event eventActualizado2 = eventsService.eventSaved(eventActualizado);
+ 
             String successMessage = "Event was succesfully updated";
             responseAsMap.put("Success Message", successMessage);
             responseAsMap.put("Updated event", eventActualizado);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
+            }
+        
+ 
+ 
+        // try {
+        //     event.setId(idEvent);
+        //     Event eventActualizado = eventsService.eventSaved(event);
+
+
+        //     Target existingEventTarget = event.getTarget();
+        //     if (!eventActualizado.getTarget().equals(existingEventTarget)) {
+
+        //     String errorMessage = "Modification of Target is not allowed";
+        //     responseAsMap.put("errorMessage", errorMessage);
+        //     return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
+                
+        //     }
+
+        //     String successMessage = "Event was succesfully updated";
+        //     responseAsMap.put("Success Message", successMessage);
+        //     responseAsMap.put("Updated event", eventActualizado);
+        //     responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
         } catch (DataAccessException e) {
             String error = "Error while updating the event and the most specific cause is: "
                     + e.getMostSpecificCause();
