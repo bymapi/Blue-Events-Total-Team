@@ -20,4 +20,5 @@ public interface EventsService {
 
     public boolean availableEvents(Event event);
 
+
 }
