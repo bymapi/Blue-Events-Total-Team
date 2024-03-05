@@ -15,6 +15,7 @@ public interface EventsDao extends JpaRepository<Event, Integer> {
 
     List<Event> findByTitleContaining(String title);
 
+
     @Query("SELECT e FROM Event e JOIN e.attendees a WHERE a.globalId = :idGlobal")
     List<Event> findEventsByAttendeeGlobalId(int idGlobal);
 
