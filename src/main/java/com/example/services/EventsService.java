@@ -19,6 +19,11 @@ public interface EventsService {
 
     public boolean availableEvents (Event event);
 
+    public Boolean actualizarEvento(int id, Event eventoActualizado);
+
+
+  
+
     
 
  

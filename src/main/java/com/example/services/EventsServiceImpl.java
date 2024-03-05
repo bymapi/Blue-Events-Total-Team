@@ -8,10 +8,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.EventsDao;
-import com.example.entities.Attendee;
 import com.example.entities.Event;
 import com.example.entities.EventStatus;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -59,9 +57,22 @@ public class EventsServiceImpl implements EventsService{
                     
                  } else return false;
 
-        
+                }
+ 
+public Boolean actualizarEvento(int id, Event eventoActualizado) {
+    
+    Event eventoExistente = eventsDao.findById(id).get();
+
+    
+    if (!eventoActualizado.getTarget().equals(eventoExistente.getTarget())) {
+        return false; 
     }
 
+    eventsDao.save(eventoExistente);
+    return true; 
+}
+    
+    
 
 
 
