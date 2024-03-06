@@ -213,4 +213,57 @@ public class AttendeesController {
         }
     }
 
+    /*
+     * US 2.1. Attendee consults available events.
+     * As an Attendee I would like to check all available classes for future dates.
+     * Available means enable status.
+     */
+    @GetMapping("/events/available/attendeee/{id}")
+    public ResponseEntity<Map<String, Object>> consultAvailableEvents(@PathVariable(value = "id") Integer globalId) {
+
+        Map<String, Object> responseAsMap = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = null;
+
+        try {
+
+            List<Event> listaEventos = eventsService.findAllEvents();
+
+            for (Event event : listaEventos) {
+
+                Attendee attendee = attendeesService.findByGlobalId(globalId);
+
+                if (eventsService.availableEvents(event)) {
+
+                    EventDTO eventDTO = new EventDTO();
+                    eventDTO.setTitle(event.getTitle());
+                    eventDTO.setDescription(event.getDescription());
+                    eventDTO.setStartDate(event.getStartDate());
+                    eventDTO.setEndDate(event.getEndDate());
+                    eventDTO.setStartTime(event.getStartTime());
+                    eventDTO.setEndTime(event.getEndTime());
+                    eventDTO.setMode(event.getMode());
+                    eventDTO.setPlace(event.getPlace());
+
+                    String successMessage = "There are available events";
+
+                    responseAsMap.put("EventResponse", eventDTO);
+                    responseAsMap.put("successMessage", successMessage);
+
+                    return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
+                } else {
+                    responseAsMap.put("Message", "There are no available events");
+                    return new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
+                }
+
+            }
+
+        } catch (Exception e) {
+            responseAsMap.put("Message", "An error occurred while processing the request");
+            return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return responseEntity;
+
+    }
+    
 }
