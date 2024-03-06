@@ -265,5 +265,70 @@ public class AttendeesController {
         return responseEntity;
 
     }
-    
+
+    /*
+     * US 2.2. Attendee registers in an event.
+     * As an Attendee I want to register in an event on a specific title and day.
+     */
+    @PostMapping("events/{id}/attendee")
+    public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
+            @RequestBody Attendee attendeeRequest) {
+
+        Map<String, Object> responseAsMap = new HashMap<>();
+
+        try {
+            Optional<Event> optionalEvent = eventsService.findById(idEvent);
+
+            if (optionalEvent.isPresent()) {
+                Event event = optionalEvent.get();
+                int attendeeId = attendeeRequest.getGlobalId();
+
+                if (attendeeId != 0) {
+                    Attendee attendee = attendeesService.findByGlobalId(attendeeId);
+
+                    if (attendee != null && eventsService.availableEvents(event)) {
+                        event.addAttendees(attendee);
+                        eventsService.eventSaved(event);
+
+                        EventDTO eventDTO = new EventDTO();
+                        eventDTO.setTitle(event.getTitle());
+                        eventDTO.setDescription(event.getDescription());
+                        eventDTO.setStartDate(event.getStartDate());
+                        eventDTO.setEndDate(event.getEndDate());
+                        eventDTO.setStartTime(event.getStartTime());
+                        eventDTO.setEndTime(event.getEndTime());
+                        eventDTO.setMode(event.getMode());
+                        eventDTO.setPlace(event.getPlace());
+
+                        AttendeeDTO attendeeDto = new AttendeeDTO();
+                        attendeeDto.setName(attendee.getName());
+                        attendeeDto.setSurname(attendee.getSurname());
+                        attendeeDto.setGlobalId(attendee.getGlobalId());
+                        attendeeDto.setMail(attendee.getMail());
+
+                        String successMessage = "The attendee has been successfully added to the event";
+
+                        responseAsMap.put("EventResponse", eventDTO);
+                        responseAsMap.put("AttendeeResponse", attendeeDto);
+                        responseAsMap.put("successMessage", successMessage);
+
+                        return new ResponseEntity<>(responseAsMap, HttpStatus.ACCEPTED);
+                    } else {
+                        responseAsMap.put("Message", "Invalid Attendee ID or maximum capacity reached");
+                        return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
+                    }
+                } else {
+                    responseAsMap.put("Message", "Invalid Attendee ID");
+                    return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
+                }
+            } else {
+                responseAsMap.put("Message", "Event not found");
+                return new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            responseAsMap.put("Message", "An error occurred while processing the request");
+            return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
