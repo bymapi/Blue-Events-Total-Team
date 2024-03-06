@@ -9,6 +9,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
@@ -141,21 +142,27 @@ public class AttendeeControllerTests {
 
                String jsonStringAttendee = objectMapper.writeValueAsString(attendee01);
 
-                MockMultipartFile bytesArrayProduct = new MockMultipartFile("producto",
+               /*  MockMultipartFile bytesArrayAttendee = new MockMultipartFile("attendee",
                                 null, "application/json", jsonStringAttendee.getBytes());
-
+ */
                 // multipart: perfoms a POST request
-                mockMvc.perform(multipart("/productos")
+              /*   mockMvc.perform(multipart("/productos")
                                 .file("file", null)
                                 .file(bytesArrayProduct))
                                 .andDo(print())
-                                .andExpect(status().isUnauthorized());
+                                .andExpect(status().isUnauthorized()); */
+
+                mockMvc.perform(post("/attendees")
+                .contentType("application/json")
+                .content(jsonStringAttendee))
+                .andDo(print())
+                .andExpect(status().isForbidden());
 
         }
 
         @DisplayName("Test guardar producto con usuario mockeado")
         @Test
-        @WithMockUser(username = "gabybcr1542@blue.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
+        @WithMockUser(username = "gabybcr1542@gmail.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
         void testGuardarAttendeeConUserMocked() throws Exception {
                 // given
                 Event event1 = Event.builder()
@@ -180,6 +187,23 @@ public class AttendeeControllerTests {
                 .build();
 
                 given(attendeesService.save(any(Attendee.class)))
+                .willAnswer(invocation -> invocation.getArgument(0));
+            // getArgument(0) devuelve el primer elemento del objeto Attendee creado.
+        
+            // when
+            String jsonStringAttendee = objectMapper.writeValueAsString(attendee03);
+        
+            // En lugar de usar un MultipartFile, simplemente enviamos el JSON como contenido del cuerpo de la solicitud
+            ResultActions response = mockMvc.perform(post("/attendees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonStringAttendee));
+        
+            // then
+            response.andDo(print())
+                .andExpect(status().isCreated());
+        }
+
+                /* given(attendeesService.save(any(Attendee.class)))
                                 .willAnswer(invocation -> invocation.getArgument(0));
                 // getArgument(0) devuelve el primer elemento del objeto Attendee creado.
                 
@@ -198,7 +222,7 @@ public class AttendeeControllerTests {
                 response.andDo(print())
                                 .andExpect(status().isCreated());
   //                              .andExpect(jsonPath("$.[Producto Persistido]", is(producto.getName())))
-  //                              .andExpect(jsonPath("$.[Producto Persistido].description", is(producto.getDescription())));
+  //                              .andExpect(jsonPath("$.[Producto Persistido].description", is(producto.getDescription()))); */
         }
 /*         @DisplayName("Test de enlistar producto con usuario mockeado")
         @Test
@@ -406,5 +430,5 @@ public class AttendeeControllerTests {
 
         }
 */
-}
+
  
