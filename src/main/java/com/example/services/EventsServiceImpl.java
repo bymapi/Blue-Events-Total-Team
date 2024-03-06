@@ -62,4 +62,17 @@ public class EventsServiceImpl implements EventsService {
 
     }
 
+    @Override
+    public void deleteEventById(int eventId) {
+
+       eventsDao.deleteById(eventId);
+
+    }
+
+    @Override
+    public boolean existsById(int eventId) {
+
+        return eventsDao.existsById(eventId);
+
+    }
 }

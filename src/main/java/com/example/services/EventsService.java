@@ -13,10 +13,14 @@ public interface EventsService {
 
     public Event eventSaved(Event event);
 
-    public List<Event> findEventsByAttendeeGlobalId(int idGlobal);
-
     public Optional findById(int id);
 
     public boolean availableEvents(Event event);
+
+    public void deleteEventById(int eventId);
+
+    public boolean existsById(int eventId);
+
+    public List<Event> findEventsByAttendeeGlobalId(int idGlobal);
 
 }

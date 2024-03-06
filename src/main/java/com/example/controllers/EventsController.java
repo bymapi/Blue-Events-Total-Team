@@ -97,4 +97,91 @@ public class EventsController {
      * US 1.3. Modify an event.
      * As Administrator I want to modify or delete an event.
      */
+    // 1.3.a) Administrator can modify events by its id
+    @PutMapping("/events/{id}")
+    public ResponseEntity<Map<String, Object>> updateEvent(@Valid @RequestBody Event event,
+            BindingResult validationResults,
+            @PathVariable(name = "id", required = true) Integer idEvent) {
+
+        Map<String, Object> responseAsMap = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = null;
+
+        // Check if there has been errors while creating the event
+        if (validationResults.hasErrors()) {
+
+            List<String> errors = new ArrayList<>();
+
+            List<ObjectError> objectErrors = validationResults.getAllErrors();
+
+            objectErrors.forEach(objectError -> errors.add(objectError.getDefaultMessage()));
+
+            responseAsMap.put("errors", errors);
+            responseAsMap.put("Malformed event", event);
+
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
+
+            return responseEntity;
+
+        }
+
+        try {
+            event.setId(idEvent);
+            var originalTarget = event.getTarget();
+            Event eventUpdated = eventsService.eventSaved(event);
+            if (!eventUpdated.getTarget().equals(originalTarget)) {
+
+                String error = "ERROR";
+
+                responseAsMap.put("errors", error);
+
+                responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
+
+                return responseEntity;
+
+            } else {
+
+                Event eventUpdated2 = eventsService.eventSaved(eventUpdated);
+
+                String successMessage = "Event was succesfully updated";
+                responseAsMap.put("Success Message", successMessage);
+                responseAsMap.put("Updated event", eventUpdated);
+                responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
+            }
+
+        } catch (DataAccessException e) {
+            String error = "Error while updating the event and the most specific cause is: "
+                    + e.getMostSpecificCause();
+            responseAsMap.put("error", error);
+            responseAsMap.put("Event intended to update", event);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return responseEntity;
+
+    }
+
+    // 1.3.b) Administrator can delete events by its id
+    @DeleteMapping("/events/{id}")
+    public ResponseEntity<Map<String, Object>> deleteEventById(
+            @PathVariable(name = "globalId", required = true) Integer eventId) {
+
+        Map<String, Object> responseAsMap = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = null;
+
+        try {
+            eventsService.deleteEventById(eventId);
+            String successMessage = "event with id: " + eventId + ", is removed";
+            responseAsMap.put("successMessage", successMessage);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
+
+        } catch (DataAccessException e) {
+            String error = "Error when trying to delete the event and the most likely cause" +
+                    e.getMostSpecificCause();
+            responseAsMap.put("error", error);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return responseEntity;
+    }
+
 }
