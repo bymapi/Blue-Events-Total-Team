@@ -331,4 +331,63 @@ public class AttendeesController {
         }
     }
 
+    /*
+     * US 2.3. Attendee consults his/her events.
+     * As an Attendee I would like to check my events for future dates.
+     */
+    @GetMapping("/attendee/{globalId}/events")
+    public ResponseEntity<Map<String, Object>> getAllEventsByAttendeeglobalId(
+            @PathVariable(name = "globalId", required = true) Integer idGlobal) {
+
+        Map<String, Object> responseAsMap = new HashMap<>();
+        ResponseEntity<Map<String, Object>> responseEntity = null;
+
+        try {
+
+            List<Event> allAttendeeEvents = eventsService.findEventsByAttendeeGlobalId(idGlobal);
+            List<EventDTO> availableEvents = new ArrayList<>();
+
+            for (var attendeeEvent : allAttendeeEvents) {
+                if (eventsService.availableEvents(attendeeEvent)) {
+                    EventDTO eventDTO = new EventDTO();
+                    eventDTO.setTitle(attendeeEvent.getTitle());
+                    eventDTO.setDescription(attendeeEvent.getDescription());
+                    eventDTO.setStartDate(attendeeEvent.getStartDate());
+                    eventDTO.setEndDate(attendeeEvent.getEndDate());
+                    eventDTO.setStartTime(attendeeEvent.getStartTime());
+                    eventDTO.setEndTime(attendeeEvent.getEndTime());
+                    eventDTO.setMode(attendeeEvent.getMode());
+                    eventDTO.setPlace(attendeeEvent.getPlace());
+
+                    availableEvents.add(eventDTO);
+
+                }
+
+            }
+            if (!availableEvents.isEmpty()) {
+
+                String successMessage = "The list of available events has been successfully created";
+                responseAsMap.put("availableEvents", availableEvents);
+                responseAsMap.put("successMessage", successMessage);
+                return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
+
+            } else {
+
+                responseAsMap.put("availableEvents", Collections.emptyMap());
+                responseAsMap.put("successMessage", "No events available for the specified attendee");
+
+                responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
+            }
+
+        } catch (DataAccessException e) {
+            String error = "Error when trying to display your event list and the most likely cause" +
+                    e.getMostSpecificCause();
+            responseAsMap.put("Error", error);
+            responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return responseEntity;
+
+    }
+    
 }
