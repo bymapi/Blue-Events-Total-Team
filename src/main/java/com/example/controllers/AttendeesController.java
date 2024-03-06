@@ -183,7 +183,7 @@ public class AttendeesController {
     // No se pide hay que borrarlo luego
     @GetMapping("/attendees")
 
-    public ResponseEntity<List<Attendee>> findAllStudents(){
+    public ResponseEntity<List<Attendee>> findAllAttendees(){
 
     List<Attendee> attendees = attendeesService.findAllAttendees();
     return new ResponseEntity<>(attendees,HttpStatus.OK);

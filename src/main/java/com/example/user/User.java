@@ -28,12 +28,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "The name cannot be empty")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
+    // @NotEmpty(message = "The name cannot be empty")
+    // @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String firstName;
 
-    @NotEmpty(message = "The name cannot be empty")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
+    // @NotEmpty(message = "The name cannot be empty")
+    // @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String lastName;
 
     @Column(unique = true) // No se repite, pero no forma parte de la PK
@@ -41,7 +41,7 @@ public class User {
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "The mail should have the address @blue.com")
     private String email;
 
-    @NotEmpty(message = "The password cannot be empty")
+   // @NotEmpty(message = "The password cannot be empty")
     private String password;
 
     @Enumerated(EnumType.STRING)
