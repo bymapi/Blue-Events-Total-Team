@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.AttendeesDao;
+import com.example.dao.EventsDao;
 import com.example.entities.Attendee;
 
 
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class AttendeesServiceImpl implements AttendeesService {
 
     private final AttendeesDao attendeesDao;
+    private final EventsDao eventsDao;
 
     @Override
     public Attendee save(Attendee attendee) {
@@ -65,13 +67,14 @@ public class AttendeesServiceImpl implements AttendeesService {
         return attendeesDao.findByGlobalId(globalId);
     }
 
-   
-
     @Override
     public List<Attendee> findAllEventAttendeesById(int idEvent) {
-
-       return attendeesDao.findByEventsId(idEvent);
+        
+        return eventsDao.findByEventsId(idEvent);
     }
+
+   
+
    
 
 

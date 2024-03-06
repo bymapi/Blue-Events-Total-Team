@@ -47,6 +47,7 @@ public class AttendeesController {
     private final EventsService eventsService;
 
     // 1.1-create the attendee's profile(persistir)
+    
     @PostMapping("/attendee")
     @Transactional
         public ResponseEntity<Map<String,Object>> saveAttendees(@Valid @RequestBody Attendee attendee,
