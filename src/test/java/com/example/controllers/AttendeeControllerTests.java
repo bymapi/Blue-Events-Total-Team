@@ -108,6 +108,9 @@ public class AttendeeControllerTests {
 
         @Test
         @DisplayName("Test de intento de guardar un attendee sin autorizacion")
+        @WithMockUser(username = "gabybcr1542@blue.com", authorities = { "USER" }) // puede ser {"ADMIN", "USER"}
+
+      //given
         void testGuardarPAttendee() throws Exception {
                Attendee attendee01 = Attendee.builder()
                 .name("Maricarmen")
@@ -142,17 +145,7 @@ public class AttendeeControllerTests {
 
                String jsonStringAttendee = objectMapper.writeValueAsString(attendee01);
 
-               /*  MockMultipartFile bytesArrayAttendee = new MockMultipartFile("attendee",
-                                null, "application/json", jsonStringAttendee.getBytes());
- */
-                // multipart: perfoms a POST request
-              /*   mockMvc.perform(multipart("/productos")
-                                .file("file", null)
-                                .file(bytesArrayProduct))
-                                .andDo(print())
-                                .andExpect(status().isUnauthorized()); */
-
-                mockMvc.perform(post("/attendees")
+                mockMvc.perform(post("/api/attendee")
                 .contentType("application/json")
                 .content(jsonStringAttendee))
                 .andDo(print())
@@ -160,71 +153,80 @@ public class AttendeeControllerTests {
 
         }
 
-        @DisplayName("Test guardar producto con usuario mockeado")
-        @Test
-        @WithMockUser(username = "gabybcr1542@gmail.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
-        void testGuardarAttendeeConUserMocked() throws Exception {
-                // given
-                Event event1 = Event.builder()
-                .title("Language exchange")
-                .target(Target.INTERNS)
-                .description("Evento para conocer gente")
-                .startDate(LocalDate.of(2024, 04, 10))
-                .endDate(LocalDate.of(2024, 05, 10))
-                .startTime(LocalTime.of(12, 10))
-                .endTime(LocalTime.of(15, 30))
-                .eventStatus(EventStatus.ENABLE)
-                .mode(Mode.ONLINE)
-                .place("Valencia")
-                .build();
-
-                Attendee attendee03 = Attendee.builder()
-                .name("Maricarmen")
-                .surname("Gomez")
-                .globalId(2765)
-                .mail("Maricarmen@blue.com")
-                .profile(Profile.INTERNAL)
-                .build();
-
-                given(attendeesService.save(any(Attendee.class)))
-                .willAnswer(invocation -> invocation.getArgument(0));
-            // getArgument(0) devuelve el primer elemento del objeto Attendee creado.
+//         @DisplayName("Test guardar attendee con Admin mockeado")
+//         @Test
+//         @WithMockUser(username = "gabybcr1542@blue.com", authorities = { "ADMIN" }) 
         
-            // when
-            String jsonStringAttendee = objectMapper.writeValueAsString(attendee03);
-        
-            // En lugar de usar un MultipartFile, simplemente enviamos el JSON como contenido del cuerpo de la solicitud
-            ResultActions response = mockMvc.perform(post("/attendees")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonStringAttendee));
-        
-            // then
-            response.andDo(print())
-                .andExpect(status().isCreated());
-        }
+//         void testGuardarAttendeeConUserMocked() throws Exception {
+//                 // given
+//                 Event event1 = Event.builder()
+//                 .title("Language exchange")
+//                 .target(Target.INTERNS)
+//                 .description("Evento para conocer gente")
+//                 .startDate(LocalDate.of(2024, 04, 10))
+//                 .endDate(LocalDate.of(2024, 05, 10))
+//                 .startTime(LocalTime.of(12, 10))
+//                 .endTime(LocalTime.of(15, 30))
+//                 .eventStatus(EventStatus.ENABLE)
+//                 .mode(Mode.ONLINE)
+//                 .place("Valencia")
+//                 .build();
 
-                /* given(attendeesService.save(any(Attendee.class)))
-                                .willAnswer(invocation -> invocation.getArgument(0));
-                // getArgument(0) devuelve el primer elemento del objeto Attendee creado.
+//                 Attendee attendee03 = Attendee.builder()
+//                 .name("Maricarmen")
+//                 .surname("Gomez")
+//                 .globalId(2765)
+//                 .mail("Maricarmen@blue.com")
+//                 .profile(Profile.INTERNAL)
+//                 .build();
+//                 Attendee attendee04 = Attendee.builder()
+//                 .name("Maricarmen")
+//                 .surname("Gomez")
+//                 .globalId(2765)
+//                 .mail("Maricarmen@blue.com")
+//                 .profile(Profile.INTERNAL)
+//                 .build();
+
+
+//                 event1.setAttendees(Set.of(attendee03, attendee04));
+
+//                 String jsonStringAttendee = objectMapper.writeValueAsString(attendee03);
+ 
+//                  mockMvc.perform(post("/api/attendee")
+//                  .contentType("application/json")
+//                  .content(jsonStringAttendee))
+//                  .andDo(print())
+//                  .andExpect(status().isCreated());
+ 
+//         }
+
+
+//                 /* given(attendeesService.save(any(Attendee.class)))
+//                                 .willAnswer(invocation -> invocation.getArgument(0));
+//                 // getArgument(0) devuelve el primer elemento del objeto Attendee creado.
                 
 
-                // when
-                String jsonStringAttendee = objectMapper.writeValueAsString(attendee03);
+//                 // when
+//                 String jsonStringAttendee = objectMapper.writeValueAsString(attendee03);
 
-                MockMultipartFile bytesArrayAttendee = new MockMultipartFile("attendee",
-                                null, "application/json", jsonStringAttendee.getBytes());
+//                 MockMultipartFile bytesArrayAttendee = new MockMultipartFile("attendee",
+//                                 null, "application/json", jsonStringAttendee.getBytes());
 
-                ResultActions response = mockMvc.perform(multipart("/attendees")
-                                .file("file", null)
-                                .file(bytesArrayAttendee));
-                // then
+//                 ResultActions response = mockMvc.perform(multipart("/attendees")
+//                                 .file("file", null)
+//                                 .file(bytesArrayAttendee));
+//                 // then
 
-                response.andDo(print())
-                                .andExpect(status().isCreated());
-  //                              .andExpect(jsonPath("$.[Producto Persistido]", is(producto.getName())))
-  //                              .andExpect(jsonPath("$.[Producto Persistido].description", is(producto.getDescription()))); */
-        }
-/*         @DisplayName("Test de enlistar producto con usuario mockeado")
+//                 response.andDo(print())
+//                                 .andExpect(status().isCreated());
+//   //                              .andExpect(jsonPath("$.[Producto Persistido]", is(producto.getName())))
+//   //                              .andExpect(jsonPath("$.[Producto Persistido].description", is(producto.getDescription()))); */
+        
+
+
+
+
+/*      @DisplayName("Test de enlistar producto con usuario mockeado")
         @Test
         @WithMockUser(username = "vrmachado@gmail.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
         public void testListarProductos() throws Exception {
@@ -277,8 +279,8 @@ public class AttendeeControllerTests {
                                 .andDo(print())
                                 .andExpect(jsonPath("$.size()", is(productos.size())));
 
-        }
-        @DisplayName("Test Recuperar un producto por el id")
+        } */
+/*         @DisplayName("Test Recuperar un producto por el id")
         @Test
         @WithMockUser(username = "vrmachado@gmail.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
         public void testRecuperarProductoPorId() throws Exception {
@@ -311,8 +313,8 @@ public class AttendeeControllerTests {
                                 .andDo(print())
                                 .andExpect(jsonPath("$.producto.name", is(producto.getName())));
         }
-
-        // Test. Producto no encontrado
+ */
+/*         // Test. Producto no encontrado
         @Test
         @WithMockUser(username = "vrmachado@gmail.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
         public void testProductoNoEncontrado() throws Exception {
@@ -329,48 +331,68 @@ public class AttendeeControllerTests {
 
                 response.andExpect(status().isNotFound());
 
-        }
+        } */
 
         //  Test. Actualizar un producto
         @Test
-        @WithMockUser(username = "vrmachado@gmail.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
+        @WithMockUser(username = "vrmachado@blue.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
         public void testActualizarProducto() throws Exception {
 
                 // given
 
-                int productoId = 1;
+                int globalId = 1;
 
-                Presentacion presentacionGuardada = Presentacion.builder()
-                                .description(null)
-                                .name("docena")
+                Event eventGuardado = Event.builder()
+                                .title("Google Pixel 7")
+                                .target(Target.INTERNS)
+                                .description("Evento para conocer gente")
+                                .startDate(LocalDate.of(2024, 04, 10))
+                                .endDate(LocalDate.of(2024, 05, 10))
+                                .startTime(LocalTime.of(12, 10))
+                                .endTime(LocalTime.of(15, 30))
+                                .eventStatus(EventStatus.ENABLE)
+                                .mode(Mode.ONLINE)
+                                .place("Valencia")
                                 .build();
 
-                Producto productoGuardado = Producto.builder()
-                                .name("Camara")
-                                .description("Resolucion Alta")
-                                .price(2000.00)
-                                .stock(40)
-                                .presentacion(presentacionGuardada)
-                                .imagen("perro.jpeg")
+                Attendee attendeeGuardado = Attendee.builder()
+                                .name("Maricarmen")
+                                .surname("Gomez")
+                                .globalId(1)
+                                .mail("Maricarmen@blue.com")
+                                .profile(Profile.INTERNAL)
+                                .build();
+                                                
+                 eventGuardado.setAttendees(Set.of(attendeeGuardado));        
+
+                Event eventActualizado = Event.builder()
+                                .title("Google Pixel 7")
+                                .target(Target.INTERNS)
+                                .description("Evento para conocer gente")
+                                .startDate(LocalDate.of(2024, 04, 10))
+                                .endDate(LocalDate.of(2024, 05, 10))
+                                .startTime(LocalTime.of(12, 10))
+                                .endTime(LocalTime.of(15, 30))
+                                .eventStatus(EventStatus.ENABLE)
+                                .mode(Mode.ONLINE)
+                                .place("Valencia")
                                 .build();
 
-                Presentacion presentacionActualizada = Presentacion.builder()
-                                .description(null)
-                                .name("unidad")
+                Attendee attendeeActualizado= Attendee.builder()
+                                .name("Maricarmen")
+                                .surname("Gomez")
+                                .globalId(1)
+                                .mail("Maricarmen@blue.com")
+                                .profile(Profile.INTERNAL)
                                 .build();
+                                                
+                eventGuardado.setAttendees(Set.of(attendeeGuardado)); 
 
-                Producto productoActualizado = Producto.builder()
-                                .name("HDCamara")
-                                .description("Muy Alta Resolucion")
-                                .price(2500.00)
-                                .stock(400)
-                                .presentacion(presentacionActualizada)
-                                .imagen("perro.jpeg")
-                                .build();
+                                
 
-                given(productoService.findById(productoId)).willReturn(productoGuardado)
-                                .willReturn(productoGuardado);
-                given(productoService.save(any(Producto.class)))
+                given(attendeesService.findByGlobalId(globalId)).willReturn(attendeeGuardado)
+                                .willReturn(attendeeGuardado);
+                given(attendeesService.save(any(Attendee.class)))
                                 .willAnswer(invocation -> invocation.getArgument(0));
 
                 // when
@@ -380,9 +402,9 @@ public class AttendeeControllerTests {
                 // y por otra la imagen, hay que proceder de manera diferente (muy similar
                 // al test de persistir un producto con su imagen)
 
-                ResultActions response = mockMvc.perform(put("/productos/{id}", productoId)
+                ResultActions response = mockMvc.perform(put("/api/attendee/{globalId}", globalId)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(productoActualizado)));
+                                .content(objectMapper.writeValueAsString(attendeeActualizado)));
 
                 // then
 
@@ -391,37 +413,39 @@ public class AttendeeControllerTests {
   //                              .andExpect(jsonPath("$.[Producto Actualizado]", is(productoActualizado.getName())));
         }
 
-        // Test. Eliminar un producto
+        
+ // Test. Eliminar un producto
         @Test
-        @WithMockUser(username = "vrmachado@gmail.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
-        public void testEliminarProducto() throws Exception {
+        @WithMockUser(username = "vrmachado@blue.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
+        public void testDeleteAttendeeByIdGlobal() throws Exception {
 
                 // given
 
-                int productoId = 1;
+                int globalId = 1;
 
-                Presentacion presentacion = Presentacion.builder()
-                                .description(null)
-                                .name("docena")
-                                .build();
+                // Presentacion presentacion = Presentacion.builder()
+                //                 .description(null)
+                //                 .name("docena")
+                //                 .build();
 
-                Producto producto = Producto.builder()
-                                .name("Camara")
-                                .description("Resolucion Alta")
-                                .price(2000.00)
-                                .stock(40)
-                                .presentacion(presentacion)
-                                .imagen("perro.jpeg")
-                                .build();
+               Attendee attendee8 = Attendee.builder()
+                .name("Maricarmen")
+                .surname("Gomez")
+                .globalId(1)
+                .mail("Maricarmen@blue.com")
+                .profile(Profile.INTERNAL)
+                .build();
 
-                given(productoService.findById(productoId))
-                                .willReturn(producto);
 
-                willDoNothing().given(productoService).delete(producto);
+
+                given(attendeesService.findByGlobalId(globalId))
+                                .willReturn(attendee8);
+
+                willDoNothing().given(attendeesService).delete(attendee8);
 
                 // when
 
-                ResultActions response = mockMvc.perform(delete("/productos/{id}", productoId));
+                ResultActions response = mockMvc.perform(delete("/api/attendee/{globalId}", globalId));
 
                 // then
 
@@ -429,6 +453,6 @@ public class AttendeeControllerTests {
                                 .andDo(print());
 
         }
-*/
 
+}
  
