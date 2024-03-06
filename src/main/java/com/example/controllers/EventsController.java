@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entities.Attendee;
+import com.example.entities.AttendeeDTO;
 import com.example.entities.Event;
 import com.example.entities.EventDTOAdmin;
 import com.example.exception.ResourceNotFoundException;

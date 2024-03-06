@@ -172,5 +172,45 @@ public class AttendeesController {
         return responseEntity;
     }
 
+    /*
+     * US 1.5. Consult the list of attendees.
+     * As an Administrator I would like to check all attendees for an event.
+     */
+    @GetMapping("event/{id}/attendees")
+    public ResponseEntity<Map<String, Object>> getAllEventAttendees(
+            @PathVariable(name = "id", required = true) Integer idEvent) {
+
+        Map<String, Object> responseAsMap = new HashMap<>();
+
+        try {
+            List<Attendee> eventAttendees = attendeesService.findAllEventAttendeesById(idEvent);
+            List<AttendeeDTO> attendeesDTOList = new ArrayList<>();
+
+            if (!eventAttendees.isEmpty()) {
+                for (Attendee attendee : eventAttendees) {
+                    AttendeeDTO attendeeDto = new AttendeeDTO();
+                    attendeeDto.setName(attendee.getName());
+                    attendeeDto.setSurname(attendee.getSurname());
+                    attendeeDto.setGlobalId(attendee.getGlobalId());
+                    attendeeDto.setMail(attendee.getMail());
+
+                    attendeesDTOList.add(attendeeDto);
+                }
+
+                String successMessage = "The list of event attendees has been successfully created";
+                responseAsMap.put("availableEventAttendees", attendeesDTOList);
+                responseAsMap.put("successMessage", successMessage);
+                return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
+            } else {
+                responseAsMap.put("availableEventAttendees", Collections.emptyList());
+                responseAsMap.put("successMessage", "No attendees available for the specified event");
+                return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
+            }
+
+        } catch (Exception e) {
+            responseAsMap.put("error", "An error occurred while processing the request. " + e.getMessage());
+            return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
