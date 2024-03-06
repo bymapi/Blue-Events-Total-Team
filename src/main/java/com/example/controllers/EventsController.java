@@ -195,7 +195,7 @@ public class EventsController {
      */
     // As an Administrator can list all available events for future dates in any
     // state (enable/disable).
-    @GetMapping("/events")
+    @GetMapping("/events/available")
     public ResponseEntity<Map<String, Object>> findAllAvailableEvents(@RequestParam(required = false) String title) {
 
         Map<String, Object> responseAsMap = new HashMap<>();
@@ -260,5 +260,5 @@ public class EventsController {
 
     }
 
-    
+
 }
