@@ -287,6 +287,7 @@ public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id
                     attendeeDto.setSurname(attendee.getSurname());
                     attendeeDto.setGlobalId(attendee.getGlobalId());
                     attendeeDto.setMail(attendee.getMail());
+                    attendeeDto.setProfile(attendee.getProfile());
                     
 
                     String successMessage = "The attendee has been successfully added to the event";
