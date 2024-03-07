@@ -216,13 +216,6 @@ public class EventsController {
 
                     listEventDto.add(eventDTOAdmin);
 
-                    String successMessage = "the list of available events well created";
-
-                    responseAsMap.put("available Events", listEventDto);
-                    responseAsMap.put("successMessage", successMessage);
-
-                    responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
-
                 }
 
                 if (!allEvents.isEmpty()) {
