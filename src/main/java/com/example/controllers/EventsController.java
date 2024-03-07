@@ -73,7 +73,7 @@ public class EventsController {
 
 
     //  1-4 Retrieve all events :
-@GetMapping("/events")
+@GetMapping("/events/available")
 
 public ResponseEntity<Map<String,Object>> findAll(@RequestParam(required = false) String title){
 

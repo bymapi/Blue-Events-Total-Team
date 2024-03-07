@@ -250,7 +250,7 @@ public ResponseEntity<Map<String,Object>> getAllEventsByAttendeeglobalId(@PathVa
 
 
 // 2.2-añadir un attendee a un Evento
- @PostMapping("events/{id}/attendee")
+ @PostMapping("/events/{id}/register")
 public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
                                                        @RequestBody Attendee attendeeRequest) {
 
@@ -297,7 +297,7 @@ public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id
 
                     return new ResponseEntity<>(responseAsMap, HttpStatus.ACCEPTED);
                 } else {
-                    responseAsMap.put("Message", "Invalid Attendee ID or maximum capacity reached");
+                    responseAsMap.put("Message", "Maximum capacity allowed");
                     return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
                 }
             } else {

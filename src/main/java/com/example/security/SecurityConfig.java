@@ -31,11 +31,14 @@ public class SecurityConfig {
                     auth.requestMatchers("/users/**").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/api/events**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/api/attendee**").hasAuthority("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST, "/api/events/{id}/register**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/api/events**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.DELETE, "/api/attendee/{globalId}**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/api/events**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/api/attendee/{globalId}**").hasAuthority("ADMIN");
-                    auth.requestMatchers(HttpMethod.GET,"/events**").hasAnyAuthority("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/api/event/{id}/attendees**").hasAuthority("ADMIN");
+                    auth.requestMatchers(HttpMethod.GET, "/api/attendee/{globalId}/events**").hasAnyAuthority("USER","ADMIN");
+                    auth.requestMatchers(HttpMethod.GET,"/api/events/available**").hasAnyAuthority("USER", "ADMIN");
                     auth.requestMatchers(HttpMethod.GET,"/api/attendees**").hasAuthority( "ADMIN");
                     auth.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults()).build();
