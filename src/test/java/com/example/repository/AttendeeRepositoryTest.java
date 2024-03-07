@@ -91,7 +91,7 @@ public class AttendeeRepositoryTest {
 
         // then
         assertThat(attendees).isNotNull();
-        assertThat(attendees.size()).isEqualTo(2);
+        assertThat(attendees.size()).isEqualTo(3);
     } 
 
     @Test

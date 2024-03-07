@@ -79,7 +79,7 @@ public class UserRepositoryTests {
                 .firstName("Test User 0")
                 .lastName("Machado")
                 .password("123456")
-                .email("user0@gmail.com")
+                .email("user0@blue.com")
                 .role(Role.USER)
                 .build();
     }
@@ -95,7 +95,7 @@ public class UserRepositoryTests {
                 .firstName("Test User 1")
                 .lastName("Machado")
                 .password("123456")
-                .email("v@gmail.com")
+                .email("v@blue.com")
                 .role(Role.USER)
                 .build();
 
@@ -119,7 +119,7 @@ public class UserRepositoryTests {
                 .firstName("Test User 1")
                 .lastName("Machado")
                 .password("123456")
-                .email("v@gmail.com")
+                .email("v@blue.com")
                 .role(Role.USER)
                 .build();
 
@@ -167,13 +167,13 @@ public class UserRepositoryTests {
 
         userGuardado.setLastName("Perico");
         userGuardado.setFirstName("Juan");
-        userGuardado.setEmail("jp@gg.com");
+        userGuardado.setEmail("jp@blue.com");
 
         User userUpdated = userRepository.save(userGuardado);
 
         // then
 
-        assertThat(userUpdated.getEmail()).isEqualTo("jp@gg.com");
+        assertThat(userUpdated.getEmail()).isEqualTo("jp@blue.com");
         assertThat(userUpdated.getFirstName()).isEqualTo("Juan");
 
     }
