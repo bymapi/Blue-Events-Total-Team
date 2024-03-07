@@ -335,7 +335,7 @@ public class AttendeesController {
      * US 2.3. Attendee consults his/her events.
      * As an Attendee I would like to check my events for future dates.
      */
-    @GetMapping("/attendee/{globalId}/events")
+     @GetMapping("/attendee/{globalId}/events")
     public ResponseEntity<Map<String, Object>> getAllEventsByAttendeeglobalId(
             @PathVariable(name = "globalId", required = true) Integer idGlobal) {
 
@@ -388,6 +388,6 @@ public class AttendeesController {
 
         return responseEntity;
 
-    }
+    } 
     
 }
