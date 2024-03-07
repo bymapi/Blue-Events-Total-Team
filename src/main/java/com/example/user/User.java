@@ -28,11 +28,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "The name cannot be empty")
+    //@NotEmpty(message = "The name cannot be empty")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String firstName;
 
-    @NotEmpty(message = "The name cannot be empty")
+    //@NotEmpty(message = "The name cannot be empty")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Write alphabetic letters only ")
     private String lastName;
 

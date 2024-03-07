@@ -1,5 +1,6 @@
 .
-├── HELP.md
+├── Files-Upload
+│   └── rMbuWFlQ-Screenshot from 2024-03-02 22-01-42.png
 ├── mvnw
 ├── mvnw.cmd
 ├── pom.xml
@@ -13,12 +14,18 @@
 │   │   │           ├── controllers
 │   │   │           │   ├── AttendeesController.java
 │   │   │           │   └── EventsController.java
+│   │   │           ├── customsExceptions
+│   │   │           │   └── ResourceNotFoundException.java
 │   │   │           ├── dao
 │   │   │           │   ├── AttendeesDao.java
 │   │   │           │   └── EventsDao.java
 │   │   │           ├── entities
+│   │   │           │   ├── AttendeeDTO.java
 │   │   │           │   ├── Attendee.java
+│   │   │           │   ├── EventDTOAdmin.java
+│   │   │           │   ├── EventDTO.java
 │   │   │           │   ├── Event.java
+│   │   │           │   ├── EventStatus.java
 │   │   │           │   ├── Mode.java
 │   │   │           │   ├── Profile.java
 │   │   │           │   └── Target.java
@@ -27,17 +34,29 @@
 │   │   │           │   ├── ErrorMessage.java
 │   │   │           │   └── ResourceNotFoundException.java
 │   │   │           ├── helpers
+│   │   │           │   ├── FileDownload.java
+│   │   │           │   ├── FileUpLoad.java
 │   │   │           │   └── LoadSampleData.java
-│   │   │           ├── repository
-│   │   │           └── services
-│   │   │               ├── AttendeesServiceImpl.java
-│   │   │               ├── AttendeesService.java
-│   │   │               ├── EventsServiceImpl.java
-│   │   │               └── EventsService.java
+│   │   │           ├── model
+│   │   │           │   └── FileUploadResponse.java
+│   │   │           ├── security
+│   │   │           │   ├── MyUserDetailService.java
+│   │   │           │   ├── MyUserDetails.java
+│   │   │           │   └── SecurityConfig.java
+│   │   │           ├── services
+│   │   │           │   ├── AttendeesServiceImpl.java
+│   │   │           │   ├── AttendeesService.java
+│   │   │           │   ├── EventsServiceImpl.java
+│   │   │           │   └── EventsService.java
+│   │   │           └── user
+│   │   │               ├── Role.java
+│   │   │               ├── UserController.java
+│   │   │               ├── User.java
+│   │   │               ├── UserRepository.java
+│   │   │               ├── UserServiceImpl.java
+│   │   │               └── UserService.java
 │   │   └── resources
-│   │       ├── application.properties
-│   │       ├── static
-│   │       └── templates
+│   │       └── application.properties
 │   ├── src
 │   │   └── main
 │   │       └── resouces
@@ -46,7 +65,15 @@
 │       └── java
 │           └── com
 │               └── example
-│                   └── BlueEventsTotalTeamApplicationTests.java
+│                   ├── BlueEventsTotalTeamApplicationTests.java
+│                   ├── controllers
+│                   │   ├── AttendeeControllerTests.java
+│                   │   └── EventControllerTests.java
+│                   ├── repository
+│                   │   └── UserRepositoryTests.java
+│                   └── services
+│                       ├── EventServiceTests.java
+│                       └── UserServiceTests.java
 ├── target
 │   ├── classes
 │   │   ├── application.properties
@@ -56,14 +83,23 @@
 │   │           ├── controllers
 │   │           │   ├── AttendeesController.class
 │   │           │   └── EventsController.class
+│   │           ├── customsExceptions
+│   │           │   └── ResourceNotFoundException.class
 │   │           ├── dao
 │   │           │   ├── AttendeesDao.class
 │   │           │   └── EventsDao.class
 │   │           ├── entities
 │   │           │   ├── Attendee$AttendeeBuilder.class
 │   │           │   ├── Attendee.class
+│   │           │   ├── AttendeeDTO$AttendeeDTOBuilder.class
+│   │           │   ├── AttendeeDTO.class
 │   │           │   ├── Event.class
+│   │           │   ├── EventDTOAdmin.class
+│   │           │   ├── EventDTOAdmin$EventDTOAdminBuilder.class
+│   │           │   ├── EventDTO.class
+│   │           │   ├── EventDTO$EventDTOBuilder.class
 │   │           │   ├── Event$EventBuilder.class
+│   │           │   ├── EventStatus.class
 │   │           │   ├── Mode.class
 │   │           │   ├── Profile.class
 │   │           │   └── Target.class
@@ -72,12 +108,29 @@
 │   │           │   ├── ErrorMessage.class
 │   │           │   └── ResourceNotFoundException.class
 │   │           ├── helpers
+│   │           │   ├── FileDownload.class
+│   │           │   ├── FileUpLoad.class
 │   │           │   └── LoadSampleData.class
-│   │           └── services
-│   │               ├── AttendeesService.class
-│   │               ├── AttendeesServiceImpl.class
-│   │               ├── EventsService.class
-│   │               └── EventsServiceImpl.class
+│   │           ├── model
+│   │           │   ├── FileUploadResponse.class
+│   │           │   └── FileUploadResponse$FileUploadResponseBuilder.class
+│   │           ├── security
+│   │           │   ├── MyUserDetails.class
+│   │           │   ├── MyUserDetailService.class
+│   │           │   └── SecurityConfig.class
+│   │           ├── services
+│   │           │   ├── AttendeesService.class
+│   │           │   ├── AttendeesServiceImpl.class
+│   │           │   ├── EventsService.class
+│   │           │   └── EventsServiceImpl.class
+│   │           └── user
+│   │               ├── Role.class
+│   │               ├── User.class
+│   │               ├── UserController.class
+│   │               ├── UserRepository.class
+│   │               ├── UserService.class
+│   │               ├── UserServiceImpl.class
+│   │               └── User$UserBuilder.class
 │   ├── generated-sources
 │   │   └── annotations
 │   ├── generated-test-sources
@@ -95,7 +148,14 @@
 │   └── test-classes
 │       └── com
 │           └── example
-│               └── BlueEventsTotalTeamApplicationTests.class
+│               ├── BlueEventsTotalTeamApplicationTests.class
+│               ├── controllers
+│               │   └── EventControllerTests.class
+│               ├── repository
+│               │   └── UserRepositoryTests.class
+│               └── services
+│                   ├── EventServiceTests.class
+│                   └── UserServiceTests.class
 └── tree.txt
 
-45 directories, 53 files
+57 directories, 101 files

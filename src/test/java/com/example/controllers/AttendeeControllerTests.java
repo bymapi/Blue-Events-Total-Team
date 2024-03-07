@@ -168,7 +168,7 @@
 //   //                              .andExpect(jsonPath("$.[Producto Persistido]", is(producto.getName())))
 //   //                              .andExpect(jsonPath("$.[Producto Persistido].description", is(producto.getDescription())));
 //         }
-// /*         @DisplayName("Test de enlistar producto con usuario mockeado")
+//         @DisplayName("Test de enlistar producto con usuario mockeado")
 //         @Test
 //         @WithMockUser(username = "vrmachado@gmail.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
 //         public void testListarProductos() throws Exception {
@@ -373,6 +373,6 @@
 //                                 .andDo(print());
 
 //         }
-// */
+
 // }
  
