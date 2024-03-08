@@ -28,8 +28,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/users/add/user**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/users/add/admin**").hasAuthority("ADMIN");
+                    auth.requestMatchers("/users/**").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/api/events**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/api/attendee**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/api/events/{id}/register**").hasAuthority("ADMIN");

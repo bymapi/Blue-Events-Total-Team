@@ -17,16 +17,12 @@ import com.example.entities.Profile;
 import com.example.entities.Target;
 import com.example.services.AttendeesService;
 import com.example.services.EventsService;
-import com.example.user.Role;
-import com.example.user.User;
-import com.example.user.UserService;
 
 @Configuration
 public class LoadSampleData {
 
     @Bean
-    public CommandLineRunner initSampleData(EventsService eventsService, AttendeesService attendeesService,
-            UserService userService) {
+    public CommandLineRunner initSampleData(EventsService eventsService, AttendeesService attendeesService) {
 
         return data -> {
 
@@ -44,7 +40,7 @@ public class LoadSampleData {
                     .attendees(new HashSet<>())
                     .build());
 
-            Attendee attendee1 = attendeesService.save(Attendee.builder()
+           Attendee attendee1 = attendeesService.save(Attendee.builder()
                     .name("Alfredo")
                     .surname("Adame")
                     .globalId(10808939)
@@ -55,13 +51,7 @@ public class LoadSampleData {
 
             event1.addAttendees(attendee1);
             eventsService.eventSaved(event1);
-
-            User userAdmin = userService.add(User.builder()
-                    .firstName("Carmina")
-                    .lastName("Gomez")
-                    .email("Admin1@blue.com")
-                    .password("PASSWORD1")
-                    .role(Role.ADMIN).build());
+        
 
         };
     }
