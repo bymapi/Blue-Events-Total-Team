@@ -1,4 +1,5 @@
 package com.example.user;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,23 @@ public class UserController {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.FOUND);
     }
 
-    @PostMapping("/add")
+    // @PostMapping("/add")
+    // @Transactional
+    // public ResponseEntity<User> add(@RequestBody User user) {
+    //     return ResponseEntity.ok(userService.add(user));
+    // }
+
+    @PostMapping("/add/user")
     @Transactional
-    public ResponseEntity<User> add(@RequestBody User user) {
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        user.setRole(Role.USER);
+        return ResponseEntity.ok(userService.add(user));
+    }
+
+    @PostMapping("/add/admin")
+    @Transactional
+    public ResponseEntity<User> addAdmin(@RequestBody User user) {
+        user.setRole(Role.ADMIN);
         return ResponseEntity.ok(userService.add(user));
     }
 
@@ -43,6 +58,5 @@ public class UserController {
 
         return ResponseEntity.ok(userService.update(user));
     }
-
 
 }
