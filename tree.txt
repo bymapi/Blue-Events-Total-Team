@@ -12,7 +12,7 @@
 │   │   │           ├── controllers
 │   │   │           │   ├── AttendeesController.java
 │   │   │           │   └── EventsController.java
-│   │   │           ├── customsExceptions
+│   │   │           ├── customException
 │   │   │           │   └── ResourceNotFoundException.java
 │   │   │           ├── dao
 │   │   │           │   ├── AttendeesDao.java
@@ -76,7 +76,7 @@
 │   │           ├── controllers
 │   │           │   ├── AttendeesController.class
 │   │           │   └── EventsController.class
-│   │           ├── customsExceptions
+│   │           ├── customException
 │   │           │   └── ResourceNotFoundException.class
 │   │           ├── dao
 │   │           │   ├── AttendeesDao.class
