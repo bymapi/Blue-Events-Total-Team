@@ -1,4 +1,5 @@
 package com.example.security;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +15,7 @@ import lombok.Data;
 
 @Data
 public class MyUserDetails implements UserDetails {
+
     private String userName;
     private String password;
 
@@ -63,5 +65,5 @@ public class MyUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
+    
 }
