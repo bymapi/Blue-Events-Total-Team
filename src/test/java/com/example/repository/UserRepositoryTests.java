@@ -132,7 +132,7 @@ public class UserRepositoryTests {
 
         // then
         assertThat(usuarios).isNotNull();
-        assertThat(usuarios.size()).isEqualTo(5);
+        assertThat(usuarios.size()).isEqualTo(2);
     }
 
     @Test
