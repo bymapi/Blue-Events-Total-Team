@@ -111,7 +111,7 @@ public class AttendeeRepositoryTest {
         assertThat(attendee0.getGlobalId()).isNotEqualTo(0L);
 
     } 
-
+//Comment
     @Test
     @DisplayName("Test to update an attendee")
     public void testUpdateAttendee() {
