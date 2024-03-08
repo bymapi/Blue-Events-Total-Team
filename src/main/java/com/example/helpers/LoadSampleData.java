@@ -45,7 +45,7 @@ public class LoadSampleData {
                     .surname("Adame")
                     .globalId(10808939)
                     .mail("alfrea@blue.com")
-                    .profile(Profile.BOOTCAMPER)
+                    .profile(Profile.BOOTCAMP)
                     .events(new HashSet<>())
                     .build());
 

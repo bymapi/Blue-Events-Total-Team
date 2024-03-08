@@ -43,7 +43,7 @@ public class EventsServiceImpl implements EventsService {
     }
 
     @Override
-    public Optional findById(int id) {
+    public Optional<Event> findById(int id) {
         return eventsDao.findById(id);
     }
 

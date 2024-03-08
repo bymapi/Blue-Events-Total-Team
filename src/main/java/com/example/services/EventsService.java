@@ -13,7 +13,7 @@ public interface EventsService {
 
     public Event eventSaved(Event event);
 
-    public Optional findById(int id);
+    public Optional<Event> findById(int id);
 
     public boolean availableEvents(Event event);
 
