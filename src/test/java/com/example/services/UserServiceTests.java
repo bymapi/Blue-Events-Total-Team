@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
-import com.example.customsExceptions.ResourceNotFoundException;
+import com.example.customExceptions.ResourceNotFoundException;
 import com.example.user.Role;
 import com.example.user.User;
 import com.example.user.UserRepository;
