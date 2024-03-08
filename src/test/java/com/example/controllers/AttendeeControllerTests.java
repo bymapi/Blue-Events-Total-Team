@@ -48,35 +48,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.transaction.Transactional;
 
-/**
- * @WebMvcTest. 
- * 
- * Con esta anotacion seria suficiente, si no tuviesemos configurado Spring Security,
- * porque permitiria cargar el controlador especifico y sus dependencias sin tener que
- * cargar todo el contexto de la aplicacion, y aqui es donde tendriamos un problema con
- * Spring Security, pues si necesitamos levantar todo el contexto de la aplicacion.
- *
- * Tambien permite autoconfigurar MockMvc para realizar test a los controladores, es
- * decir, peticiones HTTP a los end points.
- */
+
 @Transactional
 @SpringBootTest
-@AutoConfigureMockMvc // Test a los controladores, a los end points, teniendo Spring Securiy
-                      // configurado
-// @ContextConfiguration(classes = SecurityConfig.class)
-// @WebAppConfiguration
+@AutoConfigureMockMvc 
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-// @WithMockUser(username = "vrmachado@gmail.com",
-// authorities = {"ADMIN", "USER"})
-// @WithMockUser(roles="ADMIN") - Error 403
+
 public class AttendeeControllerTests {
 
         @Autowired
-        private MockMvc mockMvc; // Simular peticiones HTTP
-
-        // Permite agregar objetos simulados al contexto de la aplicacion.
-        // El simulacro o simulacion va a remplazar cualquier bean existente
-        // en el contexto de la aplicacion.
+        private MockMvc mockMvc; 
         @MockBean
         private AttendeesService attendeesService;
 
@@ -421,58 +402,8 @@ public class AttendeeControllerTests {
 
         }       
 
-           
         
-
-     /* @DisplayName("Test Recuperar un Attendee por el id")
-        @Test
-        @WithMockUser(username = "Clem@blue.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
-        public void testRecuperarProductoPorId() throws Exception {
-                // given
-                int globalId = 1;
-
-                Attendee attendee9 = Attendee.builder()
-                .name("Maricarmen")
-                .surname("Gomez")
-                .globalId(1)
-                .mail("Maricarmen@blue.com")
-                .profile(Profile.INTERNAL)
-                .build();
-
-                given(attendeesService.findByGlobalId(globalId))
-                                .willReturn(attendee9);
-
-                // when
-
-                ResultActions response = mockMvc.perform(get("/productos/{id}", productoId));
-
-                // then
-
-                response.andExpect(status().isOk())
-                                .andDo(print())
-                                .andExpect(jsonPath("$.producto.name", is(producto.getName())));
-        } */
-
-/*         // Test. Producto no encontrado
-        @Test
-        @WithMockUser(username = "vrmachado@gmail.com", authorities = { "ADMIN" }) // puede ser {"ADMIN", "USER"}
-        public void testProductoNoEncontrado() throws Exception {
-                // given
-                int productoId = 1;
-
-                given(productoService.findById(productoId)).willReturn(null);
-
-                // when
-
-                ResultActions response = mockMvc.perform(get("/productos/{id}", productoId));
-
-                // then
-
-                response.andExpect(status().isNotFound());
-
-        } */
-
-        /* @DisplayName("Test asignar attendee a un evento con Admin ")
+           /* @DisplayName("Test asignar attendee a un evento con Admin ")
         @Test
         @WithMockUser(username = "Mapi@blue.com", authorities = { "ADMIN" }) 
         
