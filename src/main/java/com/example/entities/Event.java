@@ -77,6 +77,8 @@ public class Event implements Serializable {
     @NotNull(message = "Must not be empty")
     private String place;
 
+    private String imagen;
+
 
     private final int maximumNumberOfAttendees = 8;
 
