@@ -41,12 +41,12 @@ public class AttendeesController {
     private final EventsService eventsService;
 
     /*
-     * US 1.1. Manage a new attendee profile.
-     * As Administrator I want to create an attendee profile to the event.
+     * US 1.1. Gérer un nouveau profil de participant.
+     * En tant qu'administrateur, je souhaite créer un profil de participant à l'événement.
      */
 
-    // 1.1.a) Administrator can create the attendee's profile.
-    @PostMapping("/attendee")
+    // 1.1.a) L'administrateur est chargé de gérer les participants - Créer.
+    @PostMapping("/participant")
     @Transactional
     public ResponseEntity<Map<String, Object>> createAttendee(@Valid @RequestBody Attendee attendee,
             BindingResult validationResults) {
@@ -72,13 +72,13 @@ public class AttendeesController {
         try {
 
             Attendee attendeeSaved = attendeesService.save(attendee);
-            String successMessage = "The attendee was successfully created";
+            String successMessage = "Le participant a été créé avec succès";
             responseAsMap.put("successMessage", successMessage);
             responseAsMap.put("attendee Saved", attendeeSaved);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.CREATED);
 
         } catch (DataAccessException e) {
-            String error = "Error when trying to save the event attendee and the most likely cause "
+            String error = "Erreur lors de la tentative d'enregistrement du participant à l'événement et la cause la plus probable est"
                     + e.getMostSpecificCause();
 
             responseAsMap.put("error", error);
@@ -91,8 +91,8 @@ public class AttendeesController {
 
     }
 
-    // 1.1.b) Administrator can modify the attendee's profile using Global ID
-    @PutMapping("/attendee/{globalId}")
+    // 1.1.b) L'administrateur peut modifier le profil du participant en utilisant l'identifiant global
+    @PutMapping("/participant/{IdGlobal}")
     public ResponseEntity<Map<String, Object>> updateAttendeeByIdGlobal(
             @Valid @RequestBody AttendeeDTO updatedAttendee,
             BindingResult validationResults,
@@ -116,7 +116,7 @@ public class AttendeesController {
             Attendee existingAttendee = attendeesService.findByGlobalId(idGlobal);
 
             if (existingAttendee == null) {
-                String errorMessage = "Attendee not found with globalId: " + idGlobal;
+                String errorMessage = "Participant non trouvé avec l'identifiant global" + idGlobal;
                 responseAsMap.put("error", errorMessage);
                 responseAsMap.put("attendee", updatedAttendee);
 
@@ -131,14 +131,14 @@ public class AttendeesController {
 
             Attendee attendeeUpdated = attendeesService.save(existingAttendee);
 
-            String successMessage = "The attendee has been successfully modified";
+            String successMessage = "Le participant a été modifié avec succès";
             responseAsMap.put("successMessage", successMessage);
             responseAsMap.put("attendeeModified", attendeeUpdated);
 
             responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
 
         } catch (DataAccessException e) {
-            String errorMessage = "Error when modifying the attendee's data. Cause: " + e.getMostSpecificCause();
+            String errorMessage = "Erreur lors de la modification des données du participant. Cause: " + e.getMostSpecificCause();
             responseAsMap.put("error", errorMessage);
             responseAsMap.put("Attendee", updatedAttendee);
 
@@ -148,8 +148,8 @@ public class AttendeesController {
         return responseEntity;
     }
 
-    // 1.1.c) Administrator can delete the attendee's profile using Global ID
-    @DeleteMapping("/attendee/{globalId}")
+    // 1.1.c) L'administrateur peut supprimer le profil du participant en utilisant l'identifiant global
+    @DeleteMapping("/participant/{IdGlobal}")
     public ResponseEntity<Map<String, Object>> deleteAttendeeByIdGlobal(
             @PathVariable(name = "globalId", required = true) Integer idGlobal) {
 
@@ -158,12 +158,12 @@ public class AttendeesController {
 
         try {
             attendeesService.deleteAttendeeByIdGlobal(idGlobal);
-            String successMessage = "attendee with id: " + idGlobal + ", is removed";
+            String successMessage = "participant avec idGlobal: " + idGlobal + ", a été supprimé";
             responseAsMap.put("successMessage", successMessage);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
 
         } catch (DataAccessException e) {
-            String error = "Error when trying to delete the attendee and the most likely cause is" +
+            String error = "Erreur lors de la tentative de suppression du participant et la cause la plus probable est" +
                     e.getMostSpecificCause();
             responseAsMap.put("error", error);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -173,10 +173,10 @@ public class AttendeesController {
     }
 
     /*
-     * US 1.5. Consult the list of attendees.
-     * As an Administrator I would like to check all attendees for an event.
+     * US 1.5. Consulter la liste des participants.
+     * En tant qu'administrateur, je souhaite consulter tous les participants à un événement..
      */
-    @GetMapping("event/{id}/attendees")
+    @GetMapping("événement/{id}/participants")
     public ResponseEntity<Map<String, Object>> getAllEventAttendees(
             @PathVariable(name = "id", required = true) Integer idEvent) {
 
@@ -197,28 +197,28 @@ public class AttendeesController {
                     attendeesDTOList.add(attendeeDto);
                 }
 
-                String successMessage = "The list of event attendees has been successfully created";
+                String successMessage = "La liste des participants à l'événement a été créé avec succès";
                 responseAsMap.put("availableEventAttendees", attendeesDTOList);
                 responseAsMap.put("successMessage", successMessage);
                 return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
             } else {
                 responseAsMap.put("availableEventAttendees", Collections.emptyList());
-                responseAsMap.put("successMessage", "No attendees available for the specified event");
+                responseAsMap.put("successMessage", "Aucun participant n'est disponible pour l'événement spécifié");
                 return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
             }
 
         } catch (Exception e) {
-            responseAsMap.put("error", "An error occurred while processing the request. " + e.getMessage());
+            responseAsMap.put("erreur", "Une erreur s'est produite lors du traitement de la demande. " + e.getMessage());
             return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /*
-     * US 2.1. Attendee consults available events.
-     * As an Attendee I would like to check all available classes for future dates.
-     * Available means enable status.
+     * US 2.1. Le Participant consulte les événements disponibles.
+     * En tant que participant, je souhaite consulter toutes les classes disponibles pour les dates futures.
+     *  Disponible signifie un statut activé.
      */
-    @GetMapping("/events/available/attendeee/{id}")
+    @GetMapping("/événements/disponible/participant/{id}")
     public ResponseEntity<Map<String, Object>> consultAvailableEvents(@PathVariable(value = "id") Integer globalId) {
 
         Map<String, Object> responseAsMap = new HashMap<>();
@@ -244,21 +244,21 @@ public class AttendeesController {
                     eventDTO.setMode(event.getMode());
                     eventDTO.setPlace(event.getPlace());
 
-                    String successMessage = "There are available events";
+                    String successMessage = "Il y a des événements disponibles";
 
                     responseAsMap.put("EventResponse", eventDTO);
                     responseAsMap.put("successMessage", successMessage);
 
                     return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
                 } else {
-                    responseAsMap.put("Message", "There are no available events");
+                    responseAsMap.put("Message", "Il n'y a pas d'événements disponibles");
                     return new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
                 }
 
             }
 
         } catch (Exception e) {
-            responseAsMap.put("Message", "An error occurred while processing the request");
+            responseAsMap.put("Message", "Une erreur s'est produite lors du traitement de la demande");
             return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -270,7 +270,7 @@ public class AttendeesController {
      * US 2.2. Attendee registers in an event.
      * As an Attendee I want to register in an event on a specific title and day.
      */
-    @PostMapping("events/{id}/attendee")
+    @PostMapping("événements/{id}/inscription")
     public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
             @RequestBody Attendee attendeeRequest) {
 
@@ -306,7 +306,7 @@ public class AttendeesController {
                         attendeeDto.setGlobalId(attendee.getGlobalId());
                         attendeeDto.setMail(attendee.getMail());
 
-                        String successMessage = "The attendee has been successfully added to the event";
+                        String successMessage = "Le participant a été ajouté avec succès à l'événement";
 
                         responseAsMap.put("EventResponse", eventDTO);
                         responseAsMap.put("AttendeeResponse", attendeeDto);
@@ -314,19 +314,19 @@ public class AttendeesController {
 
                         return new ResponseEntity<>(responseAsMap, HttpStatus.ACCEPTED);
                     } else {
-                        responseAsMap.put("Message", "Invalid Attendee ID or maximum capacity reached");
+                        responseAsMap.put("Message", "Identifiant de participant invalide ou capacité maximale atteinte");
                         return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
                     }
                 } else {
-                    responseAsMap.put("Message", "Invalid Attendee ID");
+                    responseAsMap.put("Message", "Identifiant de participant invalide");
                     return new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
                 }
             } else {
-                responseAsMap.put("Message", "Event not found");
+                responseAsMap.put("Message", "Événement non trouvé");
                 return new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            responseAsMap.put("Message", "An error occurred while processing the request");
+            responseAsMap.put("Message", "Une erreur est survenue lors du traitement de la demande");
             return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -335,7 +335,7 @@ public class AttendeesController {
      * US 2.3. Attendee consults his/her events.
      * As an Attendee I would like to check my events for future dates.
      */
-     @GetMapping("/attendee/{globalId}/events")
+     @GetMapping("/participant/{idGlobal}/événements")
     public ResponseEntity<Map<String, Object>> getAllEventsByAttendeeglobalId(
             @PathVariable(name = "globalId", required = true) Integer idGlobal) {
 
@@ -366,7 +366,7 @@ public class AttendeesController {
             }
             if (!availableEvents.isEmpty()) {
 
-                String successMessage = "The list of available events has been successfully created";
+                String successMessage = "La liste des événements disponibles a été créée avec succès";
                 responseAsMap.put("availableEvents", availableEvents);
                 responseAsMap.put("successMessage", successMessage);
                 return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
@@ -374,13 +374,13 @@ public class AttendeesController {
             } else {
 
                 responseAsMap.put("availableEvents", Collections.emptyMap());
-                responseAsMap.put("successMessage", "No events available for the specified attendee");
+                responseAsMap.put("successMessage", "Aucun événement disponible pour le participant spécifié");
 
                 responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
             }
 
         } catch (DataAccessException e) {
-            String error = "Error when trying to display your event list and the most likely cause" +
+            String error = "L'erreur lors de l'affichage de votre liste d'événements pourrait être due à un problème de communication avec la base de données ou à des données manquantes dans le système" +
                     e.getMostSpecificCause();
             responseAsMap.put("Error", error);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
