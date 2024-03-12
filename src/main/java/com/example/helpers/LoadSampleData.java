@@ -30,12 +30,12 @@ public class LoadSampleData {
 
         return data -> {
 
-            Event event1 = eventsService.eventSaved(Event.builder()
+             Event event1 = eventsService.eventSaved(Event.builder()
                     .title("French for non-native speakers")
                     .target(Target.INTERNS)
                     .description("French classes, level B2")
-                    .startDate(LocalDate.of(2024, 03, 10))
-                    .endDate(LocalDate.of(2024, 03, 10))
+                    .startDate(LocalDate.of(2025, 03, 10))
+                    .endDate(LocalDate.of(2025, 03, 10))
                     .startTime(LocalTime.of(10, 30))
                     .endTime(LocalTime.of(12, 30))
                     .mode(Mode.ONLINE)
@@ -54,7 +54,7 @@ public class LoadSampleData {
                     .build());
 
             event1.addAttendees(attendee1);
-            eventsService.eventSaved(event1);
+            eventsService.eventSaved(event1); 
 
             User userAdmin = userService.add(User.builder().firstName("Andrea").lastName("Gomez")
                     .email("Admin1@blue.com").password("PASSWORD1").role(Role.ADMIN).build());

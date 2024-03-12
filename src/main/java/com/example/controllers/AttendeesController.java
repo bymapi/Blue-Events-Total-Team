@@ -94,24 +94,14 @@ public class AttendeesController {
     // 1.1.b) Administrator can modify the attendee's profile using Global ID
     @PutMapping("/attendee/{globalId}")
     public ResponseEntity<Map<String, Object>> updateAttendeeByIdGlobal(
-            @Valid @RequestBody AttendeeDTO updatedAttendee,
-            BindingResult validationResults,
+            @RequestBody AttendeeDTO updatedAttendee,
+           
             @PathVariable(name = "globalId", required = true) Integer idGlobal) {
 
         Map<String, Object> responseAsMap = new HashMap<>();
         ResponseEntity<Map<String, Object>> responseEntity;
 
-        if (validationResults.hasErrors()) {
-            List<String> errors = new ArrayList<>();
-            validationResults.getAllErrors().forEach(objectError -> errors.add(objectError.getDefaultMessage()));
-
-            responseAsMap.put("errors", errors);
-            responseAsMap.put("attendee", updatedAttendee);
-
-            responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.BAD_REQUEST);
-            return responseEntity;
-        }
-
+      
         try {
             Attendee existingAttendee = attendeesService.findByGlobalId(idGlobal);
 
@@ -218,8 +208,9 @@ public class AttendeesController {
      * As an Attendee I would like to check all available classes for future dates.
      * Available means enable status.
      */
-    @GetMapping("/events/available/attendeee/{id}")
-    public ResponseEntity<Map<String, Object>> consultAvailableEvents(@PathVariable(value = "id") Integer globalId) {
+    // dame todos los eventos de un attendee cuyo idGlobal es: tal attendee/{idGlobal}/available/events
+    @GetMapping("attendee/{idGlobal}/available/events")
+    public ResponseEntity<Map<String, Object>> consultAvailableEvents(@PathVariable(value = "idGlobal") Integer globalId) {
 
         Map<String, Object> responseAsMap = new HashMap<>();
         ResponseEntity<Map<String, Object>> responseEntity = null;
@@ -227,10 +218,11 @@ public class AttendeesController {
         try {
 
             List<Event> listaEventos = eventsService.findAllEvents();
+            List<EventDTO> availableEventsDTOs = new ArrayList<>();
 
             for (Event event : listaEventos) {
 
-                Attendee attendee = attendeesService.findByGlobalId(globalId);
+               // Attendee attendee = attendeesService.findByGlobalId(globalId);
 
                 if (eventsService.availableEvents(event)) {
 
@@ -244,25 +236,27 @@ public class AttendeesController {
                     eventDTO.setMode(event.getMode());
                     eventDTO.setPlace(event.getPlace());
 
+                    availableEventsDTOs.add(eventDTO);
+                    }
+                }
+                if (!availableEventsDTOs.isEmpty()) {
                     String successMessage = "There are available events";
-
-                    responseAsMap.put("EventResponse", eventDTO);
+                    responseAsMap.put("EventResponse", availableEventsDTOs);
                     responseAsMap.put("successMessage", successMessage);
-
                     return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
-                } else {
+                }else {
                     responseAsMap.put("Message", "There are no available events");
                     return new ResponseEntity<>(responseAsMap, HttpStatus.NOT_FOUND);
                 }
 
-            }
+            
 
         } catch (Exception e) {
             responseAsMap.put("Message", "An error occurred while processing the request");
             return new ResponseEntity<>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return responseEntity;
+       
 
     }
 
@@ -270,7 +264,7 @@ public class AttendeesController {
      * US 2.2. Attendee registers in an event.
      * As an Attendee I want to register in an event on a specific title and day.
      */
-    @PostMapping("events/{id}/attendee")
+    @PostMapping("events/{id}/register")
     public ResponseEntity<Map<String, Object>> addAttendee(@PathVariable(value = "id") Integer idEvent,
             @RequestBody Attendee attendeeRequest) {
 
@@ -299,12 +293,14 @@ public class AttendeesController {
                         eventDTO.setEndTime(event.getEndTime());
                         eventDTO.setMode(event.getMode());
                         eventDTO.setPlace(event.getPlace());
+                        
 
                         AttendeeDTO attendeeDto = new AttendeeDTO();
                         attendeeDto.setName(attendee.getName());
                         attendeeDto.setSurname(attendee.getSurname());
                         attendeeDto.setGlobalId(attendee.getGlobalId());
                         attendeeDto.setMail(attendee.getMail());
+                        attendeeDto.setProfile(attendee.getProfile());
 
                         String successMessage = "The attendee has been successfully added to the event";
 
