@@ -78,7 +78,7 @@ public class EventsController {
                        .size(file.getSize())
                        .build();
             
-            responseAsMap.put("info de la imagen: ", fileUploadResponse);           
+            responseAsMap.put("Information sur l'image : ", fileUploadResponse);           
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -94,8 +94,8 @@ public class EventsController {
 
             objectErrors.forEach(objectError -> errors.add(objectError.getDefaultMessage()));
             
-            responseAsMap.put("errors",errors);
-            responseAsMap.put("malformed event", event);
+            responseAsMap.put("erreurs",errors);
+            responseAsMap.put("Événement malformé", event);
 
             responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
 
@@ -108,17 +108,17 @@ public class EventsController {
         try {
 
             Event eventCreated = eventsService.eventSaved(event);
-            String successMessage = "The event was succesfully created";
+            String successMessage = "L'événement a été créé avec succès";
             responseAsMap.put("Success Message", successMessage);
             responseAsMap.put("Created event", eventCreated);
             responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap, HttpStatus.CREATED);
             
         } catch (DataAccessException e) {
-            String error = "Something went wrong while creating the event and the most specific cause is: "
+            String error = "Quelque chose s'est mal passé lors de la création de l'événement et la cause la plus spécifique est : "
             + e.getMostSpecificCause();
 
-            responseAsMap.put("error", error);
-            responseAsMap.put("event that was intended to be created", event);
+            responseAsMap.put("erreur", error);
+            responseAsMap.put("Événement qui était censé être créé", event);
             responseEntity = new ResponseEntity<Map<String,Object>>(responseAsMap,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         
@@ -132,7 +132,7 @@ public class EventsController {
      * As Administrator I want to modify or delete an event.
      */
     // 1.3.a) Administrator can modify events by its id
-    @PutMapping("/events/{id}")
+    @PutMapping("/événement/{id}")
     public ResponseEntity<Map<String, Object>> updateEvent(@Valid @RequestBody Event event,
             BindingResult validationResults,
             @PathVariable(name = "id", required = true) Integer idEvent) {
@@ -149,8 +149,8 @@ public class EventsController {
 
             objectErrors.forEach(objectError -> errors.add(objectError.getDefaultMessage()));
 
-            responseAsMap.put("errors", errors);
-            responseAsMap.put("Malformed event", event);
+            responseAsMap.put("erreurs", errors);
+            responseAsMap.put("Événement malformé", event);
 
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
 
@@ -166,7 +166,7 @@ public class EventsController {
 
                 String error = "ERROR";
 
-                responseAsMap.put("errors", error);
+                responseAsMap.put("erreur", error);
 
                 responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.BAD_REQUEST);
 
@@ -176,17 +176,17 @@ public class EventsController {
 
                 Event eventUpdated2 = eventsService.eventSaved(eventUpdated);
 
-                String successMessage = "Event was succesfully updated";
+                String successMessage = "L'événement a été mis à jour avec succès.";
                 responseAsMap.put("Success Message", successMessage);
-                responseAsMap.put("Updated event", eventUpdated);
+                responseAsMap.put("Événement mis à jour.", eventUpdated);
                 responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
             }
 
         } catch (DataAccessException e) {
-            String error = "Error while updating the event and the most specific cause is: "
+            String error = "Erreur lors de la mise à jour de l'événement et la cause la plus précise est : "
                     + e.getMostSpecificCause();
-            responseAsMap.put("error", error);
-            responseAsMap.put("Event intended to update", event);
+            responseAsMap.put("erreur", error);
+            responseAsMap.put("Événement destiné à être mis à jour.", event);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -195,21 +195,21 @@ public class EventsController {
     }
 
     // 1.3.b) Administrator can delete events by its id
-    @DeleteMapping("/events/{id}")
+    @DeleteMapping("/événement/{id}")
     public ResponseEntity<Map<String, Object>> deleteEventById(
-            @PathVariable(name = "globalId", required = true) Integer eventId) {
+            @PathVariable(name = "idGlobal", required = true) Integer eventId) {
 
         Map<String, Object> responseAsMap = new HashMap<>();
         ResponseEntity<Map<String, Object>> responseEntity = null;
 
         try {
             eventsService.deleteEventById(eventId);
-            String successMessage = "event with id: " + eventId + ", is removed";
+            String successMessage = "événement avec id: " + eventId + ", a été supprimé";
             responseAsMap.put("successMessage", successMessage);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.OK);
 
         } catch (DataAccessException e) {
-            String error = "Error when trying to delete the event and the most likely cause" +
+            String error = "Erreur lors de la tentative de suppression de l'événement et la cause la plus probable " +
                     e.getMostSpecificCause();
             responseAsMap.put("error", error);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -225,7 +225,7 @@ public class EventsController {
      */
     // As an Administrator can list all available events for future dates in any
     // state (enable/disable).
-     @GetMapping("/events/available")
+     @GetMapping("/événements/disponibles")
     public ResponseEntity<Map<String, Object>> findAllAvailableEvents(@RequestParam(required = false) String title) {
 
         Map<String, Object> responseAsMap = new HashMap<>();
@@ -258,7 +258,7 @@ public class EventsController {
 
                 if (!allEvents.isEmpty()) {
 
-                    String successMessage = "The list of available events has been successfully created";
+                    String successMessage = "La liste des événements disponibles a été créée avec succès";
                     responseAsMap.put("availableEvents", listEventDto);
                     responseAsMap.put("successMessage", successMessage);
                     return new ResponseEntity<>(responseAsMap, HttpStatus.OK);
@@ -266,16 +266,16 @@ public class EventsController {
                 } else {
 
                     responseAsMap.put("availableEvents", Collections.emptyMap());
-                    responseAsMap.put("successMessage", "No events available ");
+                    responseAsMap.put("successMessage", "Aucun événement disponible ");
 
                     responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
                 }
             }
 
         } catch (DataAccessException e) {
-            String error = "Error when trying to display your event list and the most likely cause" +
+            String error = "Erreur lors de la tentative d'affichage de votre liste d'événements et la cause la plus probable " +
                     e.getMostSpecificCause();
-            responseAsMap.put("Error", error);
+            responseAsMap.put("Erreur", error);
             responseEntity = new ResponseEntity<Map<String, Object>>(responseAsMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -286,8 +286,8 @@ public class EventsController {
      /**
      *  Implementa filedownnload end point API 
      **/    
-    @GetMapping("/downloadFile/{fileCode}")
-    public ResponseEntity<?> downloadFile(@PathVariable(name = "fileCode") String fileCode) {
+    @GetMapping("/telechargerFichier/{codeFichier}")
+    public ResponseEntity<?> downloadFile(@PathVariable(name = "codeFichier") String fileCode) {
 
         Resource resource = null;
 
@@ -298,7 +298,7 @@ public class EventsController {
         }
 
         if (resource == null) {
-            return new ResponseEntity<>("File not found ", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Fichier non trouvé  ", HttpStatus.NOT_FOUND);
         }
 
         String contentType = "application/octet-stream";

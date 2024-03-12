@@ -32,15 +32,15 @@ public class LoadSampleData {
 
             Event event1 = eventsService.eventSaved(Event.builder()
                     .title("French for non-native speakers")
-                    .target(Target.INTERNS)
+                    .target(Target.STAGIAIRES)
                     .description("French classes, level B2")
                     .startDate(LocalDate.of(2024, 03, 10))
                     .endDate(LocalDate.of(2024, 03, 10))
                     .startTime(LocalTime.of(10, 30))
                     .endTime(LocalTime.of(12, 30))
-                    .mode(Mode.ONLINE)
+                    .mode(Mode.EN_LIGNE)
                     .place("Blue offices, Valence")
-                    .eventStatus(EventStatus.ENABLE)
+                    .eventStatus(EventStatus.ACTIVÉ)
                     .attendees(new HashSet<>())
                     .build());
 

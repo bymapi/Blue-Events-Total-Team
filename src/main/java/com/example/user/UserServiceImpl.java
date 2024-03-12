@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         if(theUser.isPresent()) {
             // Deberiamos devolver una exception personalizada
 
-            throw new ResourceNotFoundException("Ya existe un user con dicho email");
+            throw new ResourceNotFoundException("Il existe déjà un utilisateur avec cet e-mail");
         }
 
         // Encriptamos la password
@@ -47,14 +47,14 @@ public class UserServiceImpl implements UserService {
         return userRepository
             .findByEmail(email)
             .orElseThrow(() -> 
-               new UsernameNotFoundException("No existe el usuario con el email: " + email));
+               new UsernameNotFoundException("Il n'existe aucun utilisateur avec l'adresse e-mail : " + email));
     }
 
     @Override
     public User update(User user) {
 
         User existingUser = userRepository.findByEmail(user.getEmail())
-            .orElseThrow(() -> new UsernameNotFoundException("No existe user con dicho email"));
+            .orElseThrow(() -> new UsernameNotFoundException("Il n'existe aucun utilisateur avec cet e-mail"));
 
             existingUser.setFirstName(user.getFirstName());
             existingUser.setLastName(user.getLastName());

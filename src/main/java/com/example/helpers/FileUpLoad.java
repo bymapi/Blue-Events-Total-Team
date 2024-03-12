@@ -33,7 +33,7 @@ public class FileUpLoad {
             Path filePath = uploadPath.resolve(fileCode + "-" + fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
-            throw new IOException("Could not save file: " + fileName, ioe);
+            throw new IOException("Impossible d'enregistrer le fichier : " + fileName, ioe);
         }
 
         return fileCode;

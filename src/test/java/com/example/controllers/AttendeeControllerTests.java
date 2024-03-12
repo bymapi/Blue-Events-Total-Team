@@ -88,19 +88,19 @@ public class AttendeeControllerTests {
                 .surname("Colomina")
                 .globalId(276590)
                 .mail("Carolina@blue.com")
-                .profile(Profile.INTERNAL)
+                .profile(Profile.INTERNE)
                 .build();
 
         event0 = Event.builder()
                 .title("Language exchange")
-                .target(Target.INTERNS)
+                .target(Target.STAGIAIRES)
                 .description("Evento para conocer gente")
                 .startDate(LocalDate.of(2024, 04, 10))
                 .endDate(LocalDate.of(2024, 05, 10))
                 .startTime(LocalTime.of(12, 10))
                 .endTime(LocalTime.of(15, 30))
-                .eventStatus(EventStatus.ENABLE)
-                .mode(Mode.ONLINE)
+                .eventStatus(EventStatus.ACTIVÉ)
+                .mode(Mode.EN_LIGNE)
                 .place("Valencia")
                 .build();
         }
@@ -117,20 +117,20 @@ public class AttendeeControllerTests {
                 .surname("Gomez")
                 .globalId(276590)
                 .mail("Maricarmen@blue.com")
-                .profile(Profile.INTERNAL)
+                .profile(Profile.INTERNE)
                 .build();
 
        
         Event event1 = Event.builder()
                 .title("Google Pixel 7")
-                .target(Target.INTERNS)
+                .target(Target.STAGIAIRES)
                 .description("Evento para conocer gente")
                 .startDate(LocalDate.of(2024, 04, 10))
                 .endDate(LocalDate.of(2024, 05, 10))
                 .startTime(LocalTime.of(12, 10))
                 .endTime(LocalTime.of(15, 30))
-                .eventStatus(EventStatus.ENABLE)
-                .mode(Mode.ONLINE)
+                .eventStatus(EventStatus.ACTIVÉ)
+                .mode(Mode.EN_LIGNE)
                 .place("Valencia")
                 .build();
 
@@ -155,14 +155,14 @@ public class AttendeeControllerTests {
                 // given
                 Event eventA = Event.builder()
                 .title("Language exchange")
-                .target(Target.INTERNS)
+                .target(Target.STAGIAIRES)
                 .description("Evento para conocer gente")
                 .startDate(LocalDate.of(2024, 04, 10))
                 .endDate(LocalDate.of(2024, 05, 10))
                 .startTime(LocalTime.of(12, 10))
                 .endTime(LocalTime.of(15, 30))
-                .eventStatus(EventStatus.ENABLE)
-                .mode(Mode.ONLINE)
+                .eventStatus(EventStatus.ACTIVÉ)
+                .mode(Mode.EN_LIGNE)
                 .place("Valencia")
                 .build();
 
@@ -190,14 +190,14 @@ public class AttendeeControllerTests {
 
                 Event event5 = Event.builder()
                                 .title("Google Pixel 7")
-                                .target(Target.INTERNS)
+                                .target(Target.STAGIAIRES)
                                 .description("Evento para conocer gente")
                                 .startDate(LocalDate.of(2024, 04, 10))
                                 .endDate(LocalDate.of(2024, 05, 10))
                                 .startTime(LocalTime.of(12, 10))
                                 .endTime(LocalTime.of(15, 30))
-                                .eventStatus(EventStatus.ENABLE)
-                                .mode(Mode.ONLINE)
+                                .eventStatus(EventStatus.ACTIVÉ)
+                                .mode(Mode.EN_LIGNE)
                                 .place("Valencia")
                                 .build();
 
@@ -206,21 +206,21 @@ public class AttendeeControllerTests {
                                 .surname("Gomez")
                                 .globalId(1)
                                 .mail("Maricarmen@blue.com")
-                                .profile(Profile.INTERNAL)
+                                .profile(Profile.INTERNE)
                                 .build();
                                                 
                 attendee5.setEvents(Set.of(event0, event5));
 
                 Event event6 = Event.builder()
                                 .title("Google Pixel 7")
-                                .target(Target.INTERNS)
+                                .target(Target.STAGIAIRES)
                                 .description("Evento para conocer gente")
                                 .startDate(LocalDate.of(2024, 04, 10))
                                 .endDate(LocalDate.of(2024, 05, 10))
                                 .startTime(LocalTime.of(12, 10))
                                 .endTime(LocalTime.of(15, 30))
-                                .eventStatus(EventStatus.ENABLE)
-                                .mode(Mode.ONLINE)
+                                .eventStatus(EventStatus.ACTIVÉ)
+                                .mode(Mode.EN_LIGNE)
                                 .place("Valencia")
                                 .build();
 
@@ -229,7 +229,7 @@ public class AttendeeControllerTests {
                                 .surname("Gomez")
                                 .globalId(1)
                                 .mail("Gloria@blue.com")
-                                .profile(Profile.INTERNAL)
+                                .profile(Profile.INTERNE)
                                 .build();
                                                 
                 attendee6.setEvents(Set.of(event0, event5, event6)); 
@@ -261,14 +261,14 @@ public class AttendeeControllerTests {
 
                 Event eventGuardado = Event.builder()
                                 .title("Google Pixel 7")
-                                .target(Target.INTERNS)
+                                .target(Target.STAGIAIRES)
                                 .description("Evento para conocer gente")
                                 .startDate(LocalDate.of(2024, 04, 10))
                                 .endDate(LocalDate.of(2024, 05, 10))
                                 .startTime(LocalTime.of(12, 10))
                                 .endTime(LocalTime.of(15, 30))
-                                .eventStatus(EventStatus.ENABLE)
-                                .mode(Mode.ONLINE)
+                                .eventStatus(EventStatus.ACTIVÉ)
+                                .mode(Mode.EN_LIGNE)
                                 .place("Valencia")
                                 .build();
 
@@ -277,7 +277,7 @@ public class AttendeeControllerTests {
                                 .surname("Gomez")
                                 .globalId(1678912)
                                 .mail("Maricarmen@blue.com")
-                                .profile(Profile.INTERNAL)
+                                .profile(Profile.INTERNE)
                                 .build();
                                                 
                  attendeeGuardado.setEvents(Set.of(eventGuardado));        
@@ -288,7 +288,7 @@ public class AttendeeControllerTests {
                                 .surname("Gomez")
                                 .globalId(1678912)
                                 .mail("Maricarmen@blue.com")
-                                .profile(Profile.INTERNAL)
+                                .profile(Profile.INTERNE)
                                 .build();
                                                 
                 attendeeActualizado.setEvents(Set.of(event0));
@@ -325,7 +325,7 @@ public class AttendeeControllerTests {
                 .surname("Galindez")
                 .globalId(1654231)
                 .mail("Gonzalo@blue.com")
-                .profile(Profile.INTERNAL)
+                .profile(Profile.INTERNE)
                 .build();
 
                 given(attendeesService.findByGlobalId(attendee8.getGlobalId()))
@@ -357,27 +357,27 @@ public class AttendeeControllerTests {
                 
                 Event event11 = Event.builder()
                                 .title("Google Pixel 7")
-                                .target(Target.INTERNS)
+                                .target(Target.STAGIAIRES)
                                 .description("Evento para conocer gente")
                                 .startDate(LocalDate.of(2024, 04, 10))
                                 .endDate(LocalDate.of(2024, 05, 10))
                                 .startTime(LocalTime.of(12, 10))
                                 .endTime(LocalTime.of(15, 30))
-                                .eventStatus(EventStatus.ENABLE)
-                                .mode(Mode.ONLINE)
+                                .eventStatus(EventStatus.ACTIVÉ)
+                                .mode(Mode.EN_LIGNE)
                                 .place("Valencia")
                                 .build();
 
                 Event event12 = Event.builder()
                                 .title("Google Pixel 7")
-                                .target(Target.INTERNS)
+                                .target(Target.STAGIAIRES)
                                 .description("Evento para conocer gente")
                                 .startDate(LocalDate.of(2024, 04, 10))
                                 .endDate(LocalDate.of(2024, 05, 10))
                                 .startTime(LocalTime.of(12, 10))
                                 .endTime(LocalTime.of(15, 30))
-                                .eventStatus(EventStatus.ENABLE)
-                                .mode(Mode.ONLINE)
+                                .eventStatus(EventStatus.ACTIVÉ)
+                                .mode(Mode.EN_LIGNE)
                                 .place("Valencia")
                                 .build();
 
@@ -386,7 +386,7 @@ public class AttendeeControllerTests {
                                 .surname("Gomez")
                                 .globalId(1)
                                 .mail("Gloria@blue.com")
-                                .profile(Profile.INTERNAL)
+                                .profile(Profile.INTERNE)
                                 .build();
                                                 
                  attendee11.setEvents(Set.of(event11,event12)); 
@@ -414,14 +414,14 @@ public class AttendeeControllerTests {
 
                 Event eventB = Event.builder()
                 .title("Language exchange")
-                .target(Target.INTERNS)
+                .target(Target.STAGIAIRES)
                 .description("Evento para conocer gente")
                 .startDate(LocalDate.of(2024, 04, 10))
                 .endDate(LocalDate.of(2024, 05, 10))
                 .startTime(LocalTime.of(12, 10))
                 .endTime(LocalTime.of(15, 30))
                 .eventStatus(EventStatus.ENABLE)
-                .mode(Mode.ONLINE)
+                .mode(Mode.EN_LIGNE)
                 .place("Valencia")
                 .build();
 
@@ -430,7 +430,7 @@ public class AttendeeControllerTests {
                 .surname("Gomez")
                 .globalId(27656)
                 .mail("Maricarmen@blue.com")
-                .profile(Profile.INTERNAL)
+                .profile(Profile.INTERNE)
                 .build();
 
         

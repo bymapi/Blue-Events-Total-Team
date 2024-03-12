@@ -92,7 +92,7 @@ public class AttendeesController {
     }
 
     // 1.1.b) L'administrateur peut modifier le profil du participant en utilisant l'identifiant global
-    @PutMapping("/participant/{IdGlobal}")
+    @PutMapping("/participant/{idGlobal}")
     public ResponseEntity<Map<String, Object>> updateAttendeeByIdGlobal(
             @Valid @RequestBody AttendeeDTO updatedAttendee,
             BindingResult validationResults,
@@ -149,7 +149,7 @@ public class AttendeesController {
     }
 
     // 1.1.c) L'administrateur peut supprimer le profil du participant en utilisant l'identifiant global
-    @DeleteMapping("/participant/{IdGlobal}")
+    @DeleteMapping("/participant/{idGlobal}")
     public ResponseEntity<Map<String, Object>> deleteAttendeeByIdGlobal(
             @PathVariable(name = "globalId", required = true) Integer idGlobal) {
 

@@ -28,16 +28,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "prénom")
     private String firstName;
 
+    @Column(name = "nom")
     private String lastName;
 
     @Column(unique = true)
-    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "The mail should have the address @blue.com")
+    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "L'adresse e-mail devrait être @blue.com")
     private String email;
 
+    @Column(name= "mot de passe")
     private String password;
 
+    @Column(name = "rôle")
     @Enumerated(EnumType.STRING)
     private Role role;
 

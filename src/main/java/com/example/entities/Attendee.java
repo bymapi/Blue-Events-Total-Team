@@ -43,23 +43,26 @@ public class Attendee implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "The name cannot be empty")
+    @Column(name = "prénom")
+    @NotEmpty(message = "Le prénom ne peut pas être vide")
     private String name;
 
-    @NotEmpty(message = "The surname cannot be empty")
+    @Column(name = "nom")
+    @NotEmpty(message = "Le nom ne peut pas être vide")
     private String surname;
 
-    @Column(unique = true)
-    @Min(value = 10000, message = "The globalId must be greater than or equal to 10000")
-    @Max(value = 999999999, message = " The globalId must be less than or equal to 999999999")
+    @Column(name = "idGlobal", unique = true)
+    @Min(value = 10000, message = "Le idGlobal doit être supérieur ou égal à 10000")
+    @Max(value = 999999999, message = " Le idGlobal doit être inferieur ou égal à 10000")
     private int globalId;
 
-    @NotEmpty(message = "The field mail cannot be empty")
-    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "The mail should have the address @blue.com")
+    @Column(name = "email")
+    @NotEmpty(message = "Le champ email ne peut pas être vide")
+    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "L'adresse e-mail doit être @blue.com")
      private String mail;
 
-
-    @NotNull(message = "The profile cannot be empty")
+    @Column(name = "prôfil")
+    @NotNull(message = "Le prôfil ne peut pas être vide")
     private Profile profile;
 
     @JsonIgnore

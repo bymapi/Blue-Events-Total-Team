@@ -32,7 +32,7 @@ public class AttendeeRepositoryTest {
                                 .surname("Perez")
                                 .globalId(89101112)
                                 .mail("Carmen@blue.com")
-                                .profile(Profile.INTERNAL)
+                                .profile(Profile.INTERNE)
                                 .build();
     }
 
@@ -48,7 +48,7 @@ public class AttendeeRepositoryTest {
                                 .surname("Gomez")
                                 .globalId(654321)
                                 .mail("Andrea@blue.com")
-                                .profile(Profile.INTERNAL)
+                                .profile(Profile.INTERNE)
                                 .build();
 
         // when
@@ -72,14 +72,14 @@ public class AttendeeRepositoryTest {
                                 .surname("Gomez")
                                 .globalId(65432132)
                                 .mail("Johanna@blue.com")
-                                .profile(Profile.INTERNAL)
+                                .profile(Profile.INTERNE)
                                 .build();
         /*  Attendee attendee3 = Attendee.builder()
                                 .name("Juana")
                                 .surname("Galindez")
                                 .globalId(65432176)
                                 .mail("Juana@blue.com")
-                                .profile(Profile.INTERNAL)
+                                .profile(Profile.INTERNE)
                                 .build(); */
 
         attendeesDao.save(attendee2);

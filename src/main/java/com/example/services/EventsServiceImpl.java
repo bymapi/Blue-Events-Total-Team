@@ -51,7 +51,7 @@ public class EventsServiceImpl implements EventsService {
     public boolean availableEvents(Event event) {
 
         if ((event.getAttendees().size() < event.getMaximumNumberOfAttendees()
-                && event.getEventStatus() == EventStatus.ENABLE) &&
+                && event.getEventStatus() == EventStatus.ACTIVÉ) &&
                 (event.getStartDate().isAfter(LocalDate.now()) ||
                         (event.getStartDate().isEqual(LocalDate.now()) &&
                                 event.getStartTime().isAfter(LocalTime.now())))) {

@@ -80,7 +80,7 @@ public class UserRepositoryTests {
                 .lastName("Machado")
                 .password("123456")
                 .email("user0@blue.com")
-                .role(Role.USER)
+                .role(Role.UTILISATEUR)
                 .build();
     }
 
@@ -96,7 +96,7 @@ public class UserRepositoryTests {
                 .lastName("Machado")
                 .password("123456")
                 .email("v@blue.com")
-                .role(Role.USER)
+                .role(Role.UTILISATEUR)
                 .build();
 
         // when
@@ -120,7 +120,7 @@ public class UserRepositoryTests {
                 .lastName("Machado")
                 .password("123456")
                 .email("v@blue.com")
-                .role(Role.USER)
+                .role(Role.UTILISATEUR)
                 .build();
 
         userRepository.save(user0);

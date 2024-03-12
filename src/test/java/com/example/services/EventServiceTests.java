@@ -52,7 +52,7 @@ public class EventServiceTests {
                 .surname("Gomez")
                 .globalId(2765)
                 .mail("Maricarmen@blue.com")
-                .profile(Profile.INTERNAL)
+                .profile(Profile.INTERNE)
                 .build();
 
         Attendee attendee2 = Attendee.builder()
@@ -60,20 +60,20 @@ public class EventServiceTests {
                 .surname("Gomez")
                 .globalId(2765)
                 .mail("Maricarmen@blue.com")
-                .profile(Profile.INTERNAL)
+                .profile(Profile.INTERNE)
                 .build();
 
         Event event1 = Event.builder()
                 // .id(20)
                 .title("Google Pixel 7")
-                .target(Target.INTERNS)
+                .target(Target.STAGIAIRES)
                 .description("Evento para conocer gente")
                 .startDate(LocalDate.of(2024, 04, 10))
                 .endDate(LocalDate.of(2024, 05, 10))
                 .startTime(LocalTime.of(12, 10))
                 .endTime(LocalTime.of(15, 30))
-                .eventStatus(EventStatus.ENABLE)
-                .mode(Mode.ONLINE)
+                .eventStatus(EventStatus.ACTIVÉ)
+                .mode(Mode.EN_LIGNE)
                 .place("Valencia")
                 // .Attendee(attendee)
                 .build();
@@ -91,7 +91,7 @@ public class EventServiceTests {
                 .surname("Gomez")
                 .globalId(2765)
                 .mail("Maricarmen@blue.com")
-                .profile(Profile.INTERNAL)
+                .profile(Profile.INTERNE)
                 .build();
 
         Attendee attendee02 = Attendee.builder()
@@ -99,20 +99,20 @@ public class EventServiceTests {
                 .surname("Gomez")
                 .globalId(2765)
                 .mail("Maricarmen@blue.com")
-                .profile(Profile.INTERNAL)
+                .profile(Profile.INTERNE)
                 .build();
 
         Event event0 = Event.builder()
                 // .id(20)
                 .title("Google Pixel 7")
-                .target(Target.INTERNS)
+                .target(Target.STAGIAIRES)
                 .description("Evento para conocer gente")
                 .startDate(LocalDate.of(2024, 04, 10))
                 .endDate(LocalDate.of(2024, 05, 10))
                 .startTime(LocalTime.of(12, 10))
                 .endTime(LocalTime.of(15, 30))
-                .eventStatus(EventStatus.ENABLE)
-                .mode(Mode.ONLINE)
+                .eventStatus(EventStatus.ACTIVÉ)
+                .mode(Mode.EN_LIGNE)
                 .place("Valencia")
                 // .Attendee(attendee)
                 .build();

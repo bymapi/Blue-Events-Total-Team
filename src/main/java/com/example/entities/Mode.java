@@ -2,6 +2,6 @@ package com.example.entities;
 
 public enum Mode {
 
-    ONLINE, PRESENTIAL, MIXED
+     EN_LIGNE, PRÉSENTIEL, MiMIXTE
 
 }

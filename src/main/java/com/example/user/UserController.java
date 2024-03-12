@@ -9,13 +9,13 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/utilisateurs")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/all")
+    @GetMapping("/tout")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.FOUND);
     }
@@ -26,15 +26,15 @@ public class UserController {
     //     return ResponseEntity.ok(userService.add(user));
     // }
 
-    @PostMapping("/add/user")
+    @PostMapping("/ajouter/utilisateur")
     @Transactional
     public ResponseEntity<User> addUser(@RequestBody User user) {
 
-        user.setRole(Role.USER);
+        user.setRole(Role.UTILISATEUR);
         return ResponseEntity.ok(userService.add(user));
     }
 
-    @PostMapping("/add/admin")
+    @PostMapping("/ajouter/admin")
     @Transactional
     public ResponseEntity<User> add(@RequestBody User user) {
 
@@ -53,7 +53,7 @@ public class UserController {
         userService.deleteByEmail(email);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/mettre_à_jour")
     @Transactional
     public ResponseEntity<User> update(@RequestBody User user) {
 
