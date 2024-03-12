@@ -62,7 +62,7 @@ public class Attendee implements Serializable {
      private String mail;
 
     @Column(name = "prôfil")
-    @NotNull(message = "Le prôfil ne peut pas être vide")
+    @NotNull(message = "Le profil ne peut pas être vide")
     private Profile profile;
 
     @JsonIgnore
