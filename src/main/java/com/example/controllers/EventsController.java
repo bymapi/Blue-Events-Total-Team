@@ -54,7 +54,7 @@ public class EventsController {
      * As Administrator I want to create new internal events.
      */
 
-    @PostMapping(consumes = "multipart/form-data")
+    @PostMapping( value = "/event" , consumes = "multipart/form-data")
     @Transactional
     public ResponseEntity<Map<String,Object>> createEvent(@Valid @RequestPart(name = "event", required = true) Event event,     
     BindingResult validationResults,
@@ -236,10 +236,10 @@ public class EventsController {
             List<Event> allEvents = eventsService.findAllEvents();
             List<EventDTOAdmin> listEventDto = new ArrayList<>();
 
-            for (var event : allEvents) {
+            for (Event event : allEvents) {
                 if (event.getStartDate().isAfter(LocalDate.now()) ||
                         (event.getStartDate().isEqual(LocalDate.now())
-                                && event.getStartTime().isBefore(LocalTime.now()))) {
+                                && event.getStartTime().isAfter(LocalTime.now()))) {
                     EventDTOAdmin eventDTOAdmin = new EventDTOAdmin();
 
                     eventDTOAdmin.setTitle(event.getTitle());
@@ -255,6 +255,7 @@ public class EventsController {
                     listEventDto.add(eventDTOAdmin);
 
                 }
+            }
 
                 if (!allEvents.isEmpty()) {
 
@@ -270,7 +271,7 @@ public class EventsController {
 
                     responseEntity = new ResponseEntity<>(responseAsMap, HttpStatus.OK);
                 }
-            }
+            
 
         } catch (DataAccessException e) {
             String error = "Erreur lors de la tentative d'affichage de votre liste d'événements et la cause la plus probable " +

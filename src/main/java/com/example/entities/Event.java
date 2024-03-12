@@ -57,27 +57,27 @@ public class Event implements Serializable {
     private String description;
 
     @Column(name = "date_de_début")
-    @NotNull(message = "La date de début ne peut pas être vide")
+    @NotNull(message = "Le champ 'startDate' ne peut pas être vide")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @Column(name = "date_de_fin")
-    @NotNull(message = "La date de fin ne peut pas être vide")
+    @NotNull(message = "Le champ 'endDate' ne peut pas être vide")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     @Column(name = "heure_de_début")
-    @NotNull(message = "L'heure de début ne peut pas être vide")
+    @NotNull(message = "Le champ 'startTime' ne peut pas être vide")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
     @Column(name = "heure_de_fin")
-    @NotNull(message = "L'heure de fin ne peut pas être vide")
+    @NotNull(message = "Le champ 'endTime' ne peut pas être vide")
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
     @Column(name = "statut_de_l'événement")
-    @NotNull(message = "L'statut_de_l'événement ne peut pas être vide")   
+    @NotNull(message = "Le champ 'eventStatus' ne peut pas être vide")   
     private EventStatus eventStatus;
 
     
@@ -85,7 +85,7 @@ public class Event implements Serializable {
     private Mode mode;
 
     @Column(name = "lieu")
-    @NotNull(message = "Le place ne peut pas être vide")
+    @NotNull(message = "Le champ 'place' ne peut pas être vide")
     private String place;
 
     @Column(name = "image")

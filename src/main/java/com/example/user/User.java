@@ -35,7 +35,7 @@ public class User {
     private String lastName;
 
     @Column(unique = true)
-    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "L'adresse e-mail devrait être @blue.com")
+    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "L'adresse email devrait être @blue.com")
     private String email;
 
     @Column(name= "mot de passe")

@@ -44,25 +44,25 @@ public class Attendee implements Serializable {
     private int id;
 
     @Column(name = "prénom")
-    @NotEmpty(message = "Le prénom ne peut pas être vide")
+    @NotEmpty(message = "Le champ 'name' ne peut pas être vide")
     private String name;
 
     @Column(name = "nom")
-    @NotEmpty(message = "Le nom ne peut pas être vide")
+    @NotEmpty(message = "Le champ 'surname' ne peut pas être vide")
     private String surname;
 
-    @Column(name = "idGlobal", unique = true)
-    @Min(value = 10000, message = "Le idGlobal doit être supérieur ou égal à 10000")
-    @Max(value = 999999999, message = " Le idGlobal doit être inferieur ou égal à 10000")
+    @Column(unique = true)
+    @Min(value = 10000, message = "Le champ 'globalId' doit être supérieur ou égal à 10000")
+    @Max(value = 999999999, message = " Le champ 'globalId' doit être inferieur ou égal à 10000")
     private int globalId;
 
     @Column(name = "email")
-    @NotEmpty(message = "Le champ email ne peut pas être vide")
+    @NotEmpty(message = "Le champ 'mail' ne peut pas être vide")
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@blue\\.com$", message = "L'adresse e-mail doit être @blue.com")
      private String mail;
 
     @Column(name = "prôfil")
-    @NotNull(message = "Le profil ne peut pas être vide")
+    @NotNull(message = "Le champ 'profile' ne peut pas être vide")
     private Profile profile;
 
     @JsonIgnore
