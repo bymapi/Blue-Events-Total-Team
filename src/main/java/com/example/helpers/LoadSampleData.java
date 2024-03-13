@@ -34,8 +34,8 @@ public class LoadSampleData {
                     .title("French for non-native speakers")
                     .target(Target.STAGIAIRES)
                     .description("French classes, level B2")
-                    .startDate(LocalDate.of(2024, 03, 10))
-                    .endDate(LocalDate.of(2024, 03, 10))
+                    .startDate(LocalDate.of(2024, 03, 18))
+                    .endDate(LocalDate.of(2024, 03, 18))
                     .startTime(LocalTime.of(10, 30))
                     .endTime(LocalTime.of(12, 30))
                     .mode(Mode.EN_LIGNE)
@@ -68,18 +68,74 @@ public class LoadSampleData {
                     .endTime(LocalTime.of(12, 30))
                     .mode(Mode.PRÉSENTIEL)
                     .place("Blue offices, Valence")
-                    .eventStatus(EventStatus.ACTIVÉ)
+                    .eventStatus(EventStatus.DÉSACTIVÉ)
                     .attendees(new HashSet<>())
                     .build());
 
             Attendee attendee1 = attendeesService.save(Attendee.builder()
-                    .name("Alfredo")
-                    .surname("Adame")
+                    .name("Pilar")
+                    .surname("Balaguer")
                     .globalId(10808939)
-                    .mail("alfrea@blue.com")
+                    .mail("Pilar@blue.com")
                     .profile(Profile.BOOTCAMP)
                     .events(new HashSet<>())
                     .build());
+
+        Attendee attendee2 = attendeesService.save(Attendee.builder()
+                    .name("Claudia")
+                    .surname("García")
+                    .globalId(10808938)
+                    .mail("Claudia@blue.com")
+                    .profile(Profile.INTERNE)
+                    .events(new HashSet<>())
+                    .build());
+
+        Attendee attendee3 = attendeesService.save(Attendee.builder()
+                    .name("Emma")
+                    .surname("Barcelo")
+                    .globalId(10808937)
+                    .mail("Emma@blue.com")
+                    .profile(Profile.INTERNE)
+                    .events(new HashSet<>())
+                    .build());
+
+        Attendee attendee4 = attendeesService.save(Attendee.builder()
+                    .name("Javier")
+                    .surname("Caverni")
+                    .globalId(10808936)
+                    .mail("Javier@blue.com")
+                    .profile(Profile.BOOTCAMP)
+                    .events(new HashSet<>())
+                    .build());
+
+        Attendee attendee5 = attendeesService.save(Attendee.builder()
+                    .name("Roberta")
+                    .surname("Ramirez")
+                    .globalId(10808935)
+                    .mail("Roberta@blue.com")
+                    .profile(Profile.BOOTCAMP)
+                    .events(new HashSet<>())
+                    .build());
+
+        Attendee attendee6 = attendeesService.save(Attendee.builder()
+                    .name("Cristian")
+                    .surname("Lopez")
+                    .globalId(10808934)
+                    .mail("Cristian@blue.com")
+                    .profile(Profile.INTERNE)
+                    .events(new HashSet<>())
+                    .build());
+
+        Attendee attendee7 = attendeesService.save(Attendee.builder()
+                    .name("oumayma")
+                    .surname("Bombarek")
+                    .globalId(202092)
+                    .mail("oumayma@blue.com")
+                    .profile(Profile.BOOTCAMP)
+                    .events(new HashSet<>())
+                    .build());
+
+                
 
             event1.addAttendees(attendee1);
             eventsService.eventSaved(event1);
@@ -87,8 +143,8 @@ public class LoadSampleData {
             User userAdmin = userService.add(User.builder().firstName("Andrea").lastName("Gomez")
                     .email("Admin1@blue.com").password("PASSWORD1").role(Role.ADMIN).build());
 
-                    User userUser = userService.add(User.builder().firstName("Jesus").lastName("Baraza")
-                    .email("user1@blue.com").password("PASSWORD2").role(Role.UTILISATEUR).build());
+                    User userUser = userService.add(User.builder().firstName("Oumayma").lastName("Bombarek")
+                    .email("oumayma@blue.com").password("PASSWORD2").role(Role.UTILISATEUR).build());
         };
     }
 

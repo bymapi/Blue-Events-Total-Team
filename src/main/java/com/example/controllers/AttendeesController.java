@@ -221,7 +221,7 @@ public class AttendeesController {
 
 
      @GetMapping("/participant/{globalId}/disponible/événements")
-    public ResponseEntity<Map<String, Object>> consultAvailableEvents(@PathVariable(value = "idGlobal") Integer globalId) {
+    public ResponseEntity<Map<String, Object>> consultAvailableEvents(@PathVariable(value = "globalId") Integer globalId) {
  
         Map<String, Object> responseAsMap = new HashMap<>();
         ResponseEntity<Map<String, Object>> responseEntity = null;
@@ -357,6 +357,7 @@ public class AttendeesController {
                         attendeeDto.setSurname(attendee.getSurname());
                         attendeeDto.setGlobalId(attendee.getGlobalId());
                         attendeeDto.setMail(attendee.getMail());
+                        attendeeDto.setProfile(attendee.getProfile());
 
                         String successMessage = "Le participant a été ajouté avec succès à l'événement";
 
