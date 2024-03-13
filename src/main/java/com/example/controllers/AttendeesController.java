@@ -183,6 +183,7 @@ public class AttendeesController {
                     attendeeDto.setSurname(attendee.getSurname());
                     attendeeDto.setGlobalId(attendee.getGlobalId());
                     attendeeDto.setMail(attendee.getMail());
+                    attendeeDto.setProfile(attendee.getProfile());
 
                     attendeesDTOList.add(attendeeDto);
                 }
